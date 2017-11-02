@@ -1,0 +1,15 @@
+{
+  "name": "mainserver",
+  "version": "1.0.0",
+  "description": "porchetta main server",
+  "main": "mainserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mrspadala",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
