@@ -2,15 +2,16 @@
 // per ora senza autenticazione, un client si connette al sito, scrive 
 // il post che vuole fare e lo manda al server attraverso una POST
 
-var PORT = 8080
 
-var DEBUG = true
+// importo i moduli locali
+var globals = require('./globals.js')
+var queue = require('./sendtoqueues.js')
 
 
 // load and configuring libraries
+// bodyParser mi serve per parsare la POST
 var bodyParser = require('body-parser')
 var app = require('express')()
-// configuro express affinche' usi il modulo body-parser
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -25,17 +26,20 @@ app.get('/', function (req, res) {
 // MESSAGGIO DELLA POST: una sola variabile, contenente il testo del post
 app.post('/', function (req, res) {
   var text = req.body.data
-  if (DEBUG)
+  if (globals.debug)
 	console.log('[DEBUG] t='+(new Date).getTime()+' mainserver received: '+text)
   
-  // handle here
+  // TODO get user tokens
+  
+  queue.sendToQueues(text, 'my_access_token')
 
   res.send('<html>rieccoti scemo, hai postato '+text+'</html>')
 })
 
 
 
-// listen on PORT
-app.listen(PORT, function () {
-  console.log('mainserver listening on port '+PORT)
+
+// listen on port
+app.listen(globals.port, function () {
+  console.log('mainserver listening on port '+globals.port)
 })

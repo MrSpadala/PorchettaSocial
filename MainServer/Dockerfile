@@ -12,5 +12,5 @@ COPY . /app
 CMD node mainserver.js
 
  # porta esposta
- # ATTENZIONE deve essere uguale a 'PORT' nel mainserver.js, sennò non funzia un cazzo
+ # ATTENZIONE deve essere uguale a 'PORT' in globals.js, sennò non funzia un cazzo
 EXPOSE 8080
