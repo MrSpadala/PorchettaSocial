@@ -1,5 +1,8 @@
 
-per farlo runnare:
+### Prova di un'app Nodejs che gira su Docker
+
+
+### Run
  - spostarsi col terminale in questa cartella
  - montare l'immagine con 'sudo docker build -t hello-dock .'
  - farla partire in un container con 'sudo docker run -p 80:8081 hello-dock'
