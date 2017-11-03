@@ -1,12 +1,13 @@
 
-### Prova di un'app Nodejs che gira su Docker
+### NodeJS + Docker
+Prova di una semplice app in NodeJS che gira su Docker
 
 
-### Run
- - spostarsi col terminale in questa cartella
- - montare l'immagine con 'sudo docker build -t hello-dock .'
- - farla partire in un container con 'sudo docker run -p 80:8081 hello-dock'
-ora ci si può accedere da browser con localhost:80
+## Run
+ 1. spostarsi col terminale in questa cartella
+ 2. montare l'immagine con ```sudo docker build -t hello-dock .```
+ 3. farla partire in un container con ```sudo docker run -p 80:8081 hello-dock```
+ora ci si può accedere da browser con ```localhost:80```
 
 
 creando la prima app docker+node seguendo questo tutorial:
@@ -15,6 +16,8 @@ creando la prima app docker+node seguendo questo tutorial:
 
 
 per installare l'ultima versione di node e npm:
+ ```
  curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
  sudo apt-get install -y nodejs
+ ```
 
