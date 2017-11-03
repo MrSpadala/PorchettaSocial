@@ -1,6 +1,6 @@
 from rauth import OAuth1Service
 import json
-import requests
+
  
 try:
     read_input = raw_input
@@ -18,11 +18,9 @@ print('Visit this URL in your browser: ' + authorize_url)
 pin = read_input('Enter PIN from browser: ')
 
 
-response = twitter.get_access_token(method='POST', request_token=request_token, request_token_secret=request_token_secret, params={'oauth_verifier': pin})
-
-
-access_token = response[0]
-access_token_secret = response[1]
-#print(access_token)
-#print(access_token_secret)
-
+session = twitter.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': pin})
+ 
+params = {'status': 'PORCOIDDIOO'}
+ 
+r = session.post('https://api.twitter.com/1.1/statuses/update.json',data='rcccdd', json=None, params=params, verify=True)
+print(r)

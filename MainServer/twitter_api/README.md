@@ -10,7 +10,7 @@
 -su quell'url l'utente segna il proprio account twitter e autorizza PorchettaSocial a fare quello che deve fare
 
 -si apre per l'utente una pagina che torna un pin che dovrà mettere in questo caso nella console, poi vedremo dove, e che serve al fine di 
-ottenere i token necessari a porchettasocial per fare commenti ecc ecc..
+ottenere la sessione token necessari a porchettasocial per fare commenti ecc ecc..
 
 # Come continuare l'implementazione
 
@@ -19,3 +19,5 @@ ottenere i token necessari a porchettasocial per fare commenti ecc ecc..
 # Implementazione come pagina web
 
 - da definire
+
+#il file ora se lo lanci e je dai l'autorizzazione con il tuo account te tweetta PORCOIDDDDIOOO poi lo modifico
