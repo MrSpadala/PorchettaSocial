@@ -5,9 +5,9 @@ Programma di prova preso da https://www.npmjs.com/package/websocket
  - client: si connette al server specificando lo stesso protocollo
 
 #### Dependencies
-	`npm install --save http websocket`
+	npm install --save http websocket
 
 #### Run
-	`node server.js` e in un altro terminale `node client.js`
+	node server.js` e in un altro terminale `node client.js
 
 
