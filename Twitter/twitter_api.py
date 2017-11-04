@@ -7,7 +7,12 @@ try:
 except NameError:
     read_input = input
  
-twitter = OAuth1Service(name='twitter',consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',request_token_url='https://api.twitter.com/oauth/request_token',access_token_url='https://api.twitter.com/oauth/access_token',authorize_url='https://api.twitter.com/oauth/authorize')
+twitter = OAuth1Service(name='twitter',
+                        consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',
+                        consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',
+                        request_token_url='https://api.twitter.com/oauth/request_token',
+                        access_token_url='https://api.twitter.com/oauth/access_token',
+                        authorize_url='https://api.twitter.com/oauth/authorize')
  
 
 request_token, request_token_secret = twitter.get_request_token(method='POST')
