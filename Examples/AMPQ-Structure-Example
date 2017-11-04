@@ -1,0 +1,43 @@
+----------------------------------  SENDING  ------------------------------------------- 
+
+var amqp = require('amqplib/callback_api');
+
+amqp.connect( //server di merda//, function(err,conn) {
+					conn.createChannel(function(err,ch) {
+							var queue = //nome coda
+							var msg = // composizione messaggio coda
+
+							ch.assertExchange( //nome exchange//, /tipo excange - direct/, {durable : true});
+						
+							ch.assertQueue(queue, {durable: true});
+
+							ch.bindQueue( /nome coda, /nome exchange);
+
+							ch.publish(/exchange, /routingKey - queue, new Buffer(msg), /options);
+							
+							});
+					});
+
+// la assertQueue ha: 	(1) durable : true  - così può sopravvivere a restart del broker
+// le options del publish possibili sono (1) timestamp (2) headers (3)contentType (4) contentEncoding 
+
+
+----------------------------------  RECEIVING  ------------------------------------------- 
+
+var amqp = require('amqplib/callback_api');
+
+amqp.connect( //host//, function(err, conn) {
+				conn.createChannel(function(err,ch) {
+						var queue = //queue name
+
+						ch.assertQueue(queue, {durable:true});
+						// waiting for messages //
+						ch.consume(queue, function(msg) {
+									// processamento messaggio
+									// api di invio del messaggio
+						}, {noAck: true/false});
+				});
+		});
+
+// nel receiving non dovrebbe essere necessario dichiarare l'exchange in quanto si consuma direttamente dalla coda,
+// non importa che sia l'exchange a mettere in coda i pacchetti
