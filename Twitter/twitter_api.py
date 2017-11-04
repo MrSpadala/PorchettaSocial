@@ -19,12 +19,12 @@ pin = read_input('Enter PIN from browser: ')
 
 
 session = twitter.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': pin})
- 
+
 params = {'status': 'PORCOIDDIOO'}
- 
-r = session.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
-print(r)
 
+while(True):
+	post = read_input("Inserisci il tipo di post che vuoi twittare(Ctrl+c per terminare):\n")
+	params['status']=str(post)
+	r = session.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
+	print(r)
 
-r = session.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
-print(r)
