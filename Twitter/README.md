@@ -1,6 +1,15 @@
 # Twitter
 Il file twitter_api.py garantisce l'autenticazione e autorizzazione di un utente per permettere a PorchettaSocial di pubblicare post 
 
+## Run
+Prende in input da terminale e posta su twitter. __E' necessario avere un account__
+ - run on Docker: montare l'immagine e farla partire
+	```
+	sudo docker build -t twitter . && sudo docker run --rm -it twitter
+	```
+
+ - run on python: `python3 twitter_api.py` va bene sia python che python3, installare prima le librerie contenute in dependencies
+
 ## Come funziona
 
 - effettua un' atenticazione da parte della nostra app registrata su twitter come PorchettaSocial
