@@ -22,5 +22,9 @@ session = twitter.get_auth_session(request_token,request_token_secret,method='PO
  
 params = {'status': 'PORCOIDDIOO'}
  
-r = session.post('https://api.twitter.com/1.1/statuses/update.json',data='rcccdd', json=None, params=params, verify=True)
+r = session.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
+print(r)
+
+
+r = session.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
 print(r)
