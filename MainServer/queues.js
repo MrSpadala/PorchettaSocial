@@ -10,7 +10,7 @@ var globals = require('./globals.js')
 function sendToQueues(msg, token) {
   var data = stringfy(msg, token)
   if (globals.debug)
-	console.log('[DEBUG] t='+(new Date).getTime()+' mainserver sent to queues: '+data)
+	console.log('[DEBUG] '+new Date+' mainserver sent to queues: '+data)
 
   // TODO send to appropriate RabbitMQ queue
 }
@@ -39,7 +39,7 @@ function stringfy(msg, token) {
 
 
 
-// esporto la funzione
+// esporto la funzione di send
 module.exports = {
-  sendToQueues
+  send: sendToQueues
 }

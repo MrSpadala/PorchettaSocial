@@ -5,7 +5,7 @@
 
 // importo i moduli locali
 var globals = require('./globals.js')
-var queue = require('./sendtoqueues.js')
+var queue = require('./queues.js')
 
 
 // load and configuring libraries
@@ -27,11 +27,11 @@ app.get('/', function (req, res) {
 app.post('/', function (req, res) {
   var text = req.body.data
   if (globals.debug)
-	console.log('[DEBUG] t='+(new Date).getTime()+' mainserver received: '+text)
+	console.log('[DEBUG] '+new Date+' mainserver received: '+text)
   
   // TODO get user tokens
   
-  queue.sendToQueues(text, 'my_access_token')
+  queue.send(text, 'my_access_token')
 
   res.send('<html>rieccoti scemo, hai postato '+text+'</html>')
 })
