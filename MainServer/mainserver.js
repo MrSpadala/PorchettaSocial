@@ -81,8 +81,8 @@ app.post('/', function (req, res) {
   var results = queue.recv(correlation_id)
   
   // TODO do something with the results
-  console.log(results)
-
+  console.log('Results: '+results)
+  res.send('ooook')
 })
 
 
