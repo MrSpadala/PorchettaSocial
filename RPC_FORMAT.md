@@ -12,7 +12,7 @@ Il server principale comunica delle funzioni (RPC) da far eseguire ai moduli del
 Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica un byte pari a 0xFF__, che funge da flag che separa i campi.
 
 	
-	__Formato richiesta__  `  id_richiesta | comando | param_1 | param_2 | ...  `
+   __Formato richiesta__  `  id_richiesta | comando | param_1 | param_2 | ...  `
 
  
  + Il numero dei parametri è variabile, dipende dal comando.
@@ -40,7 +40,7 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
 Come prima, la barra indica il flag
 
 
-	__Formato risposta__  `  id_api | id_richiesta | comando | res_1 | res_2 | ...  `
+   __Formato risposta__  `  id_api | id_richiesta | comando | res_1 | res_2 | ...  `
 
 
  + Il numero dei risultati p variabile, dipende dal comando.
