@@ -1,45 +1,52 @@
 
-// riceve dal mainserver.js il testo dell'utente e l'access token.
-// Si occupa di mettere i dati nella forma giusta e di mandarli
-// nella coda corretta
+// comunicazione con le code
 
 
 var globals = require('./globals.js')
 
 
-function sendToQueues(msg, token) {
-  var data = stringfy(msg, token)
-  if (globals.debug)
-	console.log('[DEBUG] '+new Date+' mainserver sent to queues: '+data)
 
-  // TODO send to appropriate RabbitMQ queue
-}
-
-
-
-
-/** ritorna una stringa fatta in questo modo
- *
- *  |flag | access  token | flag | text | flag|
+/* Inoltra il messaggio alle code, ritorna il correlation_id fornito da rabbit
  * 
- *  flag è un byte che delimita i campi
- *  text è il testo inserito dall'utente
- *  access token è rappresentato come una stringa
+ * msg è il messaggio da inoltrare
+ * network_list è la lista dei social network selezionati, seguendo l'id_api dentro RPC_FORMAT.md,
+ *              quindi twitter 'twt', googleplus 'g+', facebook 'fb'
+ *
+ *              esempio, se la lista è ['twt', 'fb'] pubblicare solo su twitter e facebook
  */
-function stringfy(msg, token) {
-  var flag = '\xFF'
+function sendToQueues(msg, network_list) {
   
-  // se l'utente inserisce in qualche modo il byte della flag nel
-  // messaggio succede un mecellone. In questo caso che la flag
-  // vale 0xFF corrispondente a 'ÿ' , sostituisco 'ÿ' con 'y' nel messaggio
-  msg = msg.replace(new RegExp(flag, 'g'), 'y')
 
-  return flag + token + flag + msg + flag
+  // TODO send to the right RabbitMQ queues
+
+
+  // Questo pezzo di codice se me lo puoi appiccicare dove effettivamente inoltri i messaggi in coda
+  //
+  //  if (globals.debug)
+  //	log('Sent ' /* + msg */)
+  //
+
+
+  return null 
+
 }
 
 
 
-// esporto la funzione di send
+function recvFromQueues(correlation_id) {
+  var results = []  // i risultati possono essere più di uno
+
+  // TODO receive from queue
+
+  return results
+}
+
+
+
+// esporto le funzioni
 module.exports = {
-  send: sendToQueues
+  send: sendToQueues,
+  recv: recvFromQueues
 }
+
+
