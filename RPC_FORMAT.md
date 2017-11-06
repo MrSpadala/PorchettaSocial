@@ -3,7 +3,7 @@
 Qui definiamo come devono essere formattati i messagi.
 Il server principale comunica delle funzioni (RPC) da far eseguire ai moduli delle API, questi risponderanno al server comunicandogli il risultato, o i risultati. __Le funzioni riportate qui sotto devono essere implementate da ogni modulo delle API.__ 
  
-- Ad ogni messaggio viene assegnato un identificativo univoco dal server principale. Quando la richiesta del server è stata eseguita, l'identificativo dovrà essre ritornato al server come è descritto sotto
+- Ad ogni messaggio viene assegnato un identificativo univoco dal server principale. Quando la richiesta del server è stata eseguita, l'identificativo dovrà essre ritornato al server nel momento in cui il messaggio viene inviato nella coda di ritorno
 
 
 
@@ -12,16 +12,14 @@ Il server principale comunica delle funzioni (RPC) da far eseguire ai moduli del
 Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica un byte pari a 0xFF__, che funge da flag che separa i campi.
 
 	
-   __Formato richiesta__  `  id_richiesta | comando | param_1 | param_2 | ...  `
+   __Formato richiesta__  `  comando | param_1 | param_2 | ...  `
 
  
  + Il numero dei parametri è variabile, dipende dal comando.
 
- + Per prendere i vari parametri si fa `messaggio.split('\xFF')` che restituisce una lista formata dai vari campi. Ad esempio se il messaggio è `123|auth|p1|p2|p3`, ritornerà `[123, auth, p1, p2, p3]` Funziona sia in Node che in Python.
+ + Per prendere i vari parametri si fa `messaggio.split('\xFF')` che restituisce una lista formata dai vari campi. Ad esempio se il messaggio è `cmd|p1|p2|p3`, ritornerà `[cmd, p1, p2, p3]` Funziona sia in Node che in Python.
 
 
-
- - `id_richiesta` è l'identificativo del messaggio, deve essere salvato e restituito nella risposta
 
  - `comando` è una stringa, rappresenta il comando che il server chiede di eseguire. Può essere:
 	- `auth` richiede l'autenticazione al social network
@@ -31,7 +29,7 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
  - `param_i` sono i parametri delle RPC. Nel dettaglio:
 	- `auth` non ha parametri 
 	- `verify_pin` ha come unico parametro il pin da confermare, passato come stringa
-	- `upload_post` ha come primo parametro il testo da postare, come secondo parametro l'access token dell'utente, come terzo parametro __solo per oauth1__ ha il secondo access token
+	- `upload_post` ha come primo parametro il testo da postare, come secondo parametro l'access token dell'utente, come terzo parametro ha il secondo access token __solo per oauth1__
 
 
 
@@ -40,7 +38,7 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
 Come prima, la barra indica il flag
 
 
-   __Formato risposta__  `  id_api | id_richiesta | comando | res_1 | res_2 | ...  `
+   __Formato risposta__  `  id_api | comando | res_1 | res_2 | ...  `
 
 
  + Il numero dei risultati p variabile, dipende dal comando.
@@ -49,12 +47,11 @@ Come prima, la barra indica il flag
 	`[campo1, campo2, ...].join('\xFF')` Funziona in Node e _non_ in Python
 
 
+
  - `id_api` è l'identificativo del modulo delle api:
 	- twitter    `twt`
 	- googlePlus `g+`
 	- facebook   `fb`
-
- - `id_richiesta` è lo stesso id ricevuto dal server
 
  - `comando` è da definire
 
