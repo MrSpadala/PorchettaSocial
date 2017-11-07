@@ -75,13 +75,19 @@ app.post('/', function (req, res) {
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
   var msg = ['upload_post', text, token, token_oauth1].join('\xFF')
-  var correlation_id = queue.send(msg, list)
+  var id_list = queue.send(msg, list)
 
   // wait for the results of the rpc
-  var results = queue.recv(correlation_id)
+  id_list.forEach(function(id) {
+	
+	var results = queue.recv(id)
+
+	// TODO do something with the results
+
+	log('RPC id:'+id+' Results: '+results)
   
-  // TODO do something with the results
-  console.log('Results: '+results)
+  })
+
   res.send('ooook')
 })
 
