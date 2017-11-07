@@ -1,0 +1,3 @@
+ #librerie necessarie per facebook_api.py
+ 
+rauth

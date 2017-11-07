@@ -3,7 +3,7 @@
 
 
 
-##  NOTES
+#  NOTES
     - Per ora il post pubblicato è privato, solo l'utente può vederlo.
       Poi modifico per risolvere (forse solo impostazioni app).
      
