@@ -11,10 +11,4 @@ COPY . .
  # comando di avvio
 CMD python twitter_api.py
 
- # porta esposta (https)
-EXPOSE 443
-
- # se invece si comunica con http 
-# EXPOSE 80
-
 
