@@ -16,6 +16,8 @@
 	blog-id che corisponde al nome dell'utente, quindi ho fatto in modo tale che prima effettuo una get per
 	sapere il nome dell'utente e successivamente si possono creare i post sulla sua 'bacheca'
 
+	ah e la risposta 201 che da in realtà significa che è stato postato correttamente solo quello
+
 #linkografia
 
 link per le api di tumblr
