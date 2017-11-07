@@ -24,3 +24,5 @@ Architettura di riferimento: https://image.ibb.co/gnWtFw/index.jpg
       ```
     5. Scrivere il file `README.md` 
       
+#### Logo copyright
+Icon made by [Freepik](https://www.freepik.com/) from www.flaticon.com
