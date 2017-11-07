@@ -1,10 +1,5 @@
-
 // comunicazione con le code
-
-
 var globals = require('./globals.js')
-
-
 
 /* Inoltra il messaggio alle code, ritorna il correlation_id fornito da rabbit
  * 
@@ -15,10 +10,36 @@ var globals = require('./globals.js')
  *              esempio, se la lista è ['twt', 'fb'] pubblicare solo su twitter e facebook
  */
 function sendToQueues(msg, network_list) {
-  
+  // richiesta libreria AMQP
+  var amqp = require('amqplib/callback_api');
+  // TODO send to the right RabbitMQ queues DA SISTEMARE 
 
-  // TODO send to the right RabbitMQ queues
+  amqp.connect(/*main server*/, function(err,conn) {
+    conn.createChannel(function(err,ch) {
+      var fb_queue = 'fb';
+      var g_queue = 'g+';
+      var twt_queue = 'twt';
+    
+      var to_server_queue = 'to_server';
+    
+      var ex = 'exchange_name';
+    
+      ch.assertExchange(ex,'direct', {durable: true});
+      ch.assertQueue(to_server_queue, {durable: true});
+      ch.assertQueue(fb_queue, {durable: true, reply_to: to_server_queue});
+      ch.assertQueue(g_queue, {durable: true, reply_to: to_server_queue});
+      ch.assertQueue(twt_queue, {durable: true, reply_to: to_server_queue});
+   
+      ch.bindQueue(fb_queue,ex,'fb');
+      // l'ultimo parametro è la routing_key, in questo modo una post con routing key = 'fb' va sullacoda fb_queue
+      ch.bindQueue(g_queue,ex,'g+');
+      ch.bindQueue(twt_queue,ex,'twt');
 
+      //se facciamo una cosa carina, che tipo i nomi dei social in networl_list è uguale alla routing_key del social
+      //possiamo prendere direttamente i valori da li e usarli nella publish 
+      ch.publish(ex, network_list, new Buffer(msg));
+    });
+  });
 
   // Questo pezzo di codice se me lo puoi appiccicare dove effettivamente inoltri i messaggi in coda
   //
