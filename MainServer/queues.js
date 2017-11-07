@@ -19,6 +19,7 @@ function sendToQueues(msg, network_list) {
       var fb_queue = 'fb';
       var g_queue = 'g+';
       var twt_queue = 'twt';
+	  var tumblr_queue = 'tmb'
     
       var to_server_queue = 'to_server';
     

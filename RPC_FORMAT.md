@@ -52,6 +52,7 @@ Come prima, la barra indica il flag
 	- twitter    `twt`
 	- googlePlus `g+`
 	- facebook   `fb`
+	- tumblr	 `tmb`
 
  - `comando` è da definire
 
