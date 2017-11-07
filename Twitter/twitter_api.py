@@ -1,5 +1,5 @@
 from rauth import OAuth1Service
-import json
+import webbrowser
 
  
 try:
@@ -20,10 +20,20 @@ request_token, request_token_secret = twitter.get_request_token(method='POST')
 authorize_url = twitter.get_authorize_url(request_token)
 
 print('Visit this URL in your browser: ' + authorize_url)
+webbrowser.open(authorize_url)
+
 pin = read_input('Enter PIN from browser: ')
 
 
 session = twitter.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': pin})
+
+#print(session.consumer_key)
+#print(session.consumer_secret)
+#print(session.access_token)
+#print(session.access_token_secret)
+#print(session.signature)
+
+#exit(0)
 
 params = {'status': 'PORCOIDDIOO'}
 
