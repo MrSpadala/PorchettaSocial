@@ -6,9 +6,6 @@
 ##  NOTES
     - Per ora il post pubblicato è privato, solo l'utente può vederlo.
       Poi modifico per risolvere (forse solo impostazioni app).
-    - Inoltre ho notato che se apro nuove schede durante l'autenticazione
-      la console mi da errori ma non fa crashare il tutto,
-      non ho ancora indagato (#iHaveNoIdea)
      
     
 # RUN:   
