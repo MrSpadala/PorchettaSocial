@@ -9,6 +9,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
  # comando di avvio
-CMD python twitter_api.py
+CMD python tumblr.py
 
 

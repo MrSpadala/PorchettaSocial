@@ -1,3 +1,4 @@
+![alt text](https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/res/porchetta_logo.png "release_the_porcone")
 # PorchettaSocial
 porchetta is coming...
 
@@ -23,3 +24,5 @@ Architettura di riferimento: https://image.ibb.co/gnWtFw/index.jpg
       ```
     5. Scrivere il file `README.md` 
       
+#### Logo copyright
+Icon made by [Freepik](https://www.freepik.com/) from www.flaticon.com

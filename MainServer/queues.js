@@ -1,7 +1,9 @@
 // comunicazione con le code
 var globals = require('./globals.js')
+var amqp = require('amqplib/callback_api');
 
-/* Inoltra il messaggio alle code, ritorna il correlation_id fornito da rabbit
+/* Inoltra il messaggio alle code, ritorna una lista formata dai correlation_id
+ * (forniti da rabbit) dei messaggi inviati
  * 
  * msg è il messaggio da inoltrare
  * network_list è la lista dei social network selezionati, seguendo l'id_api dentro RPC_FORMAT.md,
@@ -10,8 +12,6 @@ var globals = require('./globals.js')
  *              esempio, se la lista è ['twt', 'fb'] pubblicare solo su twitter e facebook
  */
 function sendToQueues(msg, network_list) {
-  // richiesta libreria AMQP
-  var amqp = require('amqplib/callback_api');
   // TODO send to the right RabbitMQ queues DA SISTEMARE 
 
   amqp.connect(/*main server*/, function(err,conn) {
@@ -19,6 +19,7 @@ function sendToQueues(msg, network_list) {
       var fb_queue = 'fb';
       var g_queue = 'g+';
       var twt_queue = 'twt';
+	  var tumblr_queue = 'tmb'
     
       var to_server_queue = 'to_server';
     
@@ -35,7 +36,7 @@ function sendToQueues(msg, network_list) {
       ch.bindQueue(g_queue,ex,'g+');
       ch.bindQueue(twt_queue,ex,'twt');
 
-      //se facciamo una cosa carina, che tipo i nomi dei social in networl_list è uguale alla routing_key del social
+      //se facciamo una cosa carina, che tipo i nomi dei social in network_list è uguale alla routing_key del social
       //possiamo prendere direttamente i valori da li e usarli nella publish 
       ch.publish(ex, network_list, new Buffer(msg));
     });
