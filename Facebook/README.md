@@ -1,8 +1,3 @@
-# id_app = '1644609035590682'
-# app_secret = 'ee8ea24e381d8935c67baac8c4f668fb'
-
-
-
 #  NOTES
     - Per ora il post pubblicato è privato, solo l'utente può vederlo.
       Poi modifico per risolvere (forse solo impostazioni app).

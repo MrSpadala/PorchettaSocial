@@ -1,9 +1,11 @@
 
 # Scambio di messaggi tra il server e i moduli dei social network
 Qui definiamo come devono essere formattati i messagi.
-Il server principale comunica delle funzioni (RPC) da far eseguire ai moduli delle API, questi risponderanno al server comunicandogli il risultato, o i risultati. __Le funzioni riportate qui sotto devono essere implementate da ogni modulo delle API.__ 
+Il server principale comunica delle funzioni (RPC) da far eseguire ai moduli delle API, questi risponderanno 
+al server comunicandogli il risultato, o i risultati. __Le funzioni riportate qui sotto devono essere implementate da ogni modulo delle API.__ 
  
-- Ad ogni messaggio viene assegnato un identificativo univoco dal server principale. Quando la richiesta del server è stata eseguita, l'identificativo dovrà essre ritornato al server nel momento in cui il messaggio viene inviato nella coda di ritorno
+- Ad ogni messaggio viene assegnato un identificativo univoco dal server principale. Quando la richiesta del server è stata eseguita, 
+  l'identificativo dovrà essre ritornato al server nel momento in cui il messaggio viene inviato nella coda di ritorno
 
 
 
@@ -17,7 +19,8 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
  
  + Il numero dei parametri è variabile, dipende dal comando.
 
- + Per prendere i vari parametri si fa `messaggio.split('\xFF')` che restituisce una lista formata dai vari campi. Ad esempio se il messaggio è `cmd|p1|p2|p3`, ritornerà `[cmd, p1, p2, p3]` Funziona sia in Node che in Python.
+ + Per prendere i vari parametri si fa `messaggio.split('\xFF')` che restituisce una lista formata dai vari campi. 
+   Ad esempio se il messaggio è `cmd|p1|p2|p3`, ritornerà `[cmd, p1, p2, p3]` Funziona sia in Node che in Python.
 
 
 

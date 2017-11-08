@@ -7,20 +7,23 @@ try:
     read_input = raw_input
 except NameError:
     read_input = input
- 
 
 def response(url):
     with urllib.request.urlopen(url) as response:
-        return response.read()
+        return response.read() 
+
+# file with app info
+with open('./app_info/app_info.json' , 'r') as json_data_file:
+    app = json.load(json_data_file)
 
 
 facebook = OAuth2Service(
-    client_id='1644609035590682',
-    client_secret='ee8ea24e381d8935c67baac8c4f668fb',
-    name='facebook',
-    authorize_url='https://graph.facebook.com/oauth/authorize',
-    access_token_url='https://graph.facebook.com/oauth/access_token',
-    base_url='https://graph.facebook.com')
+    client_id = app['facebook']['id_app'],
+    client_secret = app['facebook']['app_secret'],
+    name = 'facebook',
+    authorize_url = 'https://graph.facebook.com/oauth/authorize',
+    access_token_url = 'https://graph.facebook.com/oauth/access_token',
+    base_url = 'https://graph.facebook.com')
 
 redirect_uri = 'https://www.facebook.com'
 
