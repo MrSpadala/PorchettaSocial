@@ -12,14 +12,14 @@ var amqp = require('amqplib/callback_api');
  *              esempio, se la lista è ['twt', 'fb'] pubblicare solo su twitter e facebook
  */
 function sendToQueues(msg, network_list) {
-  // TODO send to the right RabbitMQ queues DA SISTEMARE 
+  // TODO send to the right RabbitMQ queues 
 
   amqp.connect(/*main server*/, function(err,conn) {
     conn.createChannel(function(err,ch) {
-      var fb_queue = 'fb';
-      var g_queue = 'g+';
-      var twt_queue = 'twt';
-	  var tumblr_queue = 'tmb'
+	    var fb_queue = 'fb';
+      	    var g_queue = 'g+';
+           var twt_queue = 'twt';
+	    var tumblr_queue = 'tmb';
     
       var to_server_queue = 'to_server';
     
@@ -30,15 +30,27 @@ function sendToQueues(msg, network_list) {
       ch.assertQueue(fb_queue, {durable: true, reply_to: to_server_queue});
       ch.assertQueue(g_queue, {durable: true, reply_to: to_server_queue});
       ch.assertQueue(twt_queue, {durable: true, reply_to: to_server_queue});
+      ch.assertQueue(tumblr_queue, {durable: true, reply_to: to_server_queue});
    
       ch.bindQueue(fb_queue,ex,'fb');
       // l'ultimo parametro è la routing_key, in questo modo una post con routing key = 'fb' va sullacoda fb_queue
       ch.bindQueue(g_queue,ex,'g+');
       ch.bindQueue(twt_queue,ex,'twt');
+      ch.bindQueue(tumblr_queue,ex,'tmb');
 
       //se facciamo una cosa carina, che tipo i nomi dei social in network_list è uguale alla routing_key del social
       //possiamo prendere direttamente i valori da li e usarli nella publish 
-      ch.publish(ex, network_list, new Buffer(msg));
+	
+      var correlation_id_list = new Array;
+	    
+      if (globals.debug){
+      	      for (var k = 0; k < network_list.length; k++){
+		      ch.publish(ex, network_list[k] , new Buffer(msg), {correlationId: req_id});
+	      	      correlation_id_list.push(req_id);
+	      	      increase_req_id(); 
+      		}
+	log('Sent ' + msg );  //attaccato così va bene?
+      }
     });
   });
 
@@ -49,7 +61,7 @@ function sendToQueues(msg, network_list) {
   //
 
 
-  return null 
+  return correlation_id_list 
 
 }
 
@@ -59,6 +71,18 @@ function recvFromQueues(correlation_id) {
   var results = []  // i risultati possono essere più di uno
 
   // TODO receive from queue
+  amqp.connect( /* main server */, function(err, conn) {
+	  conn.createChannel(function(err,ch) {
+		  var to_server_queue = 'to_server';
+		  ch.assertQueue(to_server_queue, {durable:true});
+		  
+		  ch.consume(to_server_queue, function(msg) {
+			   var msg_splitted = msg.split('\xFF');
+			  // processamento del messaggio secondo il formato id_api | comando | res_1 | res_2 | ...
+			  // result.push(risultati)		  
+		  }, {noAck: true});
+	  });
+  });
 
   return results
 }
