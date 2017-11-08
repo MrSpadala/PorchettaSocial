@@ -1,0 +1,26 @@
+var amqp = require('amqplib/callback_api');
+
+amqp.connect( /*main server*/, function(err, conn) {
+				conn.createChannel(function(err,ch) {
+						var social_queue = // nome coda come definito nel file Nomi-Riferimento-Code-Server.md
+            var to_server_queue = 'to_server';
+
+            ch.assertQueue(to_server_queue, {durable:true});
+						ch.assertQueue(social_queue, {durable:true, replyTo: to_server_queue});
+						
+						ch.consume(social_queue, function(msg) {
+            
+									// processamento messaggio
+									// api di invio del messaggio
+									// creo il messaggio contenente la risposta ottenuta nel formato stabilito
+
+						ch.sendToQueue(to_server_queue,	/* response */, /* options if needed */);				
+
+		        }, {noAck: true});
+
+						
+				});
+		});
+
+// nel receiving non dovrebbe essere necessario dichiarare l'exchange in quanto si consuma direttamente dalla coda, 
+// non importa che sia l'exchange a mettere in coda i pacchetti
