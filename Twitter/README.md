@@ -31,7 +31,7 @@ del nostro utente per fare richieste.
 
 - il file queue_twt.py implementa un esempio di comunicazione tramite code con il server hostato in locale
 
-- l'esempio prevede la ricezione di un messaggio dalla coda 'twt' e la sua stampa e l'invio del messaggio 'quello da mandare'  sulla coda 'to_server' con routing key da definire
+- l'esempio prevede la ricezione di un messaggio dalla coda 'twt' e la sua stampa e l'invio del messaggio 'quello da mandare'  sulla coda 'to_server'
 
 - non è stato ancora testato
 

@@ -19,8 +19,8 @@ channel.start_consuming()
 channel1 = connection.channel()
 #definiamo la coda dove poi andremo a scrivere
 channel1.queue_declare(queue='to_server')
-#qui invece pubblichiamo il body del messaggio che scriveremo dichiarando l'exchange name utilizzato
-channel1.basic_publish(exchange='exchange_name',routing_key='qualcosa',body='quello da mandare')
+#qui invece pubblichiamo il body del messaggio che scriveremo dichiarando l'exchange name utilizzato la outing key non serve
+channel1.basic_publish(exchange='exchange_name',body='quello da mandare')
 
 #infine si chiude la connessione
 
