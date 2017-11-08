@@ -12,8 +12,12 @@ var operazione = 'https://www.googleapis.com/plus/v1/people/me/activities/public
 
 var app = express()
 
-//da qui riendirizzo verso la pagina di login
 app.get('/', function(req, res) {
+	res.send("Benvenuto, prova a loggarti con google presso 'http://localhost:3000/login' ")
+})
+
+//da qui riendirizzo verso la pagina di login
+app.get('/login', function(req, res) {
 	res.redirect(oauth)	
 })
 
