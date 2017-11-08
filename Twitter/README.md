@@ -1,7 +1,8 @@
 # Twitter
 Il file twitter_api.py garantisce l'autenticazione e autorizzazione di un utente per permettere a PorchettaSocial di pubblicare post 
+Il file queue_twt.py invece è un esempio di gestione delle code lato APIs. esso dovrà essere implentato e integrato con il file twitter_api.py per gestire le varie richieste lato server seguendo le direttive del file RPC_FORMAT.md che si trova nella cartella principale
 
-## Run
+## Run twitter_api.py
 Prende in input da terminale e posta su twitter. __E' necessario avere un account__
  - run on Docker: montare l'immagine e farla partire
 	```
@@ -10,7 +11,7 @@ Prende in input da terminale e posta su twitter. __E' necessario avere un accoun
 
  - run on python: `python3 twitter_api.py` va bene sia python che python3, installare prima le librerie contenute in dependencies
 
-## Come funziona
+## Come funziona twitter_api.py
 
 - effettua un' atenticazione da parte della nostra app registrata su twitter come PorchettaSocial
 
@@ -26,10 +27,17 @@ del nostro utente per fare richieste.
  il secondo parametro, sono il corpo della richiesta e stando alla documentazione presente nella pagina precedentemente linkata
  lo "status" corrisponde al messaggio del tweet
 
-### come continuare l'implementazione:
+## Come funziona queue_twt.py
 
--l'oggetto sessione verrà spedito nella coda anzichè spedire un token, oppure si può cercare di analizzare l'oggetto sessione
- così da spedire solo il token e ricostrurci l'oggetto sessione dall'altra parte poi vediamo
+- il file queue_twt.py implementa un esempio di comunicazione tramite code con il server hostato in locale
+
+- l'esempio prevede la ricezione di un messaggio dalla coda 'twt' e la sua stampa e l'invio del messaggio 'quello da mandare'  sulla coda 'to_server' con routing key da definire
+
+- non è stato ancora testato
+
+### Come continuare l'implementazione:
+
+-il file twitter_api.py dovrà essere integrato con queue_twt.py
  
  
 ### Implementazione come pagina web
