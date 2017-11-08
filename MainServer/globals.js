@@ -12,8 +12,20 @@ const port = 8080
 // for debugging pursposes, i have an unique id of every user request, like a client id
 var req_id = 0
 
+function get_req_id() {
+  return req_id
+}
+
 function increase_req_id() {
   req_id++
+}
+
+// unique message identifier, to be used when communicating with queues
+var msg_id = 0
+
+function request_msg_id() {
+  msg_id++
+  return msg_id
 }
 
 
@@ -34,8 +46,9 @@ function log(msg) {
 
 // esporto
 module.exports = {
+  increase_req_id,
+  request_msg_id,
   debug,
   port,
-  increase_req_id,
   log
 }

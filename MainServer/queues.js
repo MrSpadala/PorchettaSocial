@@ -45,9 +45,9 @@ function sendToQueues(msg, network_list) {
 	    
       if (globals.debug){
       	      for (var k = 0; k < network_list.length; k++){
-		      ch.publish(ex, network_list[k] , new Buffer(msg), {correlationId: req_id});
-	      	      correlation_id_list.push(req_id);
-	      	      increase_req_id(); 
+		      var msg_id = globals.request_msg_id()
+		      ch.publish(ex, network_list[k] , new Buffer(msg), {correlationId: msg_id});
+	      	      correlation_id_list.push(msg_id);
       		}
 	log('Sent ' + msg );  //attaccato così va bene?
       }
