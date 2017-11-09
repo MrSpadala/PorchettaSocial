@@ -8,9 +8,9 @@ amqp.connect( /*main server*/, function(err, conn) {
             var to_server_queue = 'to_server';
 
             ch.assertQueue(to_server_queue, {durable:true});
-						ch.assertQueue(tumblr_queue, {durable:true, replyTo: to_server_queue});
+	    ch.assertQueue(tumblr_queue, {durable:true, replyTo: to_server_queue});
 						
-						ch.consume(tumblr_queue, function(msg){
+	    ch.consume(tumblr_queue, function(msg){
                 var splitted_msg = msg.split('xFF');
                 
                 switch (splitted_msg[0]) { 
