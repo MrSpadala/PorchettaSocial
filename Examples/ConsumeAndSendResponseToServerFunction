@@ -10,11 +10,9 @@ amqp.connect( /*main server*/, function(err, conn) {
 						
 						ch.consume(social_queue, function(msg) {
             
-									// processamento messaggio
-									// api di invio del messaggio
-									// creo il messaggio contenente la risposta ottenuta nel formato stabilito
-
-						ch.sendToQueue(to_server_queue,	/* response */, /* options if needed */);				
+							// processamento messaggio
+							// api di invio del messaggio
+							// creo il messaggio contenente la risposta ottenuta nel formato stabilito				
 
 		        }, {noAck: true});
 
