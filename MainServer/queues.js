@@ -28,15 +28,26 @@ function sendToQueues(msg, network_list) {
 	
 	  for (var k = 0; k < network_list.length; k++){
 		  var msg_id = globals.request_msg_id().toString()	//aggiunto il toString perchè lo vuole come stringa
-		  ch.publish(ex, network_list[k] , new Buffer(msg));
+		  var real_msg = [msg_id, msg].join('xFF');
+		  ch.publish(ex, network_list[k] , new Buffer(real_msg));
 		  correlation_id_list.push(msg_id);
 		  log('Sent msg_id:'+ msg_id + ' ' + msg ); 
 	  }
 
       // get the results of the rpcs launched
-      correlation_id_list.forEach( function(id){recvFromQueues(id)} )
-
-    });
+      correlation_id_list.forEach( function(id){
+	      
+	      var to_server_queue = 'to_server';
+	      ch.assertQueue(to_server_queue, {durable:true});
+	      
+	      // reads message
+	      log('Waiting for RPC id: '+id);
+	      ch.consume(to_server_queue, function(msg) {
+		      var splitted_msg = msg.split('xFF');
+		      if (splitted_msg[0] == id) rpc_handler(msg)
+	      }, {noAck:true});
+      });      
+      });
   });
 }
 
@@ -47,7 +58,7 @@ function sendToQueues(msg, network_list) {
 
 
 
-function recvFromQueues(correlation_id) {
+/*function recvFromQueues(correlation_id) {
 
   amqp.connect('amqp://rabbit-mq', function(err, conn) {
 	  conn.createChannel(function(err,ch) {
@@ -63,13 +74,13 @@ function recvFromQueues(correlation_id) {
 	  });
   });
 }
-
+*/
 
 
 // esporto le funzioni
 module.exports = {
   send: sendToQueues,
-  recv: recvFromQueues
+ // recv: recvFromQueues
 }
 
 
