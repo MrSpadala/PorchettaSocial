@@ -35,7 +35,7 @@ session = twitter.get_auth_session(request_token,request_token_secret,method='PO
 
 #exit(0)
 
-params = {'status': 'PORCOIDDIOO'}
+params = {'status': 'testo'}
 
 while(True):
 	post = read_input("Inserisci il tipo di post che vuoi twittare(Ctrl+c per terminare):\n")

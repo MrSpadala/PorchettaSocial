@@ -12,8 +12,13 @@ def callback(ch, method, properties, body):
 	channel1 = connection.channel()
 	channel1.queue_declare(queue='to_server')
 	messagge = body.decode('utf-8')
-	print(message)
+	#print("messaggio ricevuto:\n"+message)
 	l = message.split('ÿ')
+	'''
+	print(elementi ricevuti e splittati con ÿ)
+	for e in l:
+		print(e)
+	'''
 	flag = 'ÿ'
 	if (l[0] == 'auth'):
 		twitter = OAuth1Service(name='twitter',
@@ -28,6 +33,7 @@ def callback(ch, method, properties, body):
         authorize_url = twitter.get_authorize_url(request_token)
 		
 		stringa_invio ='twtÿauthÿ'+authorize_url+flag+request_token+flag+request_token_secret
+		#print("messaggio inviato:\n"stringa_invio)
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 		
 	elif l[0] == 'verify_pin':
@@ -49,9 +55,9 @@ def callback(ch, method, properties, body):
 			stringa_invio ='twtÿverify_pinÿ'+token1+flag+token2
 
 		except Exception:
-			stringa_invio ='twtÿverify_pinÿ'+'DIOCAN'
+			stringa_invio ='twtÿverify_pinÿ'+'exception_occurred'
 
-		
+		#print("messaggio inviato:\n"stringa_invio)
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
 	else:
@@ -60,7 +66,7 @@ def callback(ch, method, properties, body):
 		access_token = l[2]
 		access_token_secret = l[3]
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
-		params = {'status': 'PORCOIDDIOO'}
+		params = {'status': 'testo'}
 
 		params['status']=l[1]
 		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
@@ -70,7 +76,7 @@ def callback(ch, method, properties, body):
 		
 		stringa_invio ='twtÿupload_postÿ'+risposta
 		
-		
+		#print("messaggio inviato:\n"stringa_invio)
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
 		

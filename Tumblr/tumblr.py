@@ -34,7 +34,7 @@ r = session.get('http://api.tumblr.com/v2/user/info').json()
 name = r['response']['user']['name']
 stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
 
-params = {'title': 'PORCOIDDIOO','body':'MANNAIALAMDONNA'}
+params = {'title': 'titolo','body':'testo'}
 
 while(True):
 	titolo = read_input("Inserisci il titolo del post che vuoi creare(Ctrl+c per terminare):\n")
