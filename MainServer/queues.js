@@ -49,8 +49,6 @@ function sendToQueues(msg, network_list) {
 
 
 
-
-// TODO IMPORTANT leggere consumare il messaggio solo se il suo id è correlation_id passato come parametro
 function recvFromQueues(correlation_id) {
 
   amqp.connect('amqp://rabbit-mq', function(err, conn) {
@@ -60,7 +58,10 @@ function recvFromQueues(correlation_id) {
 		  
 		  // reads a message
 		  log('Waiting for RPC id:'+correlation_id)
-		  ch.consume(to_server_queue, function(msg){rpc_handler(msg)}, {noAck: true});
+		  ch.consume(to_server_queue, function(msg){
+			if (msg.properies.correlationId == correlation_id)
+			  rpc_handler(msg)
+		  }, {noAck: true});
 	  });
   });
 }
