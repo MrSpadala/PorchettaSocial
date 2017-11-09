@@ -42,19 +42,19 @@ del nostro utente per fare richieste.
 	nel caso gli venga richiesto tramite il comando auth l'url al quale indirizzare l'utente per dare i permessi
 	in tal caso il server dovra tenersi gli ultimi 3 parametri
 
-	- twt flag verify_pin flag token1 flag token2
+	- msg_id flag twt flag verify_pin flag token1 flag token2
 
 	nel caso gli venga richiesto di verificare il pin ed esso è corretto.
 
-	- twt flag verify_pin flag DIOCAN
+	- msg_id flag twt flag verify_pin flag DIOCAN
 
 	nel caso gli venga richiesto di verificare il pin ed esso non  corretto
 
-	- twt flag upload_post flag 1
+	- msg_id flag twt flag upload_post flag 1
 
 	nel caso gli venga richiesto di postare un tweet, ma non ha successo l'operazione
 
-	- twt flag upload_post flag 0
+	- msg_id flag twt flag upload_post flag 0
 
 	nel caso gli venga richiesto di postare un tweet, ed ha successo l'operazione
 
