@@ -5,7 +5,7 @@ var amqp = require('amqplib/callback_api');
 
 function readPostAndReply(){
 
-    amqp.connect(/* main server*/, function(err,conn){
+    amqp.connect('amqp://rabbit-mq' ,function(err,conn){
 
         conn.createChannel(function(err,ch){
             
@@ -41,8 +41,7 @@ function readPostAndReply(){
                                           }
                                           
                                           POST https://www.googleapis.com/plusDomains/v1/people/{userId}/activities */
-                                        
-                                         /* prova di invio non automatico (senza reply to!) di risposta al server */
+                           
                                          var response = /* ricezione della risposta http */
                                          
                                          /* formatto la risposta inserendo api_id e msg_id */ 
