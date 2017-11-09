@@ -14,15 +14,16 @@ al server comunicandogli il risultato, o i risultati. __Le funzioni riportate qu
 Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica un byte pari a 0xFF__, che funge da flag che separa i campi.
 
 	
-   __Formato richiesta__  `  comando | param_1 | param_2 | ...  `
+   __Formato richiesta__  `  msg_id | comando | param_1 | param_2 | ...  `
 
  
  + Il numero dei parametri è variabile, dipende dal comando.
 
  + Per prendere i vari parametri si fa `messaggio.split('\xFF')` che restituisce una lista formata dai vari campi. 
-   Ad esempio se il messaggio è `cmd|p1|p2|p3`, ritornerà `[cmd, p1, p2, p3]` Funziona sia in Node che in Python.
+   Ad esempio se il messaggio è `msg_id|cmd|p1|p2|p3`, ritornerà `[msg_id, cmd, p1, p2, p3]` Funziona sia in Node che in Python.
 
 
+ - `msg_id` è una stringa ottenuta con toString dalla variabile globale numerica msg_id che assegna un identificatore univoco ad ogni richiesta.
 
  - `comando` è una stringa, rappresenta il comando che il server chiede di eseguire. Può essere:
 	- `auth` richiede l'autenticazione al social network
@@ -41,7 +42,7 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
 Come prima, la barra indica il flag
 
 
-   __Formato risposta__  `  id_api | comando | res_1 | res_2 | ...  `
+   __Formato risposta__  `  id_api | msg_id | comando | res_1 | res_2 | ...  `
 
 
  + Il numero dei risultati p variabile, dipende dal comando.
@@ -55,7 +56,7 @@ Come prima, la barra indica il flag
 	- twitter    `twt`
 	- googlePlus `g+`
 	- facebook   `fb`
-	- tumblr	 `tmb`
+	- tumblr     `tmb`
 
  - `comando` è da definire
 
