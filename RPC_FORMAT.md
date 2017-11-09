@@ -61,5 +61,8 @@ Come prima, la barra indica il flag
 
  - `res_i` sono da definire
 
++ Nei moduli API l'invio dei messaggi di risposta al server tramite l'apposita coda viene 
+fatto automaticamente dalla sendToQueue: nella funzione ci sarà lo spazio per l'invio 
+tramite api e subito l'inoltro della risposta alla coda 'to_server'.  
 
 
