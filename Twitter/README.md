@@ -37,7 +37,7 @@ del nostro utente per fare richieste.
 
 - a ricezione del messaggio fa un parsing dello stesso e, a seconda dei parametri definiti nel messaggio (guardare RPC_FORMAT.md), invia i seguenti messaggi:
 	
-	- twt flag auth flag authorize_url flag request_token flag request_token_secret 
+	- msg_id flag twt flag auth flag authorize_url flag request_token flag request_token_secret 
 
 	nel caso gli venga richiesto tramite il comando auth l'url al quale indirizzare l'utente per dare i permessi
 	in tal caso il server dovra tenersi gli ultimi 3 parametri
