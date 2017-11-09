@@ -33,7 +33,7 @@ function request_msg_id() {
 var fs = require('fs')  // filesystem library
 
 function log(msg) {
-  var entry = '[MainServer] '+new Date+' req_id='+req_id+' | '+msg
+  var entry = '[MainServer] '+new Date+' | '+msg
   if (debug_stdout)
 	console.log(entry)
   fs.appendFile('mainserver.log', entry+'\n', (err) => {if (err) console.log('Error writing on logfile')})
@@ -45,7 +45,6 @@ function log(msg) {
 module.exports = {
   increase_req_id,
   request_msg_id,
-  debug_stdout: debug,
   port,
   log
 }
