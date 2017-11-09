@@ -3,7 +3,7 @@
 
 
 // per stampare informazioni di debug
-const debug = true
+const debug_stdout = true
 
 // in ascolto di connessioni sulla porta
 const port = 8080
@@ -30,16 +30,13 @@ function request_msg_id() {
 
 
 // logging
-const log_on_stdout = true
-const log_on_file   = false
 var fs = require('fs')  // filesystem library
 
 function log(msg) {
   var entry = '[MainServer] '+new Date+' req_id='+req_id+' | '+msg
-  if (log_on_stdout)
+  if (debug_stdout)
 	console.log(entry)
-  if (log_on_file)
-	fs.appendFile('mainserver.log', entry+'\n', (err) => {if (err) console.log('Error writing on logfile')})
+  fs.appendFile('mainserver.log', entry+'\n', (err) => {if (err) console.log('Error writing on logfile')})
 }
 
 
@@ -48,7 +45,7 @@ function log(msg) {
 module.exports = {
   increase_req_id,
   request_msg_id,
-  debug,
+  debug_stdout: debug,
   port,
   log
 }
