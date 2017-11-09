@@ -41,25 +41,17 @@ function sendToQueues(msg, network_list) {
       //se facciamo una cosa carina, che tipo i nomi dei social in network_list è uguale alla routing_key del social
       //possiamo prendere direttamente i valori da li e usarli nella publish 
 	
-      var correlation_id_list = new Array;
+	var correlation_id_list = new Array;
 	    
-      if (globals.debug){
-      	      for (var k = 0; k < network_list.length; k++){
-		      var msg_id = globals.request_msg_id()
-		      ch.publish(ex, network_list[k] , new Buffer(msg), {correlationId: msg_id});
-	      	      correlation_id_list.push(msg_id);
-      		}
-	log('Sent ' + msg );  //attaccato così va bene?
-      }
+	for (var k = 0; k < network_list.length; k++){
+	      var msg_id = globals.request_msg_id()
+	      ch.publish(ex, network_list[k] , new Buffer(msg), {correlationId: msg_id});
+	      correlation_id_list.push(msg_id);
+	      log('Sent msg_id:'+ msg_id + msg ); 
+	}
+	
     });
   });
-
-  // Questo pezzo di codice se me lo puoi appiccicare dove effettivamente inoltri i messaggi in coda
-  //
-  //  if (globals.debug)
-  //	log('Sent ' /* + msg */)
-  //
-
 
   return correlation_id_list 
 

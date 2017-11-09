@@ -22,8 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // risposta nell'URL root alla get (home page)
 app.get('/', function (req, res) {
   globals.increase_req_id()
-  if (globals.debug)
-	log('Received a GET')
+  log('Received a GET')
 
   res.send('<html>SCEEMOOOO!<br>Fammi una POST mettendo una chiave \'data\' nel body</html>')
 })
@@ -43,8 +42,7 @@ app.post('/', function (req, res) {
   var text = req.body.data
   var list = req.body.list
   
-  if (globals.debug)
-	log('Received text:'+text+' list:'+list)
+  log('Received text:'+text+' list:'+list)
 
   // sanity check, if list is empty i don't publish on any social network
   if (list.length == 0) {
