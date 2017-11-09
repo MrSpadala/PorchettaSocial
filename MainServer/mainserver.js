@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
   globals.increase_req_id()
   log('Received a GET')
 
-  res.send('<html>SCEEMOOOO!<br>Fammi una POST mettendo una chiave \'data\' nel body</html>')
+  res.send('<html>SCEEMOOOO!<br>Fammi una POST</html>')
 })
 
 
@@ -43,6 +43,14 @@ app.post('/', function (req, res) {
   var list = req.body.list
   
   log('Received text:'+text+' list:'+list)
+
+  // sanity check, list and text can't be undefined
+  if (typeof(text) == 'undefined' || typeof(list) == 'undefined') {
+    res.status(400)   //bad request
+    res.send("The received POST didn't have correct parameters in the body")
+  }
+
+  text = text.trim()   //removing leading and trailing spaces
 
   // sanity check, if list is empty i don't publish on any social network
   if (list.length == 0) {
@@ -73,18 +81,7 @@ app.post('/', function (req, res) {
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
   var msg = ['upload_post', text, token, token_oauth1].join('\xFF')
-  var id_list = queue.send(msg, list)
-
-  // wait for the results of the rpc
-  id_list.forEach(function(id) {
-	
-	var results = queue.recv(id)
-
-	// TODO do something with the results
-
-	log('RPC id:'+id+' Results: '+results)
-  
-  })
+  queue.send(msg, list)
 
   res.send('ooook')
 })
