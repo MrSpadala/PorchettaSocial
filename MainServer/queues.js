@@ -18,9 +18,7 @@ function sendToQueues(msg, network_list) {
 
   amqp.connect('amqp://rabbit-mq', function(err,conn) {
     conn.createChannel(function(err,ch) {
-    
-      var to_server_queue = 'to_server'; //TODO la coda di invio è la stessa?
-    
+       
       var ex = 'exchange_name';
 
       var correlation_id_list = [];
@@ -30,7 +28,7 @@ function sendToQueues(msg, network_list) {
 	
 	  for (var k = 0; k < network_list.length; k++){
 		  var msg_id = globals.request_msg_id().toString()	//aggiunto il toString perchè lo vuole come stringa
-		  ch.publish(ex, network_list[k] , new Buffer(msg), {correlationId: msg_id, replyTo: to_server_queue});
+		  ch.publish(ex, network_list[k] , new Buffer(msg));
 		  correlation_id_list.push(msg_id);
 		  log('Sent msg_id:'+ msg_id + ' ' + msg ); 
 	  }
