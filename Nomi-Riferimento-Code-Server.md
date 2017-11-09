@@ -7,6 +7,14 @@
 Tutti i messaggi del server per i moduli passano attraverso l'exchange, unico, che tramite la routing_key inserisce 
 il messaggio nella coda del giusto Social. 
 
+
+## Nome server message broker
+
+`rabbit-mq`
+
+E' il server ai quali i moduli si devono connettere per scambiarsi messaggi, così `amqp://rabbit-mq`
+
+
 ## Nomi di riferimento per le code
 
 tumblr_queue = `tmb` = routing_key per tumblr
@@ -23,19 +31,7 @@ Le code sono servite dall'exchange, la routing key è uguale al nome stesso dell
 dichiara solo la coda del social stesso (non vede l'exchange ne le code di altri social) e la coda di risposta al server.
 
 
-## Nomi server
 
-Nomi dei moduli ai quali si dovranno connettere con amqp tramite `amqp://nome-modulo`
-
-MainServer = `main-server`
-
-Twitter = `twitter-module`
-
-Facebook = `facebook-module`
-
-GooglePlus = `google-module`
-
-Tumblr = `tumblr-module`
 
 
 
