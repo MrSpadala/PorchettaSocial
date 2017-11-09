@@ -1,6 +1,8 @@
 # Twitter
+
 Il file twitter_api.py garantisce l'autenticazione e autorizzazione di un utente per permettere a PorchettaSocial di pubblicare post 
 Il file queue_twt.py invece è un esempio di gestione delle code lato APIs. esso dovrà essere implentato e integrato con il file twitter_api.py per gestire le varie richieste lato server seguendo le direttive del file RPC_FORMAT.md che si trova nella cartella principale
+il server userà il modulo queue_twt.py
 
 ## Run twitter_api.py
 Prende in input da terminale e posta su twitter. __E' necessario avere un account__
@@ -31,9 +33,40 @@ del nostro utente per fare richieste.
 
 - il file queue_twt.py implementa un esempio di comunicazione tramite code con il server hostato in locale
 
-- l'esempio prevede la ricezione di un messaggio dalla coda 'twt' e la sua stampa e l'invio del messaggio 'quello da mandare'  sulla coda 'to_server'
+- esso una volta fatto partire rimane in ascolto aspettando che il server di rabbitmq gli mandi qualcosa sulla coda twt
 
-- non è stato ancora testato
+- a ricezione del messaggio fa un parsing dello stesso e, a seconda dei parametri definiti nel messaggio (guardare RPC_FORMAT.md), invia i seguenti messaggi:
+	
+	- twt flag auth flag authorize_url flag request_token flag request_token_secret 
+
+	nel caso gli venga richiesto tramite il comando auth l'url al quale indirizzare l'utente per dare i permessi
+	in tal caso il server dovra tenersi gli ultimi 3 parametri
+
+	- twt flag verify_pin flag token1 flag token2
+
+	nel caso gli venga richiesto di verificare il pin ed esso è corretto.
+
+	- twt flag verify_pin flag DIOCAN
+
+	nel caso gli venga richiesto di verificare il pin ed esso non  corretto
+
+	- twt flag upload_post flag 1
+
+	nel caso gli venga richiesto di postare un tweet, ma non ha successo l'operazione
+
+	- twt flag upload_post flag 0
+
+	nel caso gli venga richiesto di postare un tweet, ed ha successo l'operazione
+
+io propongo di spostare l'autenticazione quindi l'url e la verifica del pin nella parte server per rendere il tutto più efficiente.
+una cosa del tipo quando gli serve l'url o il pin, il server anzichè metterlo in coda chiama il modulo python che si troverà nella
+stessa cartella del file del server e gli restituirà quello che gli deve restituire. anzichè mettere in coda la richiesta aspettare
+che il modulo la piji e riinviare, calcolando che nella realtà solitamente se si crea un'architettura del genere il modulo api 
+e il server hostano su due server diversi quindi il tutto è molto poco efficiente.
+
+
+il modulo in questione non è stato ancora testato, sono stati testati i pezzi di codice che lo compongono avviando rabbit mq al volo quindi
+è tutto da testare
 
 ### Come continuare l'implementazione:
 

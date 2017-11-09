@@ -1,27 +1,84 @@
 import pika
-#si connette col server rabitmq e crea un canale di comunicazione
+from rauth import OAuth1Service
+from requests_oauthlib import OAuth1Session
+
+
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
-#dichiariamo la coda dal quale prenderemo i messaggi
+
 channel.queue_declare(queue='twt')
-#definiamo una funzione con la quale si farà il parsing del messaggio
-#e a seconda delle specifiche date nel messaggio, es: comando = auth
-#farà certe cose come chiedere un 'autenticazione su twitter ecc
+
 def callback(ch, method, properties, body):
-    print(" [x] Received %r" % body)
-#qui si prende il messaggio e verrà chiamata la nostra callback
-channel.basic_consume(callback,queue='twt',no_ack=True)
-#teoricamente questo start consuming dice di prendere a loop tutti i messaggi nella coda fino a quando non terminano
+	channel1 = connection.channel()
+	channel1.queue_declare(queue='to_server')
+	messagge = body.decode('utf-8')
+	print(message)
+	l = message.split('ÿ')
+	flag = 'ÿ'
+	if (l[0] == 'auth'):
+		twitter = OAuth1Service(name='twitter',
+                        consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',
+                        consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',
+                        request_token_url='https://api.twitter.com/oauth/request_token',
+                        access_token_url='https://api.twitter.com/oauth/access_token',
+                        authorize_url='https://api.twitter.com/oauth/authorize')
+
+        request_token, request_token_secret = twitter.get_request_token(method='POST')
+
+        authorize_url = twitter.get_authorize_url(request_token)
+		
+		stringa_invio ='twtÿauthÿ'+authorize_url+flag+request_token+flag+request_token_secret
+		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
+		
+	elif l[0] == 'verify_pin':
+		twitter = OAuth1Service(name='twitter',
+                        consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',
+                        consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',
+                        request_token_url='https://api.twitter.com/oauth/request_token',
+                        access_token_url='https://api.twitter.com/oauth/access_token',
+                        authorize_url='https://api.twitter.com/oauth/authorize')
+                        
+        pin = l[1]                
+		request_token = l[2]
+		request_token_secret = l[3]
+		stringa_invio = ''
+        try:
+			session = twitter.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': pin})
+			token1 = session.access_token
+			token2 = session.access_token_secret
+			stringa_invio ='twtÿverify_pinÿ'+token1+flag+token2
+
+		except Exception:
+			stringa_invio ='twtÿverify_pinÿ'+'DIOCAN'
+
+		
+		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
+
+	else:
+		consumer_key = 'VyP9pdp6VC1M0qkfS4m14oxqM'
+		consumer_secret = 'udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq'
+		access_token = l[2]
+		access_token_secret = l[3]
+		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
+		params = {'status': 'PORCOIDDIOO'}
+
+		params['status']=l[1]
+		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
+		rispota = 1
+		if ('200' in str(r)):
+			risposta = 0
+		
+		stringa_invio ='twtÿupload_postÿ'+risposta
+		
+		
+		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
+
+		
+	
+
+channel.basic_consume(callback,
+                      queue='twt',
+                      no_ack=True)
+
 print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()
-
-#da questa parte creiamo un secondo canale con il server di rabbitmq
-channel1 = connection.channel()
-#definiamo la coda dove poi andremo a scrivere
-channel1.queue_declare(queue='to_server')
-#qui invece pubblichiamo il body del messaggio che scriveremo dichiarando l'exchange name utilizzato la outing key non serve
-channel1.basic_publish(exchange='exchange_name',body='quello da mandare')
-
-#infine si chiude la connessione
-
-connection.close()
