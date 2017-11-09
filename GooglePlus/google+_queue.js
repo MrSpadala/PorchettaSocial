@@ -19,34 +19,27 @@ function readPostAndReply(){
             
                 var splitted_msg = msg.split('xFF');
                 
-                switch (splitted_msg[0]) {
-                    case "auth": // redirect to authentication function of google plus
-                                 break;
-                                 
-                    case "upload_post": /* text is the splitted_msg[1]
-                                         token acess is the splitted_msg[2]
+                /* define text, token access and params from splitted_msg[i]
                                         
-                                         if needed a cycle on splitted_msg.length for optional params
-                                        
-                                         creation of the json body for the post:
-                                         { "object" : {
-                                              "originalContent": text,
-                                              },
-                                              "access": {
-                                                  "items": [{
-                                                        "type" : "domain"
-                                                        }],
-                                                   "domainRestricted" : true
-                                              }
-                                          }
+                creation of the json body for the post:
+                { "object" : {
+                       "originalContent": text,
+                              },
+                 "access": {
+                        "items": [{
+                               "type" : "domain"
+                                 }],
+                        "domainRestricted" : true
+                            }
+                }
                                           
-                                          POST https://www.googleapis.com/plusDomains/v1/people/{userId}/activities */
+                POST https://www.googleapis.com/plusDomains/v1/people/{userId}/activities */
                            
-                                         var response = /* ricezione della risposta http */
+                var response = /* ricezione della risposta http */
+                                        
+                /* formatto la risposta inserendo api_id e msg_id (il primo fisso di google plus, secondo da splitted_msg*/ 
                                          
-                                         /* formatto la risposta inserendo api_id e msg_id */ 
-                                         
-                                         ch.sendToQueue(to_server_queue,new Buffer(response));
+                ch.sendToQueue(to_server_queue,new Buffer(response));
                   }
               }, {noAck : true});
           });
