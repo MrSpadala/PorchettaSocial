@@ -48,6 +48,7 @@ app.post('/', function (req, res) {
   if (typeof(text) == 'undefined' || typeof(list) == 'undefined') {
     res.status(400)   //bad request
     res.send("The received POST didn't have correct parameters in the body")
+    return
   }
 
   text = text.trim()   //removing leading and trailing spaces
