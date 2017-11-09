@@ -49,7 +49,7 @@ def callback(ch, method, properties, body):
 			stringa_invio ='twtÿverify_pinÿ'+token1+flag+token2
 
 		except Exception:
-			stringa_invio ='twtÿverify_pinÿ'+'DIOCAN'
+			stringa_invio ='twtÿverify_pinÿ'+'exception_occurred'
 
 		
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
@@ -60,7 +60,7 @@ def callback(ch, method, properties, body):
 		access_token = l[2]
 		access_token_secret = l[3]
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
-		params = {'status': 'PORCOIDDIOO'}
+		params = {'status': 'testo'}
 
 		params['status']=l[1]
 		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
