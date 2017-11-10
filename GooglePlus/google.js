@@ -1,5 +1,7 @@
 var express = require('express')
 var request = require('request')
+var fs = require('fs')
+
 
 var client_id = '191401267480-kg43gjuls6in3lrj7o75b9r9ue6qjlie.apps.googleusercontent.com'
 var client_secret = 'q_-hCPYtHGklXJerJ0UumKMP'
@@ -38,6 +40,11 @@ app.get('/oauth2callback', function(req, res) {
 		var info = JSON.parse(body);
 		access_token = info.access_token
 		res.send("Login riuscito")
+		fs.writeFile("token.txt", 'access_token: '+access_token, function(err) {
+			if(err) {
+				console.log(err)
+			}
+		})
 
 	})
 	

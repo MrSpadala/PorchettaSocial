@@ -1,0 +1,7 @@
+curl 'https://www.googleapis.com/plusDomains/v1/people/me/activities' \
+  -X POST \
+  -H 'Authorization: Bearer [YOUR_BEARER_TOKEN]' \
+  -H 'Accept: application/json' \
+  -H 'Content-Type: application/json' \
+  --data-binary '{"object":{"originalContent":"Ciao a tutti"},"access":{"domainRestricted":true}}' \
+  --compressed
