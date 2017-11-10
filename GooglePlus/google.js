@@ -41,7 +41,9 @@ app.get('/oauth2callback', function(req, res) {
 		access_token = info.access_token
 		res.send("Login riuscito")
 		fs.writeFile("token.txt", 'access_token: '+access_token, function(err) {
-			console.log(err)
+			if(err) {
+				console.log(err)
+			}
 		})
 
 	})
