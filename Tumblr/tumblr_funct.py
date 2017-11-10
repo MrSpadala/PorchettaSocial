@@ -8,7 +8,7 @@ except NameError:
     read_input = input
     
     
-with open('./../tumblr_info.json' , 'r') as json_data_file:
+with open('./tumblr_info.json' , 'r') as json_data_file:
 	app_info = json.load(json_data_file)
 
 tumblr = OAuth1Service(name='tumblr',
