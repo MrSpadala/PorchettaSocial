@@ -41,6 +41,8 @@ url_with_token = read_input('Copy URL from your browser\'s address bar: ')
 # Here we take the access token
 access_token = re.search('access_token=([^&]*)', url_with_token).group(1)
 
+print(access_token)
+
 # return an authenticated session
 session = facebook.get_session(access_token)
 

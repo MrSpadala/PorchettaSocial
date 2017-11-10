@@ -1,0 +1,11 @@
+{
+	"tumblr" : {
+		"consumer_key" : "fKuSP9m5NeR07IrIrXzugK0Mw1lD7lHOIs2XAw9bSvwcgph1gu",
+		"consumer_secret" : "cXAKHHb8FBgoIXKNC71KZM6eELV1NxQZ5XRBYKSoWmAWOuRHGS"		
+	},
+	
+	"old_tumblr" : {
+		"consumer_key" : "BEIrTTq8ALZG8htjrLXGpQIe7Kw7stVN0ZMPLokXhpESscritt",
+		"consumer_secret" : "IMY60FGZQ2aJp7gTGiLZU5oa9VeU6x1C8h8VIw9UZCGhqHTEUW"
+	}
+}
