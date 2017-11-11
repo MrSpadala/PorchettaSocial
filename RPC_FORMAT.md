@@ -42,7 +42,7 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
 Come prima, la barra indica il flag
 
 
-   __Formato risposta__  `  id_api | msg_id | comando | res_1 | res_2 | ...  `
+   __Formato risposta__  `  msg_id | id_api | comando | res_1 | res_2 | ...  `
 
 
  + Il numero dei risultati p variabile, dipende dal comando.
