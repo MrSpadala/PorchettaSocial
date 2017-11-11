@@ -10,9 +10,8 @@ var log = globals.log
 
 // handle rpc return
 function handler(msg) {
-  params = msg.split('\xFF')
 
-  log('RPC id:'+id+' Results: '+results)
+  log('Handle RPC result: ' + msg)
 
   // TODO do something with the results
 
