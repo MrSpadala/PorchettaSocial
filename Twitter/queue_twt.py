@@ -12,14 +12,8 @@ def callback(ch, method, properties, body):
 	channel1 = connection.channel()
 	channel1.queue_declare(queue='to_server')
 	message = body.decode('utf-8')
-	print("messaggio ricevuto:\n"+message)
-	print("messaggio ricevuto:\n"+str(body))
 	l = message.split('ÿ')
-	'''
-	print(elementi ricevuti e splittati con ÿ)
-	for e in l:
-		print(e)
-	'''
+
 	flag = 'ÿ'
 	msg = l[0]
 	if (l[1] == 'auth'):
@@ -28,7 +22,6 @@ def callback(ch, method, properties, body):
 		authorize_url = twitter.get_authorize_url(request_token)
 		
 		stringa_invio =msg+flag+'twtÿauthÿ'+authorize_url+flag+request_token+flag+request_token_secret
-		#print("messaggio inviato:\n"stringa_invio)
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 		
 	elif l[1] == 'verify_pin':
@@ -46,7 +39,6 @@ def callback(ch, method, properties, body):
 		except Exception:
 			stringa_invio =msg+flag+'twtÿverify_pinÿ'+'exception_occurred'
 
-		#print("messaggio inviato:\n"stringa_invio)
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
 	else:
@@ -70,7 +62,6 @@ def callback(ch, method, properties, body):
 		
 			stringa_invio =msg+flag+'twtÿupload_postÿ'+risposta
 		
-			#print("messaggio inviato:\n"stringa_invio)
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
 		else:
