@@ -46,7 +46,7 @@ del nostro utente per fare richieste.
 
 	nel caso gli venga richiesto di verificare il pin ed esso è corretto.
 
-	- msg_id flag twt flag verify_pin flag DIOCAN
+	- msg_id flag twt flag verify_pin flag exception_occurred
 
 	nel caso gli venga richiesto di verificare il pin ed esso non  corretto
 
@@ -57,6 +57,10 @@ del nostro utente per fare richieste.
 	- msg_id flag twt flag upload_post flag 0
 
 	nel caso gli venga richiesto di postare un tweet, ed ha successo l'operazione
+
+	- msg_id flag twt flag upload_post flag exception_occurred
+
+	nel caso non si può creare l'oggetto sessione e quindi i token non valgono più e tocca richiedere l'autenticazione
 
 io propongo di spostare l'autenticazione quindi l'url e la verifica del pin nella parte server per rendere il tutto più efficiente.
 una cosa del tipo quando gli serve l'url o il pin, il server anzichè metterlo in coda chiama il modulo python che si troverà nella
