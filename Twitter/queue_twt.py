@@ -11,8 +11,9 @@ channel.queue_declare(queue='twt')
 def callback(ch, method, properties, body):
 	channel1 = connection.channel()
 	channel1.queue_declare(queue='to_server')
-	messagge = body.decode('utf-8')
-	#print("messaggio ricevuto:\n"+message)
+	message = body.decode('utf-8')
+	print("messaggio ricevuto:\n"+message)
+	print("messaggio ricevuto:\n"+str(body))
 	l = message.split('ÿ')
 	'''
 	print(elementi ricevuti e splittati con ÿ)
@@ -22,34 +23,21 @@ def callback(ch, method, properties, body):
 	flag = 'ÿ'
 	msg = l[0]
 	if (l[1] == 'auth'):
-		twitter = OAuth1Service(name='twitter',
-                        consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',
-                        consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',
-                        request_token_url='https://api.twitter.com/oauth/request_token',
-                        access_token_url='https://api.twitter.com/oauth/access_token',
-                        authorize_url='https://api.twitter.com/oauth/authorize')
-
-        request_token, request_token_secret = twitter.get_request_token(method='POST')
-
-        authorize_url = twitter.get_authorize_url(request_token)
+		twitter = OAuth1Service(name='twitter',consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',request_token_url='https://api.twitter.com/oauth/request_token',access_token_url='https://api.twitter.com/oauth/access_token',authorize_url='https://api.twitter.com/oauth/authorize')
+		request_token, request_token_secret = twitter.get_request_token(method='POST')
+		authorize_url = twitter.get_authorize_url(request_token)
 		
 		stringa_invio =msg+flag+'twtÿauthÿ'+authorize_url+flag+request_token+flag+request_token_secret
 		#print("messaggio inviato:\n"stringa_invio)
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 		
 	elif l[1] == 'verify_pin':
-		twitter = OAuth1Service(name='twitter',
-                        consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',
-                        consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',
-                        request_token_url='https://api.twitter.com/oauth/request_token',
-                        access_token_url='https://api.twitter.com/oauth/access_token',
-                        authorize_url='https://api.twitter.com/oauth/authorize')
-                        
-        pin = l[2]                
+		twitter = OAuth1Service(name='twitter',consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',request_token_url='https://api.twitter.com/oauth/request_token',access_token_url='https://api.twitter.com/oauth/access_token',authorize_url='https://api.twitter.com/oauth/authorize')
+		pin = l[2]                
 		request_token = l[3]
 		request_token_secret = l[4]
 		stringa_invio = ''
-        try:
+		try:
 			session = twitter.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': pin})
 			token1 = session.access_token
 			token2 = session.access_token_secret
@@ -62,25 +50,33 @@ def callback(ch, method, properties, body):
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
 	else:
+		f = 0
 		consumer_key = 'VyP9pdp6VC1M0qkfS4m14oxqM'
 		consumer_secret = 'udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq'
 		access_token = l[3]
 		access_token_secret = l[4]
-		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
-		params = {'status': 'testo'}
+		try:
+			oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
+		except Exception:
+			f = 1
+		if (f==0):
+			params = {'status': 'testo'}
 
-		params['status']=l[2]
-		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
-		rispota = 1
-		if ('200' in str(r)):
-			risposta = 0
+			params['status']=l[2]
+			r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
+			rispota = 1
+			if ('200' in str(r)):
+				risposta = 0
 		
-		stringa_invio =msg+flag+'twtÿupload_postÿ'+risposta
+			stringa_invio =msg+flag+'twtÿupload_postÿ'+risposta
 		
-		#print("messaggio inviato:\n"stringa_invio)
-		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
+			#print("messaggio inviato:\n"stringa_invio)
+			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
-		
+		else:
+			stringa_invio =msg+flag+'twtÿupload_postÿ'+'exception_occurred'
+			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
+
 	
 
 channel.basic_consume(callback,

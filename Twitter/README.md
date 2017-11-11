@@ -65,8 +65,7 @@ che il modulo la piji e riinviare, calcolando che nella realtà solitamente se s
 e il server hostano su due server diversi quindi il tutto è molto poco efficiente.
 
 
-il modulo in questione non è stato ancora testato, sono stati testati i pezzi di codice che lo compongono avviando rabbit mq al volo quindi
-è tutto da testare
+il modulo in questione non è stato testato tramite rabbitmq ma non con la parte server ancora, sono stati testati i pezzi di codice che lo compongono avviando rabbitmq
 
 ### Come continuare l'implementazione:
 
