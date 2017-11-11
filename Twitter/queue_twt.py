@@ -10,9 +10,10 @@ channel.queue_declare(queue='twt')
 
 def callback(ch, method, properties, body):
 	channel1 = connection.channel()
-	channel1.queue_declare(queue='to_server')
+	channel1.queue_declare(queue='to_server', durable=True)
 	message = body.decode('utf-8')
 	l = message.split('ÿ')
+	print("Received msg splitted ",l)
 
 	flag = 'ÿ'
 	msg = l[0]
@@ -47,24 +48,20 @@ def callback(ch, method, properties, body):
 		consumer_secret = 'udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq'
 		access_token = l[3]
 		access_token_secret = l[4]
-		try:
-			oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
-		except Exception:
-			f = 1
-		if (f==0):
-			params = {'status': 'testo'}
+		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 
-			params['status']=l[2]
-			r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
-			rispota = 1
-			if ('200' in str(r)):
-				risposta = 0
-		
-			stringa_invio =msg+flag+'twtÿupload_postÿ'+risposta
-		
+		params = {'status': 'testo'}
+
+		params['status']=l[2]
+		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
+		risposta = 1
+		if ('200' in str(r)):
+			risposta = 0
+	
+		if not risposta:
+			stringa_invio =msg+flag+'twtÿupload_postÿ'+str(risposta)
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-
-		else:
+		else: 
 			stringa_invio =msg+flag+'twtÿupload_postÿ'+'exception_occurred'
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 

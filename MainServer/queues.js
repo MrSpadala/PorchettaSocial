@@ -16,35 +16,38 @@ var log = globals.log
  */
 function sendToQueues(msg, network_list) {
 
-  amqp.connect('amqp://rabbit-mq', function(err,conn) {
+  amqp.connect('amqp://localhost', function(err,conn) {
     conn.createChannel(function(err,ch) {
        
       var ex = 'exchange_name';
+	  var to_server_queue = 'to_server';
 
       var correlation_id_list = [];
     
-      ch.assertExchange(ex,'direct', {durable: true});
+      ch.assertExchange(ex, 'direct', {durable: true});
       ch.assertQueue(to_server_queue, {durable: true});
 	
 	  for (var k = 0; k < network_list.length; k++){
 		  var msg_id = globals.request_msg_id().toString()	//aggiunto il toString perchè lo vuole come stringa
-		  var real_msg = [msg_id, msg].join('xFF');
-		  ch.publish(ex, network_list[k] , new Buffer(real_msg));
+		  var real_msg = [msg_id, msg].join('\xFF');
+		  //ch.publish(ex, network_list[k] , new Buffer(real_msg));  //	ORIGINAL
+		  ch.publish('', network_list[k] , new Buffer(real_msg));
 		  correlation_id_list.push(msg_id);
-		  log('Sent msg_id:'+ msg_id + ' ' + msg ); 
+		  log('Sent msg_id:'+ msg_id + ' to queue:' + network_list[k] + ' '  + msg ); 
 	  }
 
       // get the results of the rpcs launched
       correlation_id_list.forEach( function(id){
 	      
-	      var to_server_queue = 'to_server';
+	      
 	      ch.assertQueue(to_server_queue, {durable:true});
 	      
 	      // reads message
 	      log('Waiting for RPC id: '+id);
 	      ch.consume(to_server_queue, function(msg) {
-		      var splitted_msg = msg.split('xFF');
-		      if (splitted_msg[0] == id) rpc_handler(msg)
+		      var splitted_msg = msg.content.toString().split('\xFF');
+			  log("Received "+splitted_msg)
+		      if (splitted_msg[0] == id) rpc_handler(splitted_msg)
 	      }, {noAck:true});
       });      
       });
