@@ -33,13 +33,7 @@ code = s[1]
 
 session = tumblr.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': code})
 
-#print(session.consumer_key)
-#print(session.consumer_secret)
-#print(session.access_token)
-#print(session.access_token_secret)
-#print(session.signature)
 
-#exit(0)
 r = session.get('http://api.tumblr.com/v2/user/info').json()
 name = r['response']['user']['name']
 stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
