@@ -6,22 +6,25 @@ import sys
 import subprocess
 
 def call(args):
-    subprocess.call(args.split(' '))
+    return subprocess.call(args.split(' '), stdout=f, stderr=f)
 
 def err():
     print('Command returned non 0 value, see cleanup.log')
+    f.write('------ BUILD END ------\n')
     sys.exit(1)
 
-log = ' >> ./cleanup.log 2>&1'
+
+f = open('cleanup.log', 'w')
+
 
 print('Deleting unused images')
-if call('sudo docker image prune -f') != None:
+if call('sudo docker image prune -f') != 0:
     err()
 
 print('Deleting unused containers')
-if call('sudo docker container prune -f') != None:
+if call('sudo docker container prune -f') != 0:
     err()
 
 print('Deleting unused networks')
-if call('sudo docker network prune -f') != None:
+if call('sudo docker network prune -f') != 0:
     err()

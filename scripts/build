@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+
+# Builds all docker images
+
+import sys
+import subprocess
+
+def call(args):
+    return subprocess.call(args.split(' '), stdout=f, stderr=f)
+    
+def echo(msg):
+    call('echo '+msg+'\n')
+
+def err():
+    print('Command returned non 0 value, see build.log')
+    f.write('------ BUILD ERROR ------\n')
+    sys.exit(1)
+
+
+f = open('build.log', 'w')
+
+
+
+msg = 'Creating network...'
+print(msg)
+echo(msg)
+call('sudo docker network rm porchetta-net')
+if call('sudo docker network create porchetta-net') != 0:
+    err()
+
+
+msg = 'Building MainServer image...'
+print(msg)
+echo(msg)
+if call('sudo docker build -t mainserver ../MainServer') != 0:
+    err()
+
+
+
+msg = 'Building Twitter image...'
+print(msg)
+echo(msg)
+if call('sudo docker build -t twitter ../Twitter') != 0:
+    err()
+
+
+print('OK')
+echo('OK')
+f.close()
