@@ -12,20 +12,38 @@ var log = globals.log
 // load and configuring libraries
 // bodyParser mi serve per parsare la POST
 var bodyParser = require('body-parser')
+var c00kies = require('cookie-parser')
 var app = require('express')()
 var server = null
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(c00kies())
 
 
 // risposta nell'URL root alla get (home page)
 app.get('/', function (req, res) {
   globals.increase_req_id()
   log('Received a GET')
+  
+  // testing
+  console.log("Cookies: ", req.cookies)
+  res.cookie('er_manz', '10')
 
   res.send('<html>SCEEMOOOO!<br>Fammi una POST</html>')
 })
+
+
+// testing
+app.get('/cookie_test', function(req, res) {
+  console.log("Cookies: ", req.cookies)
+  res.send('ciao')
+})
+
+
+
+function auth(network) {
+    // TODO OAuth logic here
+}
 
 
 
@@ -67,20 +85,19 @@ app.post('/', function (req, res) {
   token = null
   token_oauth1 = null
   
-  // TODO get user tokens from user cookies
-
-
-
-  // if user doesn't have tokens stored in its cookies then authenticate.
-  if (token == null) {
-	
-	// TODO OAuth logic here
-
-  }
-
+  // TODO select format for cookies
+  cookie = req.cookies.porchetto_cookie
+  list.forEach( function(network) {
+    if (typeof(cookie)=='undefined' || !network in cookie.logged)
+      auth(network)
+  })
+  
 
   // sanity check, if user post contains utf char '\xFF' 'ÿ', substitute the 'ÿ' with a 'y'
   text = text.replace(new RegExp('\xFF', 'g'), 'y')
+
+    // TODO change send method, token and token_oauth1 must be lists
+    // list = [fb, twt, tmb]  =>  token = [token fb, token twt, token tmb]
 
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
@@ -89,6 +106,7 @@ app.post('/', function (req, res) {
 
   res.send('ooook')
 })
+
 
 
 
