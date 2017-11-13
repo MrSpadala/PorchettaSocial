@@ -24,7 +24,7 @@ def callback(ch, method, properties, body):
 	message = (body.decode("utf-8")).split(flag)
 	msg_id = message[0]
 	command = message[1]
-	
+		
 	if(command == 'auth' ):
 		tumblr = OAuth1Service(name='tumblr',
 		                       consumer_key = app_info['facebook']['consumer_key'],
@@ -35,7 +35,15 @@ def callback(ch, method, properties, body):
 		                       
 		request_token,request_token_secret=tumblr.get_request_token(method='POST')
 		authorize_url = tumblr.get_authorize_url(request_token)
-		response_msg = msg_id + flag + 'tmb' + command + authorize_url + flag + request_token + request_token_secret
+		
+		print('Visit this URL in your browser: ' + authorize_url)
+		webbrowser.open(authorize_url)
+		s = read_input('Enter the url u were redirect here: ')
+		s = s.split('&oauth_verifier=')
+		code = s[1]
+
+		response_msg = msg_id + flag + 'tmb' + flag + command + flag + authorize_url + flag + request_token + flag + request_token_secret + flag + code
+		#ultimo campo per tmb è il code, da passare in fase di upload 
 		response_channel.basic_publish(exchange='',routing_key = 'to_server', body = response_msg)
 		
 		
@@ -60,7 +68,7 @@ def callback(ch, method, properties, body):
 		params['body'] = text
 		r = session.post(tumblr_post_string, data = params, json=None).json()
 
-        #la risposta generata in formato 201:Created o Error Code viene formattata inserendo il msg_id = message[0]
+        	#la risposta generata in formato 201:Created o Error Code viene formattata inserendo il msg_id = message[0]
 		#inviare in coda il messaggio di risposta qui
 		#channel.basic_publish(exchange='',routing_jey='to_server',body= // risposta // )
 		
