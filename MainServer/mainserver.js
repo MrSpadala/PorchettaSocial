@@ -53,6 +53,9 @@ app.post('/', function (req, res) {
 
   text = text.trim()   //removing leading and trailing spaces
 
+  // sanity check, filter all social not listed in RPC_FORMAT.md
+  list = list.filter(function(e){ return e in ['fb','twt','g+','tmb'] })
+
   // sanity check, if list is empty i don't publish on any social network
   if (list.length == 0) {
     res.send('no social selected')
