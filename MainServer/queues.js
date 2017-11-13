@@ -47,7 +47,7 @@ function sendToQueues(msg, network_list) {
 	      ch.consume(to_server_queue, function(msg) {
 		      var splitted_msg = msg.content.toString().split('\xFF');
 			  log("Received "+splitted_msg)
-		      if (splitted_msg[0] == id) rpc_handler(splitted_msg)
+		      if (splitted_msg[0] == id) rpc_handler(splitted_msg.slice(1))
 	      }, {noAck:true});
       });      
       });
