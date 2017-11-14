@@ -78,7 +78,6 @@ app.post('/', function (req, res) {
   cookie = req.cookies.porchetto_cookie
   list.forEach( function(network) {
     if (typeof(cookie)=='undefined' || !network in cookie.logged)
-      auth(network)
       res.send({auth: network})
       return
   })
