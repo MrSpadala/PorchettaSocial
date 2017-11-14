@@ -10,7 +10,7 @@
                alert("WebSocket is supported by your Browser!");
                
                // Let us open a web socket
-               var ws = new WebSocket("ws://localhost:12345/echo");
+               var ws = new WebSocket("ws://localhost:12345");
 				
                ws.onopen = function()
                {
@@ -21,8 +21,17 @@
 				
                ws.onmessage = function (evt) 
                { 
-                  var received_msg = evt.data;
-                  alert("Message is received...");
+                  var msg_splt = evt.data.split('\xFF');
+                  var source = msg_splt[0];
+                  var data = msg_splt.slice(1);
+                  alert("Message is received: "+data+" from "+source);
+                  switch (source) {
+                    case 'twt': twt_handler(data); break;
+                    // ADD MORE MODULES HERE
+                    default: alert(source+" not implemented in html file");
+                  };
+                  
+                  ws.close();
                };
 				
                ws.onclose = function()
@@ -41,15 +50,79 @@
                // The browser doesn't support WebSocket
                alert("WebSocket NOT supported by your Browser!");
             }
+       }
+       
+        
+      // handler dei messaggi di twitter come descritto nel README
+      function twt_handler(msg) {
+         if (msg[0] == 'auth') {
+            var auth_url = msg[1];
+            var req_tok  = msg[2];
+            var req_tok_secret = msg[3];
+            window.open(auth_url);
+            var ws = new WebSocket("ws://localhost:12345");
+            ws.onopen = function(){
+               var pin = null;
+               while (pin==null) {
+                  pin = prompt("Insert pin", "");
+               }
+               ws.send(["verify_pin", pin, req_tok, req_tok_secret].join('\xFF'));
+            }
+            
+            ws.onmessage = function (evt) {
+               var res = evt.data.split('\xFF').slice(2);
+               if (res.length == 2)
+                  [tok_1, tok_2] = res;
+               else
+                  alert("Exception");
+               
+               post('http://localhost:8080/register_access', {social:'twt', token1:tok_1, token2:tok_2});
+               ws.close();
+            }
          }
+      }
+      
+      
+    function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+        form.setAttribute("target", "_blank");        
+
+        for(var key in params) {
+            if(params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+         
       </script>
 		
    </head>
    <body>
    
       <div id="sse">
-         <a href="javascript:WebSocketTest()">Run WebSocket</a>
+         <a href="javascript:WebSocketTest()">Logga</a>
       </div>
+      
+      <form enctype="application/json" action="http://localhost:8080/" method="post" id="form1">
+        First name: <input type="text" name="data"><br>
+        twitter <input type='checkbox' name='twt' checked>
+      </form>
+
+      <button type="submit" form="form1" value="Submit">Submit</button> 
       
    </body>
 </html>
