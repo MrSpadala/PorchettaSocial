@@ -72,6 +72,9 @@ app.post('/', function (req, res) {
     res.send('no social selected')
     return
   }
+
+  // sanity check, if user post contains utf char '\xFF' 'ÿ', substitute the 'ÿ' with a 'y'
+  text = text.replace(new RegExp('\xFF', 'g'), 'y')
  
   
   // C00kies sanity checks
@@ -82,22 +85,26 @@ app.post('/', function (req, res) {
       return
   })
 
-    //TODO get tokens from cookies
-  token = null
-  token_oauth1 = null
-  
 
-  // sanity check, if user post contains utf char '\xFF' 'ÿ', substitute the 'ÿ' with a 'y'
-  text = text.replace(new RegExp('\xFF', 'g'), 'y')
-
-    // TODO change send method, token and token_oauth1 must be lists
-    // list = [fb, twt, tmb]  =>  token = [token fb, token twt, token tmb]
-  
+  token = []
+  token_oauth1 = []
+  list.forEach( function(network) {
+    switch (network) {
+      case 'twt':{
+        token.push(cookie.twt.token1)
+        token_oauth1.push(cookie.twt.token2)
+        break
+      }
+      default: res.send('Get tokens from social '+network+' not implemented'); return;
+    }
+  })
 
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
-  var msg = ['upload_post', text, token, token_oauth1].join('\xFF')
-  queue.send(msg, list)
+  for (var i=0; i<list.length; i++) {
+    var msg = ['upload_post', text, token[i], token_oauth1[i].join('\xFF')
+    queue.send(msg, list[i])
+  }
 
   res.send('ooook')
 })
