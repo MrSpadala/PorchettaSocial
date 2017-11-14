@@ -86,11 +86,17 @@ app.post('/', function (req, res) {
   
   // C00kies sanity checks
   cookie = req.cookies.porkett
+  var need_auth = []
   list.forEach( function(network) {
     if (typeof(cookie)=='undefined' || !network in cookie.logged)
-      res.send({auth: network})
-      return
+      need_auth.push(network)
   })
+  
+  // If cookie fails sanity check
+  if (need_auth.length > 0) {
+    res.send({result:"no", auth:need_auth})
+    return
+  }
 
 
   token = []
