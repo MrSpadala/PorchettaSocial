@@ -102,8 +102,8 @@ app.post('/', function (req, res) {
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
   for (var i=0; i<list.length; i++) {
-    var msg = ['upload_post', text, token[i], token_oauth1[i].join('\xFF')
-    queue.send(msg, list[i])
+    var msg = ['upload_post', text, token[i], token_oauth1[i]].join('\xFF')
+	queue.send(msg, list[i])
   }
 
   res.send('ooook')
