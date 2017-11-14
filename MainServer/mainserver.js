@@ -34,9 +34,8 @@ app.get('/', function (req, res) {
 
 
 // testing
-app.get('/cookie_test', function(req, res) {
-  console.log("Cookies: ", req.cookies)
-  res.send('ciao')
+app.get('/test_ws', function(req, res) {
+  res.sendfile('test.html')
 })
 
 

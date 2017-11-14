@@ -7,10 +7,10 @@ async def callback(websocket, path):
 	
 	
 	stringa = await websocket.recv()
-	#print(stringa)
+	print(stringa)
 	
 	l = stringa.split('ÿ')
-	#print("Received msg splitted ",l)
+	print("Received msg splitted ",l)
 
 	flag = 'ÿ'
 	
