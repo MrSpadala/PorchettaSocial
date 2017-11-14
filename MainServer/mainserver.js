@@ -54,18 +54,19 @@ app.post('/', function (req, res) {
   globals.increase_req_id()
   
   var text = req.body.data
-  
+ 
+  // Build list from single fields
   var list = []
   if (req.body.twt) list.push('twt')
   if (req.body.tmb) list.push('tmb')
-  // etc..etc..
+  // etc..etc.. add modules
   
   log('Received text:'+text+' list:'+list)
 
   // sanity check, list and text can't be undefined
   if (typeof(text) == 'undefined' || typeof(list) == 'undefined') {
     res.status(400)   //bad request
-    res.send("The received POST didn't have correct parameters in the body")
+    res.send({result:'no', msg:"The received POST didn't have correct parameters in the body"})
     return
   }
 
@@ -76,7 +77,7 @@ app.post('/', function (req, res) {
 
   // sanity check, if list is empty i don't publish on any social network
   if (list.length == 0) {
-    res.send('no social selected')
+    res.send({result:'no', msg:'no social selected'})
     return
   }
 
@@ -108,7 +109,7 @@ app.post('/', function (req, res) {
         token_oauth1.push(cookie.twt.token2)
         break
       }
-      default: res.send('Get tokens from social '+network+' not implemented'); return;
+      default: res.send({result:"no", msg:'Get tokens from social '+network+' not implemented'}); return;
     }
   })
 
@@ -119,7 +120,7 @@ app.post('/', function (req, res) {
 	queue.send(msg, list[i])
   }
 
-  res.send('ooook')
+  res.send({result:"yes", msg:"forwarded to "+list})
 })
 
 
@@ -138,7 +139,7 @@ app.post('/register_access', function(req, res){
   log('Registering access with '+ [social, t1, t2])
 
   if (typeof(t1)=='undefined' || typeof(t2)=='undefined' || typeof(social)=='undefined'){
-    res.send('Bad request body while registering access')
+    res.send({result:"no", msg:'Bad request body while registering access'})
     return
   }
 
@@ -159,10 +160,10 @@ app.post('/register_access', function(req, res){
         res.cookie('porkett', cookie)
         break
     }
-    default: res.send('Register access to social '+social+' not implemented'); return;
+    default: res.send({result:"no", msg:'Register access to social '+social+' not implemented'}); return;
   }
 
-  res.send('ooook, registered to '+social)
+  res.send({result:"yes", msg:'registered to '+social})
 })
 
 
