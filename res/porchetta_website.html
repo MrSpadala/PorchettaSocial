@@ -1,184 +1,137 @@
 <html>
 	<head>
-		<style>
-			shad {
-				text-shadow: 3px 1px #669999;
-			}
+		<link rel='stylesheet' type='text/css' href='porchetta_fancy.css'>
+		
+		<script type="text/javascript" language="javascript">
 			
-			img.social {
-				border: 1px solid #ddd;
-				border-radius: 10%;
-				padding: 5px;
-			} 
-			
-			img.social:hover {
-				box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-			}
-			
-			body {
-				margin: 25px;
-				background: url(seigaiha.png);
-			}
-			
-			div.polaroid {
-				width: 99%;
-				background-color: white;
-				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-				margin-bottom: 12px;
-				border-radius: 10%;
-			}
-			div.container {
-				text-align: center;
-				padding: 5px 10px;
-			}
-			
-			.flip-horizontal {
-				-moz-transform: scaleX(-1);
-				-webkit-transform: scaleX(-1);
-				-o-transform: scaleX(-1);
-				transform: scaleX(-1);
-				-ms-filter: fliph; /*IE*/
-				filter: fliph; /*IE*/
-				position: absolute;
-				left: 180px;
-				top: 30px;
-			}
-			
-			.left_title {
-				position: absolute;
-				left: 400px;
-				top: 55px;
-			}
-			.left_form {
-				position: absolute;
-				left: 400px;
-				top: 350px;
-			}
-			
-			text_ {
-				font-style: italic;
-				font-size: 20px;
-			}			
-			text_.log {
-				font-size: 19px;	
-			}				
-			text_.title {
-				font-style: bold;
-				font-size: 100px;				
-			}
-			
-			textarea {
-				width: 150%;
-				height: 150px;
-				padding: 12px 20px;
-				box-sizing: border-box;
-				border: 2px solid #ccc;
-				border-radius: 4px;
-				background-color: #f8f8f8;
-				font-size: 16px;
-				resize: none;
-			}
-			
-			h1 {
-				font-size: 6em;
-			}
-			
-			p.title {
-				text-indent: 115px;
-				text-align: justify;
-				letter-spacing: 3px;
-				font-style: italic;
-			}
-			
-			.button {
-				display: inline-block;
-				border-radius: 4px;
-				background-color: #669999;
-				color: #669999;
-				text-align: center;
-				font-size: 20px;
-				padding: 10px;
-				width: 200px;
-				cursor: pointer;
-				margin: 5px;
-			}
-			.button {
-				background-color: white; 
-				color: black; 
-				border: 2px solid #669999;
-			}
-			.button:hover {
-				background-color: #99ccff;
-				color: white;
-			}
-			.button1 span {
-				cursor: pointer;
-				display: inline-block;
-				position: relative;
-				transition: 0.5s;
-			}
-			.button1 span:after {
-				content: '\00bb';
-				position: absolute;
-				opacity: 0;
-				top: 0;
-				right: -20px;
-				transition: 0.5s;
-			}
-			.button1:hover span {
-				padding-right: 25px;
+			function valida_post(){
+				if(!document.getElementById("twt").checked && !document.getElementById("tmb").checked && !document.getElementById("flk").checked){
+					alert("You must choose at least one social network!");
+					return false;
 				}
-			.button1:hover span:after {
-				opacity: 1;
-				right: 0;
+				if(document.getElementById("text").value==""){
+					alert("You first should write something to post!");
+					return false;
+				}
+				if(document.getElementById("twt").checked && document.getElementById("twt_led").className == "led-red"){
+					alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
+					return false;
+				}
+				if(document.getElementById("tmb").checked && document.getElementById("tmb_led").className == "led-red"){
+					alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
+					return false;
+				}
+				if(document.getElementById("flk").checked && document.getElementById("flk_led").className == "led-red"){
+					alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
+					return false;
+				}
 			}
-			.button2:hover {background-color: #99ccff}
-			.button2:active {
-				background-color: #99ccff;
-				box-shadow: 0 5px #666;
+			
+			function log_on_twitter(){
+				var led_light = document.getElementById("twt_led");
+				if(led_light.className == "led-red"){
+					led_light.setAttribute( "class", "led-green" );
+				}
+				else {
+					led_light.setAttribute( "class", "led-red" );
+				}
 			}
-		</style>
+			
+			function log_on_tumblr(){
+				var led_light = document.getElementById("tmb_led");
+				if(led_light.className == "led-red"){
+					led_light.setAttribute( "class", "led-green" );
+				}
+				else {
+					led_light.setAttribute( "class", "led-red" );
+				}
+			}
+			
+			function log_on_flickr(){
+				var led_light = document.getElementById("flk_led");
+				if(led_light.className == "led-red"){
+					led_light.setAttribute( "class", "led-green" );
+				}
+				else {
+					led_light.setAttribute( "class", "led-red" );
+				}
+			}
+			
+		</script>
 	</head>
 	<body >
-		<table style="height: 900px; width: 1000px;">
+		<table style="height: 900px; width: 1000px;" id="main_table">
 			<tbody>
 				<tr style="height: 621.333px;">
-				<td style="width: 85.3203px; height: 621.333px;">
-			       
+					
+					
 			       <!-- Facebook image
 			       <div class="polaroid">
 			       <a target="_blank" href="">
 					   <p><img class="social" src="https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png" alt="Facebook" width="93" height="91" /></p>
 				   </a>
 				   <div class="container"> <text_ class="log">Log on Facebook </text_> </div>
-				   </div>-->				   
-				   
+				   </div>-->	
+				   <td style="width: 85.3203px; height: 621.333px;"> 
+				   <table>  
+				   <tbody>
+					   
 				    <!-- Twitter image-->
-				   <div class="polaroid">
-				   <a target="_blank" href="">
-					   <p><img class="social" src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" alt="Twitter" width="100" height="100" /></p>
-                   </a>
-                   <div class="container"> <text_ class="log">Log on Twitter   </text_> </div>
-				   </div>
+				   <tr>  
+					 <td align="left">
+						<div class="polaroid">
+							
+								<p class="image"><img onClick="log_on_twitter();" class="social" src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" alt="Twitter" width="100" height="100" /></p>
+                            
+                            <div class="container"> <text_ class="log">Log on Twitter</text_></div>
+				        </div>
+				     </td>
+				     <td style="padding: 15px;"> 
+						 <div class="led-box">
+						   <div id="twt_led" class="led-red"></div>
+                         </div>
+                     </td>
+				   </tr>
+				   
+				   
 				   
 				   <!-- Tumblr image-->
-                   <div class="polaroid">
-                   <a target="_blank" href="">
-					    <p><img class="social" src="https://cdn.worldvectorlogo.com/logos/tumblr-icon.svg" alt="Tumblr" width="100" height="100" /></p>
-                   </a>
-                   <div class="container"> <text_ class="log">Log on Tumblr </text_> </div>
-				   </div>
+				   <tr>  
+					 <td align="left">
+						 <div class="polaroid">
+							 <p class="image"><img onClick="log_on_tumblr();" class="social" src="https://cdn.worldvectorlogo.com/logos/tumblr-icon.svg" alt="Tumblr" width="100" height="100" /></p>
+                             <div class="container"> <text_ class="log">Log on Tumblr </text_> </div>
+				        </div>
+				    </td>
+				    <td style="padding: 15px;"> 
+						 <div class="led-box">
+						   <div id="tmb_led" class="led-red"></div>
+                         </div>
+                    </td>
+				   </tr>
+				   
 				   
 				   <!-- Flickr image-->
-                   <div class="polaroid">
-                   <a target="_blank" href="">
-					   <p><img class="social" src="https://img00.deviantart.net/36c0/i/2008/133/e/9/flickr_icons__scalable__by_lopagof.png" alt="Flickr" width="100" height="100" /></p>
-                   </a>
-                   <div class="container"> <text_ class="log">Log on Flickr </text_> </div>
-				   </div>
+				   <tr>  
+					 <td align="left">
+						 <div class="polaroid">
+							 <p class="image"><img onClick="log_on_flickr();" class="social" src="https://img00.deviantart.net/36c0/i/2008/133/e/9/flickr_icons__scalable__by_lopagof.png" alt="Flickr" width="100" height="100" /></p>
+                             <div class="container"> <text_ class="log">Log on Flickr </text_> </div>
+				         </div>
+				    </td>
+				    <td style="padding: 15px;"> 
+						 <div class="led-box">
+						   <div id="flk_led" class="led-red"></div>
+                         </div>
+                     </td>
+				   </tr>
 				   
-				  
-                </td>
+				   
+				   </tbody>
+				   </table>
+			    </td>
+                   
+                   
                    
                 <td style="width: 2000px; height: 621.333px;">
                    <table style="height: 703px;" width="832">
@@ -193,23 +146,25 @@
 						   <div class="left_title">
 						   <text_ class="title"><shad>PorchettaSocial</shad></text_>
 						   </div>
-						</p>
-					</td>
+						 </p>
+						
+					 </td>
+					
                 </tr>
                 
                 <tr style="height: 355px;">
                 <td style="width: 824.062px; height: 355px;">
   
                     <div class="left_form">
-	                <form method="post">
+	                <form method="post" id="porchetta_form" onSubmit="valida_post();">
 						<!-- input checkbox attribute disabled : Specifies that an <input> element should be disabled
 						<text_> Facebook  </text_> <input type="checkbox" size="3" name="fb">                -->
-						<text_> Twitter   </text_> <input type="checkbox" size="3" name="twt">
-						<text_> Tumblr    </text_>  <input type="checkbox" size="3" name="tmb">
-						<text_> Flickr  </text_>  <input type="checkbox" size="3" name="flk"> 
+						<text_> Twitter   </text_> <input type="checkbox" size="3" id="twt">
+						<text_> Tumblr    </text_>  <input type="checkbox" size="3" id="tmb">
+						<text_> Flickr  </text_>  <input type="checkbox" size="3" id="flk"> 
 		               <br>
 		               <br>
-		               <textarea></textarea>
+		               <textarea id="text"></textarea>
 		               <br>
 		               <br>
 		               <button class="button button1" style="width:300px" type="submit"><span>   Post with Porchetta   </span></button>    
@@ -225,7 +180,7 @@
                </td>
                </tr>
          </tbody>
+         
         </table>
-        <p>&nbsp;</p>
     </body>
 </html>
