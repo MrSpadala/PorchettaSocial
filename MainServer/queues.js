@@ -9,48 +9,41 @@ var log = globals.log
  * (forniti da rabbit) dei messaggi inviati
  * 
  * msg è il messaggio da inoltrare
- * network_list è la lista dei social network selezionati, seguendo l'id_api dentro RPC_FORMAT.md,
+ * social è la lista dei social network selezionati, seguendo l'id_api dentro RPC_FORMAT.md,
  *              quindi twitter 'twt', googleplus 'g+', facebook 'fb'
  *
  *              esempio, se la lista è ['twt', 'fb'] pubblicare solo su twitter e facebook
  */
-function sendToQueues(msg, network_list) {
+function sendToQueues(msg, social) {
 
   amqp.connect('amqp://localhost', function(err,conn) {
     conn.createChannel(function(err,ch) {
        
       var ex = 'exchange_name';
 	  var to_server_queue = 'to_server';
-
-      var correlation_id_list = [];
     
       ch.assertExchange(ex, 'direct', {durable: true});
       ch.assertQueue(to_server_queue, {durable: true});
 	
-	  for (var k = 0; k < network_list.length; k++){
-		  var msg_id = globals.request_msg_id().toString()	//aggiunto il toString perchè lo vuole come stringa
-		  var real_msg = [msg_id, msg].join('\xFF');
-		  //ch.publish(ex, network_list[k] , new Buffer(real_msg));  //	ORIGINAL
-		  ch.publish('', network_list[k] , new Buffer(real_msg));
-		  correlation_id_list.push(msg_id);
-		  log('Sent msg_id:'+ msg_id + ' to queue:' + network_list[k] + ' '  + msg ); 
-	  }
+	  var msg_id = globals.request_msg_id().toString()	//aggiunto il toString perchè lo vuole come stringa
+	  var real_msg = [msg_id, msg].join('\xFF');
+	  ch.publish('', social, new Buffer(real_msg));
+	  log('Sent msg_id:'+ msg_id + ' to queue:' + social + ' '  + msg ); 
+	  
 
       // get the results of the rpcs launched
-      correlation_id_list.forEach( function(id){
 	      
 	      
-	      ch.assertQueue(to_server_queue, {durable:true});
-	      
-	      // reads message
-	      log('Waiting for RPC id: '+id);
-	      ch.consume(to_server_queue, function(msg) {
-		      var splitted_msg = msg.content.toString().split('\xFF');
-			  log("Received "+splitted_msg)
-		      if (splitted_msg[0] == id) rpc_handler(splitted_msg.slice(1))
-	      }, {noAck:true});
-      });      
-      });
+      ch.assertQueue(to_server_queue, {durable:true});
+      
+      // reads message
+      log('Waiting for RPC id: '+msg_id);
+      ch.consume(to_server_queue, function(msg) {
+	      var splitted_msg = msg.content.toString().split('\xFF');
+		  log("Received "+splitted_msg)
+	      if (splitted_msg[0] == msg_id) rpc_handler(splitted_msg.slice(1))
+      }, {noAck:true});     
+    });
   });
 }
 
