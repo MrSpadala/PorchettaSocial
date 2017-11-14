@@ -122,16 +122,20 @@ app.post('/register_access', function(req, res){
     return
   }
 
-    // TODO add network to the cookies logged list
+  // If there are not cookies
   var cookie = req.cookies().porkett
-  if (typeof(cookie)=='undefined')
+  if (typeof(cookie)=='undefined' || typeof(cookie.logged)=='undefined' ) {
     cookie = {}
+    cookie.logged = []
+  }
   
+  // Add new social field to cookie
   switch (social) {
     case 'twt': {
         cookie.twt = {}
         cookie.twt.token1 = t1
         cookie.twt.token2 = t2
+        cookie.logged.push('twt')
         res.cookie = ('porkett', cookie)
         break
     }
