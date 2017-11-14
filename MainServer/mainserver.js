@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
   
   // testing
   console.log("Cookies: ", req.cookies)
-  res.cookie('er_manz', '10')
+  res.cookie('er_manz', 'stupido')
 
   res.send('<html>SCEEMOOOO!<br>Fammi una POST</html>')
 })
@@ -35,7 +35,7 @@ app.get('/', function (req, res) {
 
 // testing
 app.get('/test_ws', function(req, res) {
-  res.sendfile('test.html')
+  res.sendFile(__dirname + '/test.html')
 })
 
 
@@ -46,11 +46,19 @@ app.get('/test_ws', function(req, res) {
  *   'list' = list of social networks. Values are described in RPC_FORMAT.md, so 
  *            facebook has 'fb', twitter has 'twt' and so on
  */
+ 
+ // UPDATE - LEGGI
+ // list non c'è più e ci sono attributi "twt": true/flase "tmb":true/false etc
+ 
 app.post('/', function (req, res) {
   globals.increase_req_id()
   
   var text = req.body.data
-  var list = req.body.list
+  
+  var list = []
+  if (req.body.twt) list.push('twt')
+  if (req.body.tmb) list.push('tmb')
+  // etc..etc..
   
   log('Received text:'+text+' list:'+list)
 
@@ -62,9 +70,9 @@ app.post('/', function (req, res) {
   }
 
   text = text.trim()   //removing leading and trailing spaces
-
+  
   // sanity check, filter all social not listed in RPC_FORMAT.md
-  list = list.filter(function(e){ return e in ['fb','twt','g+','tmb'] })
+  //list = list.filter(function(e){ return !e in ['fb','twt','g+','tmb'] })
 
   // sanity check, if list is empty i don't publish on any social network
   if (list.length == 0) {
@@ -77,7 +85,7 @@ app.post('/', function (req, res) {
  
   
   // C00kies sanity checks
-  cookie = req.cookies.porchetto_cookie
+  cookie = req.cookies.porkett
   list.forEach( function(network) {
     if (typeof(cookie)=='undefined' || !network in cookie.logged)
       res.send({auth: network})
@@ -121,7 +129,7 @@ app.post('/register_access', function(req, res){
   var t2 = req.body.token2
   var social = req.body.social
 
-  log('Registering access with '+ [social, token1, token2])
+  log('Registering access with '+ [social, t1, t2])
 
   if (typeof(t1)=='undefined' || typeof(t2)=='undefined' || typeof(social)=='undefined'){
     res.send('Bad request body while registering access')
@@ -129,7 +137,7 @@ app.post('/register_access', function(req, res){
   }
 
   // If there are not cookies
-  var cookie = req.cookies().porkett
+  var cookie = req.cookies.porkett
   if (typeof(cookie)=='undefined' || typeof(cookie.logged)=='undefined' ) {
     cookie = {}
     cookie.logged = []
@@ -142,7 +150,7 @@ app.post('/register_access', function(req, res){
         cookie.twt.token1 = t1
         cookie.twt.token2 = t2
         cookie.logged.push('twt')
-        res.cookie = ('porkett', cookie)
+        res.cookie('porkett', cookie)
         break
     }
     default: res.send('Register access to social '+social+' not implemented'); return;
