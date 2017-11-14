@@ -40,13 +40,6 @@ app.get('/cookie_test', function(req, res) {
 })
 
 
-
-function auth(network) {
-    // TODO OAuth logic here
-}
-
-
-
 /* User POSTs when he wants to upload a post
  *
  * The body of the POST made by the user has two keys:
@@ -79,18 +72,20 @@ app.post('/', function (req, res) {
     res.send('no social selected')
     return
   }
+ 
   
-
-
-  token = null
-  token_oauth1 = null
-  
-  // TODO select format for cookies
+  // C00kies sanity checks
   cookie = req.cookies.porchetto_cookie
   list.forEach( function(network) {
     if (typeof(cookie)=='undefined' || !network in cookie.logged)
       auth(network)
+      res.send({auth: network})
+      return
   })
+
+    //TODO get tokens from cookies
+  token = null
+  token_oauth1 = null
   
 
   // sanity check, if user post contains utf char '\xFF' 'ÿ', substitute the 'ÿ' with a 'y'
@@ -98,6 +93,7 @@ app.post('/', function (req, res) {
 
     // TODO change send method, token and token_oauth1 must be lists
     // list = [fb, twt, tmb]  =>  token = [token fb, token twt, token tmb]
+  
 
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
@@ -107,6 +103,44 @@ app.post('/', function (req, res) {
   res.send('ooook')
 })
 
+
+/* After a successful auth the server register access tokens in cookies
+ *   {
+ *      social: 'nome-social'           #nome del social dove ci si è autenticati
+ *      token1: 'token1'   
+ *      token2: 'token2'
+ *   }
+*/
+app.post('/register_access', function(req, res){
+  var t1 = req.body.token1
+  var t2 = req.body.token2
+  var social = req.body.social
+
+  log('Registering access with '+ [social, token1, token2])
+
+  if (typeof(t1)=='undefined' || typeof(t2)=='undefined' || typeof(social)=='undefined'){
+    res.send('Bad request body while registering access')
+    return
+  }
+
+    // TODO add network to the cookies logged list
+  var cookie = req.cookies().porkett
+  if (typeof(cookie)=='undefined')
+    cookie = {}
+  
+  switch (social) {
+    case 'twt': {
+        cookie.twt = {}
+        cookie.twt.token1 = t1
+        cookie.twt.token2 = t2
+        res.cookie = ('porkett', cookie)
+        break
+    }
+    default: res.send('Register access to social '+social+' not implemented'); return;
+  }
+
+  res.send('ooook, registered to '+social)
+})
 
 
 
