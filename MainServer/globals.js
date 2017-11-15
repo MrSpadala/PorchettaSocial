@@ -6,7 +6,7 @@
 const debug_stdout = true
 
 // in ascolto di connessioni sulla porta
-const port = 8080
+const port = 80
 
 
 // for debugging pursposes, i have an unique id of every user request, like a client id

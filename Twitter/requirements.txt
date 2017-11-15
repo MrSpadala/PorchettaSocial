@@ -4,3 +4,5 @@
 rauth
 pika
 requests_oauthlib
+websockets
+asyncio
