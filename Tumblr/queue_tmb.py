@@ -53,25 +53,27 @@ def callback(ch, method, properties, body):
 		access_token_secret = l[4]
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 
-		r = oauth.get('http://api.tumblr.com/v2/user/info').json()
-		name = r['response']['user']['name']
-		stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
+		r = oauth.get('http://api.tumblr.com/v2/user/info')
+		if ('200' in str(r)):
+			r = r.json()
+			name = r['response']['user']['name']
+			stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
 
-		params = {'title': '','body':'text'}
-
-		params['body']=l[2]
-		r = oauth.post(stringa, data = params,json=None).json()
-		risposta = 1
-		if ('201' in str(r)):
-			risposta = 0
-	
-		if not risposta:
-			stringa_invio =msg+flag+'tmbÿupload_postÿ'+str(risposta)
-			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-		else: 
+			params = {'title': '','body':l[2]}
+			r = oauth.post(stringa, data = params,json=None).json()
+			risposta = 1
+			if ('201' in str(r)):
+				risposta = 0
+		
+			if not risposta:
+				stringa_invio =msg+flag+'tmbÿupload_postÿ'+str(risposta)
+				channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
+			else: 
+				stringa_invio =msg+flag+'tmbÿupload_postÿ'+'exception_occurred'
+				channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
+		else:
 			stringa_invio =msg+flag+'tmbÿupload_postÿ'+'exception_occurred'
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-
 	
 
 channel.basic_consume(callback,

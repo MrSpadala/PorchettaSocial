@@ -38,6 +38,8 @@ session = tumblr.get_auth_session(request_token,request_token_secret,method='POS
 
 
 r = session.get('http://api.tumblr.com/v2/user/info').json()
+
+
 name = r['response']['user']['name']
 stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
 
