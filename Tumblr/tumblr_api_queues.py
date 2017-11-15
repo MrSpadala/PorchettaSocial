@@ -27,7 +27,7 @@ def callback(ch, method, properties, body):
 		
 	if(command == 'auth' ):
 		tumblr = OAuth1Service(name='tumblr',
-		                       consumer_key = app_info['facebook']['consumer_key'],
+		                       consumer_key = app_info['tumblr']['consumer_key'],
 		                       consumer_secret = app_info['tumblr']['consumer_secret'],
 		                       request_token_url='https://www.tumblr.com/oauth/request_token',
 		                       access_token_url='https://www.tumblr.com/oauth/access_token',
