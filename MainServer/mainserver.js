@@ -125,6 +125,78 @@ app.post('/', function (req, res) {
 })
 
 
+
+
+/* POSTs token that will be used to verify pin.
+ *       Request body:
+ *   {
+ *      token1: 'token1'
+ *      token2: 'token2'
+ *   }
+ *
+ *       Cookie:
+ *   twt: 
+ *   {
+ *      token1: 'token1'   
+ *      token2: 'token2'
+ *   }
+ */
+app.post('/auth/twitter', function(req, res) {
+  var t1 = req.body.token1
+  var t2 = req.body.token2
+  
+  log('Saving request cookies for twitter authentication '+ [t1, t2])
+  
+  if (typeof(t1)=='undefined' || typeof(t2)=='undefined'){
+    res.send({result:"no", msg:'Bad request body while saving twitter request tokens to cookies'})
+    return
+  }
+  
+  var cookie = req.cookies.porkett_auth
+  if (typeof(cookie)=='undefined')
+    cookie = {}
+  
+  cookie.twt = {}
+  cookie.twt.token1 = t1
+  cookie.twt.token2 = t2
+  res.cookie('porkett_auth', cookie)
+  
+  res.send({result:"yes", msg:'registered request cookies to twitter'})
+})
+
+
+
+/* twitter OAuth redirect here
+ *
+ */
+app.get('/auth/twitter', function(req, res) {
+  var pin = req.query.oauth_verifier
+  var token = req.query.oauth_token
+  
+  log('Getting request token from cookies for twitter authentication '+ [pin, token])
+  
+  if (typeof(pin)=='undefined' || typeof(token)=='undefined'){
+    res.send({result:"no", msg:'Bad request params while getting from URL'})
+    return
+  }
+  
+  var cookie = req.cookies.porkett_auth
+  if (typeof(cookie)=='undefined' || typeof(cookie.twt)=='undefined' ||
+      typeof(cookie.twt.token1)=='undefined' || typeof(cookie.twt.token2)=='undefined'){
+    res.send({result:"no", msg:'Bad cookie while getting twitter request tokens'})
+    return
+  }
+  
+  // TODO send one auth_html to communicate to twitter api verifying pin, and posting tokens to /register_access
+
+// REPLACE https://stackoverflow.com/questions/14177087/replace-a-string-in-a-file-with-nodejs
+})
+
+
+
+
+
+
 /* After a successful auth the server register access tokens in cookies
  *   {
  *      social: 'nome-social'           #nome del social dove ci si è autenticati
