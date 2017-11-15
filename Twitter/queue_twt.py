@@ -2,8 +2,9 @@ import pika
 from rauth import OAuth1Service
 from requests_oauthlib import OAuth1Session
 
+host_server = 'localhost'
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
 channel = connection.channel()
 
 channel.queue_declare(queue='twt')

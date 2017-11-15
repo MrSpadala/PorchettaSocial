@@ -18,6 +18,7 @@ var server = null
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(c00kies())
+var http = require('http')
 
 
 // risposta nell'URL root alla get (home page)

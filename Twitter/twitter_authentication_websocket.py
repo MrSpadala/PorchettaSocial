@@ -3,6 +3,9 @@ from requests_oauthlib import OAuth1Session
 import asyncio
 import websockets
 
+server = '127.0.0.1'
+port = 12345
+
 async def callback(websocket, path):
 	
 	
@@ -40,7 +43,7 @@ async def callback(websocket, path):
 
 		await websocket.send(stringa_invio)
 
-start_server = websockets.serve(callback, '127.0.0.1', 12345)
+start_server = websockets.serve(callback, server, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
