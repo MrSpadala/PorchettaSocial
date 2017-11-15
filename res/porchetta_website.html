@@ -1,61 +1,9 @@
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<link rel='stylesheet' type='text/css' href='porchetta_fancy.css'>
 		
-		<script type="text/javascript" language="javascript">
-			
-			function valida_post(){
-				if(!document.getElementById("twt").checked && !document.getElementById("tmb").checked && !document.getElementById("flk").checked){
-					alert("You must choose at least one social network!");
-					return false;
-				}
-				if(document.getElementById("text").value==""){
-					alert("You first should write something to post!");
-					return false;
-				}
-				if(document.getElementById("twt").checked && document.getElementById("twt_led").className == "led-red"){
-					alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-					return false;
-				}
-				if(document.getElementById("tmb").checked && document.getElementById("tmb_led").className == "led-red"){
-					alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-					return false;
-				}
-				if(document.getElementById("flk").checked && document.getElementById("flk_led").className == "led-red"){
-					alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-					return false;
-				}
-			}
-			
-			function log_on_twitter(){
-				var led_light = document.getElementById("twt_led");
-				if(led_light.className == "led-red"){
-					led_light.setAttribute( "class", "led-green" );
-				}
-				else {
-					led_light.setAttribute( "class", "led-red" );
-				}
-			}
-			
-			function log_on_tumblr(){
-				var led_light = document.getElementById("tmb_led");
-				if(led_light.className == "led-red"){
-					led_light.setAttribute( "class", "led-green" );
-				}
-				else {
-					led_light.setAttribute( "class", "led-red" );
-				}
-			}
-			
-			function log_on_flickr(){
-				var led_light = document.getElementById("flk_led");
-				if(led_light.className == "led-red"){
-					led_light.setAttribute( "class", "led-green" );
-				}
-				else {
-					led_light.setAttribute( "class", "led-red" );
-				}
-			}
+		<script type="text/javascript" src="page_scripts.js">
 			
 		</script>
 	</head>
@@ -156,7 +104,7 @@
                 <td style="width: 824.062px; height: 355px;">
   
                     <div class="left_form">
-	                <form method="post" id="porchetta_form" onSubmit="valida_post();">
+	                <form name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
 						<!-- input checkbox attribute disabled : Specifies that an <input> element should be disabled
 						<text_> Facebook  </text_> <input type="checkbox" size="3" name="fb">                -->
 						<text_> Twitter   </text_> <input type="checkbox" size="3" id="twt">
@@ -164,10 +112,10 @@
 						<text_> Flickr  </text_>  <input type="checkbox" size="3" id="flk"> 
 		               <br>
 		               <br>
-		               <textarea id="text"></textarea>
+		               <textarea id="text" name="text" value="<?=$text?>" ></textarea>
 		               <br>
 		               <br>
-		               <button class="button button1" style="width:300px" type="submit"><span>   Post with Porchetta   </span></button>    
+		               <button class="button button1" style="width:300px" type="button" name="s_button" id="s_button" onClick="valida_post();"><span>   Post with Porchetta   </span></button>    
 		               <button class="button button2" type="reset"><span> Reset </span></button>
 	                 </form>
 	                </div>
