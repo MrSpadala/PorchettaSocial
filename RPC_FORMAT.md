@@ -33,7 +33,7 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
 	- `auth` non ha parametri 
 	- `verify_pin` ha come unico parametro il pin da confermare, passato come stringa
 	- `upload_post` ha come primo parametro il testo da postare, come secondo parametro l'access token dell'utente, come terzo parametro ha il secondo access token __solo per oauth1__
-
+	- `upload_photo` ha come primo parametro il percorso assoluto della foto, come secondo parametro l'access token dell'utente, come terzo parametro ha il secondo access token __solo per oauth1__
 
 
 
