@@ -1,6 +1,18 @@
 <!DOCTYPE HTML>
 <html>
    <head>
+   
+   <!-- READ ME
+        
+       Questa è una 'finta' pagina html. Durante l'autenticazione, dopo che l'utente ha dato
+       il permesso a ProchettaSocial di accedere ad un suo social, l'utente viene rediretto
+       in questa pagina. Il codice Javascript manda tramite websocket il comando verify pin
+       al social giusto. Se l'autenticazione avviene, fa una post al server mandandogli i 
+       token di accesso. Il server poi provvederà a salvarli nei cookie.
+       
+       Al momento dell'invio della pagina, il server sostituisce i campi <!-- ...-PLACEHOLDER-> con i valori attuali
+    -->
+   
       <script>
       
         var token1 = "<!--TOKEN_1-PLACEHOLDER-->";
