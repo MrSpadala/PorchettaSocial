@@ -215,6 +215,9 @@ app.get('/auth/landing/twitter', function(req, res) {
     return
   }
   
+  // Deleting entry token1:token2 from req_list
+  delete req_list.twt[token1]
+  
   fs.readFile('./html_auth/twitter.html', 'utf8', function (err,data) {
     if (err) { return console.log(err) }
     var result = data.replace("<!--TOKEN_1-PLACEHOLDER-->", token1)
