@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
  # comando di avvio
-CMD python tumblr.py
+CMD python queue_tmb.py & python tumblr_authentication_websocket.py 
+
 
 

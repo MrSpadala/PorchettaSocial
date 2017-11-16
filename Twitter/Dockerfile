@@ -9,6 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
  # comando di avvio
-CMD python queue_twt.py
-
-
+CMD python twitter_authentication_websocket.py & python queue_twt.py
