@@ -1,158 +1,48 @@
 <!DOCTYPE HTML>
 <html>
    <head>
-	<!--    OLD SCRIPT
-      <script type="text/javascript">
-         function WebSocketTest()
-         {
-            if ("WebSocket" in window)
-            {
-               alert("WebSocket is supported by your Browser!");
-               
-               // Let us open a web socket
-               var ws = new WebSocket("ws://localhost:12345");
-				
-               ws.onopen = function()
-               {
-                  // Web Socket is connected, send data using send()
-                  ws.send("auth");
-                  alert("Message is sent...");
-               };
-				
-               ws.onmessage = function (evt) 
-               { 
-                  var msg_splt = evt.data.split('\xFF');
-                  var source = msg_splt[0];
-                  var data = msg_splt.slice(1);
-                  alert("Message is received: "+data+" from "+source);
-                  switch (source) {
-                    case 'twt': twt_handler(data); break;
-                    // ADD MORE MODULES HERE
-                    default: alert(source+" not implemented in html file");
-                  };
-                  
-                  ws.close();
-               };
-				
-               ws.onclose = function()
-               { 
-                  // websocket is closed.
-                  alert("Connection is closed..."); 
-               };
-					
-               window.onbeforeunload = function(event) {
-                  socket.close();
-               };
-            }
-            
-            else
-            {
-               // The browser doesn't support WebSocket
-               alert("WebSocket NOT supported by your Browser!");
-            }
-       }
-       
-        
-      // handler dei messaggi di twitter come descritto nel README
-      function twt_handler(msg) {
-         if (msg[0] == 'auth') {
-            var auth_url = msg[1];
-            var req_tok  = msg[2];
-            var req_tok_secret = msg[3];
-            window.open(auth_url);
-            var ws = new WebSocket("ws://localhost:12345");
-            ws.onopen = function(){
-               var pin = null;
-               while (pin==null) {
-                  pin = prompt("Insert pin", "");
-               }
-               ws.send(["verify_pin", pin, req_tok, req_tok_secret].join('\xFF'));
-            }
-            
-            ws.onmessage = function (evt) {
-               var res = evt.data.split('\xFF').slice(2);
-               if (res.length == 2)
-                  [tok_1, tok_2] = res;
-               else
-                  alert("Exception");
-               
-               post('http://localhost:8080/register_access', {social:'twt', token1:tok_1, token2:tok_2});
-               ws.close();
-            }
-         }
-      }
-      
-      
-    function post(path, params, method) {
-        method = method || "post"; // Set method to post by default if not specified.
-
-        // The rest of this code assumes you are not using a library.
-        // It can be made less wordy if you use one.
-        var form = document.createElement("form");
-        form.setAttribute("method", method);
-        form.setAttribute("action", path);
-        form.setAttribute("target", "_blank");        
-
-        for(var key in params) {
-            if(params.hasOwnProperty(key)) {
-                var hiddenField = document.createElement("input");
-                hiddenField.setAttribute("type", "hidden");
-                hiddenField.setAttribute("name", key);
-                hiddenField.setAttribute("value", params[key]);
-
-                form.appendChild(hiddenField);
-            }
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-         
-      </script>
-      -->
-      
-      
-      
       <script>
-       var ws = new WebSocket("ws://localhost:12345");
-		
-       ws.onopen = function()
-       {
-          ws.send();
+      
+        var token1 = <!--TOKEN_1-PLACEHOLDER-->;
+        var token2 = <!--TOKEN_2-PLACEHOLDER-->;
+        var pin    = <!--PIN-PLACEHOLDER-->;
+      
+        var ws = new WebSocket("ws://localhost:12345");
+
+        ws.onopen = function()
+        {
+          ws.send(['verify_pin', pin, token1, token2].join('\xFF'));
           alert("Message is sent...");
-       };
-		
-       ws.onmessage = function (evt) 
-       { 
+        };
+
+        ws.onmessage = function (evt) 
+        { 
           var msg_splt = evt.data.split('\xFF');
-          var source = msg_splt[0];
-          var data = msg_splt.slice(1);
-          alert("Message is received: "+data+" from "+source);
-          switch (source) {
-            case 'twt': twt_handler(data); break;
-            // ADD MORE MODULES HERE
-            default: alert(source+" not implemented in html file");
-          };
+          if (msg_split.length == 4) {
+            document.getElementById('social').value = "twt";
+            document.getElementById('token1').value = msg_split[2];
+            document.getElementById('token2').value = msg_split[3];
+            document.getElementById("upload_form").submit();
+          }
           
-          ws.close();
-       };
+          else 
+            document.write('auth failed');
+          
+          this.close();
+            
+        };
 				
       </script>
 		
    </head>
    <body>
-   <!--
-      <div id="sse">
-         <a href="javascript:WebSocketTest()">Logga</a>
-      </div>
-      
-      <form enctype="application/json" action="http://localhost:80/" method="post" id="form1" target="_blank">
-        First name: <input type="text" name="data"><br>
-        twitter <input type='checkbox' name='twt' checked>
-      </form>
-
-      <button type="submit" form="form1" value="Submit">Submit</button> 
-      -->
-      
+   Connecting, please wait...
+   
+   <!-- HIDDEN FORM -->      
+      <form enctype="application/json" action="http://localhost:80/register_access" method="post" id="upload_form">
+        <input type="hidden" name="social" id="social">
+        <input type="hidden" name="token1" id="token1">
+        <input type="hidden" name="token2" id="token2">
+      </form>  
    </body>
 </html>

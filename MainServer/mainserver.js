@@ -13,13 +13,13 @@ var log = globals.log
 // bodyParser mi serve per parsare la POST
 var bodyParser = require('body-parser')
 var c00kies = require('cookie-parser')
-var app = require('express')()
+var express = require('express')
+var fs = require('fs')
+var app = express()
 var server = null
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(c00kies())
-var http = require('http')
-
 
 // risposta nell'URL root alla get (home page)
 app.get('/', function (req, res) {
@@ -127,12 +127,8 @@ app.post('/', function (req, res) {
 
 
 
-/* POSTs token that will be used to verify pin.
- *       Request body:
- *   {
- *      token1: 'token1'
- *      token2: 'token2'
- *   }
+/* token that will be used to verify pin.
+ *    token1 and token2 are URLencoded
  *
  *       Cookie:
  *   twt: 
@@ -141,9 +137,9 @@ app.post('/', function (req, res) {
  *      token2: 'token2'
  *   }
  */
-app.post('/auth/twitter', function(req, res) {
-  var t1 = req.body.token1
-  var t2 = req.body.token2
+app.get('/auth_request/twitter', function(req, res) {
+  var t1 = req.query.token1
+  var t2 = req.query.token2
   
   log('Saving request cookies for twitter authentication '+ [t1, t2])
   
@@ -159,23 +155,22 @@ app.post('/auth/twitter', function(req, res) {
   cookie.twt = {}
   cookie.twt.token1 = t1
   cookie.twt.token2 = t2
-  res.cookie('porkett_auth', cookie)
+  res.cookie('porkett_auth', cookie, { path: '/auth/twitter' })
   
   res.send({result:"yes", msg:'registered request cookies to twitter'})
 })
 
 
 
-/* twitter OAuth redirect here
+/* twitter OAuth redirects here
  *
  */
 app.get('/auth/twitter', function(req, res) {
   var pin = req.query.oauth_verifier
-  var token = req.query.oauth_token
   
-  log('Getting request token from cookies for twitter authentication '+ [pin, token])
+  log('Getting pin from cookies for twitter authentication '+ pin)
   
-  if (typeof(pin)=='undefined' || typeof(token)=='undefined'){
+  if (typeof(pin)=='undefined'){
     res.send({result:"no", msg:'Bad request params while getting from URL'})
     return
   }
@@ -187,9 +182,19 @@ app.get('/auth/twitter', function(req, res) {
     return
   }
   
+  var token1 = cookie.twt.token1
+  var token2 = cookie.twt.token2
+  
   // TODO send one auth_html to communicate to twitter api verifying pin, and posting tokens to /register_access
-
-// REPLACE https://stackoverflow.com/questions/14177087/replace-a-string-in-a-file-with-nodejs
+  fs.readFile('./html_auth/twitter.html', 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+    var result = data.replace("<!--TOKEN_1-PLACEHOLDER-->", token1)
+    result = result.replace("<!--TOKEN_2-PLACEHOLDER-->", token2)
+    result = result.replace("<!--PIN-PLACEHOLDER-->", pin)
+    res.send(result)
+  })
 })
 
 

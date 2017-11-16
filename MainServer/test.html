@@ -59,7 +59,11 @@
             var auth_url = msg[1];
             var req_tok  = msg[2];
             var req_tok_secret = msg[3];
+            post('http://localhost/auth_request/twitter', {token1:req_tok, token2:req_tok_secret}, 'get');
             window.open(auth_url);
+         }
+      }
+      /*
             var ws = new WebSocket("ws://localhost:12345");
             ws.onopen = function(){
                var pin = null;
@@ -80,7 +84,7 @@
                ws.close();
             }
          }
-      }
+      }*/
       
       
     function post(path, params, method) {
@@ -117,7 +121,7 @@
          <a href="javascript:WebSocketTest()">Logga</a>
       </div>
       
-      <form enctype="application/json" action="http://localhost:8080/" method="post" id="form1" target="_blank">
+      <form enctype="application/json" action="http://localhost/" method="post" id="form1" target="_blank">
         First name: <input type="text" name="data"><br>
         twitter <input type='checkbox' name='twt' checked>
       </form>
