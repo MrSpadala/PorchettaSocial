@@ -4,8 +4,10 @@
 
 
 // importo i moduli locali
+var auth = require('./auth.js')
 var queue = require('./queues.js')
 var globals = require('./globals.js')
+var req_list = globals.req_list
 var log = globals.log
 
 
@@ -13,13 +15,13 @@ var log = globals.log
 // bodyParser mi serve per parsare la POST
 var bodyParser = require('body-parser')
 var c00kies = require('cookie-parser')
-var app = require('express')()
+var express = require('express')
+var fs = require('fs')
+var app = express()
 var server = null
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(c00kies())
-var http = require('http')
-
 
 // risposta nell'URL root alla get (home page)
 app.get('/', function (req, res) {
@@ -27,10 +29,18 @@ app.get('/', function (req, res) {
   log('Received a GET')
   
   // testing
-  console.log("Cookies: ", req.cookies)
   res.cookie('er_manz', 'stupido')
 
   res.send('<html>SCEEMOOOO!<br>Fammi una POST</html>')
+})
+
+// pages for debugging
+app.get('/debug/cookies', function(req, res) {
+  res.send(req.cookies)
+})
+
+app.get('/debug/req_list', function(req, res) {
+  res.send(req_list)
 })
 
 
@@ -102,28 +112,27 @@ app.post('/', function (req, res) {
   }
 
 
-  token = []
-  token_oauth1 = []
+  var token1 = []
+  var token2 = []
+  var exception = false
   list.forEach( function(network) {
-    switch (network) {
-      case 'twt':{
-        token.push(cookie.twt.token1)
-        token_oauth1.push(cookie.twt.token2)
-        break
-      }
-      case 'fkr':{
-        token.push(cookie.fkr.token1)
-        token_oauth1.push(cookie.fkr.token2)
-        break
-      }
-      default: res.send({result:"no", msg:'Get tokens from social '+network+' not implemented'}); return;
+    try {
+      token1.push(cookie[network].token1)
+      token2.push(cookie[network].token2)
+    } catch (ex) {
+      exception = true
+      res.send({result:"no", auth:[network]})
+      return
     }
   })
+  
+  if (exception)
+    return
 
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
   for (var i=0; i<list.length; i++) {
-    var msg = ['upload_post', text, token[i], token_oauth1[i]].join('\xFF')
+    var msg = ['upload_post', text, token1[i], token2[i]].join('\xFF')
 	queue.send(msg, list[i])
   }
 
@@ -131,54 +140,56 @@ app.post('/', function (req, res) {
 })
 
 
-/* After a successful auth the server register access tokens in cookies
+
+
+/* token that will be used to verify pin are saved in req_list. token1 and token2 are URLencoded
+ *
+ *       Cookie:
+ *   twt: 
  *   {
- *      social: 'nome-social'           #nome del social dove ci si è autenticati
+ *      token1: 'token1'   
+ *      token2: 'token2'
+ *   }
+ */
+app.get('/auth/start/twitter', function(req, res) {
+  auth.start('twt', req, res)
+})
+
+app.get('/auth/start/tumblr', function(req, res)  {
+  auth.start('tmb', req, res)
+})
+
+
+// OAuth redirects here
+app.get('/auth/landing/twitter', function(req, res) {
+  auth.oauth_landing('twt', 'twitter', req, res)
+})
+
+app.get('/auth/landing/tumblr', function(req, res)  {
+  auth.oauth_landing('tmb', 'tumblr', req, res)
+})
+ 
+ 
+/* After a successful auth the server register access tokens in cookies. 
+ *   request body:
+ *   {
+ *      token1: 'token1',
+ *      token2: 'token2'
+ *   }
+ *
+ *   Cookie:
+ *   {
+ *      social: 'nome-social'   #id del social dove ci si è autenticati
  *      token1: 'token1'   
  *      token2: 'token2'
  *   }
 */
-app.post('/register_access', function(req, res){
-  var t1 = req.body.token1
-  var t2 = req.body.token2
-  var social = req.body.social
+app.post('/register_access/twitter', function(req, res) {
+  auth.register_access('twt', req, res)
+})
 
-  log('Registering access with '+ [social, t1, t2])
-
-  if (typeof(t1)=='undefined' || typeof(t2)=='undefined' || typeof(social)=='undefined'){
-    res.send({result:"no", msg:'Bad request body while registering access'})
-    return
-  }
-
-  // If there are not cookies
-  var cookie = req.cookies.porkett
-  if (typeof(cookie)=='undefined' || typeof(cookie.logged)=='undefined' ) {
-    cookie = {}
-    cookie.logged = []
-  }
-  
-  // Add new social field to cookie
-  switch (social) {
-    case 'twt': {
-        cookie.twt = {}
-        cookie.twt.token1 = t1
-        cookie.twt.token2 = t2
-        cookie.logged.push('twt')
-        res.cookie('porkett', cookie)
-        break
-    }
-    case 'fkr': {
-        cookie.fkr = {}
-        cookie.fkr.token1 = t1
-        cookie.fkr.token2 = t2
-        cookie.logged.push('fkr')
-        res.cookie('porkett', cookie)
-        break
-    }
-    default: res.send({result:"no", msg:'Register access to social '+social+' not implemented'}); return;
-  }
-
-  res.send({result:"yes", msg:'registered to '+social})
+app.post('/register_access/tumblr', function(req, res)  {
+  auth.register_access('tmb', req, res)
 })
 
 

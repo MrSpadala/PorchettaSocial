@@ -4,7 +4,7 @@ import asyncio
 import websockets
 
 server = '127.0.0.1'
-port = 12345
+port = 12346
 
 async def callback(websocket, path):
 	
@@ -23,7 +23,7 @@ async def callback(websocket, path):
 
 		authorize_url = tumblr.get_authorize_url(request_token)
 		
-		stringa_invio =msg+flag+'tmbÿauthÿ'+authorize_url+flag+request_token+flag+request_token_secret		
+		stringa_invio = 'tmbÿauthÿ'+authorize_url+flag+request_token+flag+request_token_secret		
 		await websocket.send(stringa_invio)
 		
 	elif l[0] == 'verify_pin':

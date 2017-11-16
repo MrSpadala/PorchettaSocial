@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <script>
+      
+        var token1 = "<!--TOKEN_1-PLACEHOLDER-->";
+        var token2 = "<!--TOKEN_2-PLACEHOLDER-->";
+        var pin    = "<!--PIN-PLACEHOLDER-->";
+      
+      
+        var ws = new WebSocket("ws://localhost:<!--WEBSOCKET-PORT-PLACEHOLDER-->");
+
+        ws.onopen = function()
+        {
+          ws.send(['verify_pin', pin, token1, token2].join('\xFF'));
+          alert("Message is sent...");
+        };
+
+        ws.onmessage = function (evt) 
+        { 
+          var msg_split = evt.data.split('\xFF');
+          if (msg_split.length == 4) {
+            document.getElementById('token1').value = msg_split[2];
+            document.getElementById('token2').value = msg_split[3];
+            document.getElementById("upload_form").submit();
+          }
+          
+          else 
+            alert('auth failed');
+          
+          this.close(); 
+        };
+        
+        ws.onclose = function() {alert("closed");}
+				
+      </script>
+		
+   </head>
+   <body>
+   Connecting, please wait...
+   
+   <!-- HIDDEN FORM -->      
+      <form enctype="application/json" action="http://localhost/register_access/<!--SOCIAL-PLACEHOLDER-->" method="post" id="upload_form">
+        <input type="hidden" name="social" id="social">
+        <input type="hidden" name="token1" id="token1">
+        <input type="hidden" name="token2" id="token2">
+      </form>  
+   </body>
+</html>
