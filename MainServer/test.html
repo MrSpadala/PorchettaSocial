@@ -27,7 +27,8 @@
                   alert("Message is received: "+data+" from "+source);
                   switch (source) {
                     case 'twt': twt_handler(data); break;
-                    // ADD MORE MODULES HERE
+                    case 'fkr': fkr_handler(data); break;
+                    
                     default: alert(source+" not implemented in html file");
                   };
                   
@@ -82,6 +83,34 @@
          }
       }
       
+      function fkr_handler(msg) {
+		  if (msg[0] == 'auth') {
+            var auth_url = msg[1];
+            var req_tok  = msg[2];
+            var req_tok_secret = msg[3];
+            window.open(auth_url);
+            var ws = new WebSocket("ws://localhost:12345");
+            ws.onopen = function(){
+               var pin = null;
+               while (pin==null) {
+                  pin = prompt("Insert pin", "");
+               }
+               ws.send(["verify_pin", pin, req_tok, req_tok_secret].join('\xFF'));
+            }
+            
+            ws.onmessage = function (evt) {
+               var res = evt.data.split('\xFF').slice(2);
+               if (res.length == 2)
+                  [tok_1, tok_2] = res;
+               else
+                  alert("Exception");
+               
+               post('http://localhost:8080/register_access', {social:'fkr', token1:tok_1, token2:tok_2});
+               ws.close();
+            }
+         }
+      }
+      
       
     function post(path, params, method) {
         method = method || "post"; // Set method to post by default if not specified.
@@ -120,6 +149,7 @@
       <form enctype="application/json" action="http://localhost:8080/" method="post" id="form1" target="_blank">
         First name: <input type="text" name="data"><br>
         twitter <input type='checkbox' name='twt' checked>
+        flickr <input type='checkbox' name='fkr'>
       </form>
 
       <button type="submit" form="form1" value="Submit">Submit</button> 
