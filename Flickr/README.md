@@ -9,6 +9,8 @@ Il file flickr_api.py garantisce l'autenticazione e autorizzazione di un utente 
 		. httplib2
 	
 	iii) digitare il comando `python flickr_api.py`
+	
+	---> A lavoro concluso girerà tutto su docker
 
 ## Come funziona flickr_api.py
 	i) Effettua un' atenticazione da parte della nostra app registrata su Flickr come PorchettaSocial
