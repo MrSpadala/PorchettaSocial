@@ -168,9 +168,9 @@ app.post('/register_access', function(req, res){
         break
     }
     case 'fkr': {
-        cookie.twt = {}
-        cookie.twt.token1 = t1
-        cookie.twt.token2 = t2
+        cookie.fkr = {}
+        cookie.fkr.token1 = t1
+        cookie.fkr.token2 = t2
         cookie.logged.push('fkr')
         res.cookie('porkett', cookie)
         break
