@@ -29,10 +29,18 @@ app.get('/', function (req, res) {
   log('Received a GET')
   
   // testing
-  console.log("Cookies: ", req.cookies)
   res.cookie('er_manz', 'stupido')
 
   res.send('<html>SCEEMOOOO!<br>Fammi una POST</html>')
+})
+
+// pages for debugging
+app.get('/debug/cookies', function(req, res) {
+  res.send(req.cookies)
+})
+
+app.get('/debug/req_list', function(req, res) {
+  res.send(req_list)
 })
 
 
@@ -105,15 +113,20 @@ app.post('/', function (req, res) {
 
   var token1 = []
   var token2 = []
+  var exception = false
   list.forEach( function(network) {
     try {
       token1.push(cookie[network].token1)
       token2.push(cookie[network].token2)
     } catch (ex) {
+      exception = true
       res.send({result:"no", auth:[network]})
       return
     }
   })
+  
+  if (exception)
+    return
 
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
@@ -141,10 +154,18 @@ app.get('/auth/start/twitter', function(req, res) {
   auth.start('twt', req, res)
 })
 
+app.get('/auth/start/tumblr', function(req, res)  {
+  auth.start('tmb', req, res)
+})
 
 
+// OAuth redirects here
 app.get('/auth/landing/twitter', function(req, res) {
   auth.oauth_landing('twt', 'twitter', req, res)
+})
+
+app.get('/auth/landing/tumblr', function(req, res)  {
+  auth.oauth_landing('tmb', 'tumblr', req, res)
 })
  
  
@@ -162,8 +183,12 @@ app.get('/auth/landing/twitter', function(req, res) {
  *      token2: 'token2'
  *   }
 */
-app.post('/register_access/twitter', function(req, res){
+app.post('/register_access/twitter', function(req, res) {
   auth.register_access('twt', req, res)
+})
+
+app.post('/register_access/tumblr', function(req, res)  {
+  auth.register_access('tmb', req, res)
 })
 
 
