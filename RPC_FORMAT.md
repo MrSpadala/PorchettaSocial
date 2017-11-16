@@ -1,4 +1,3 @@
-
 # Scambio di messaggi tra il server e i moduli dei social network
 Qui definiamo come devono essere formattati i messagi.
 Il server principale comunica delle funzioni (RPC) da far eseguire ai moduli delle API, questi risponderanno 
@@ -57,6 +56,7 @@ Come prima, la barra indica il flag
 	- googlePlus `g+`
 	- facebook   `fb`
 	- tumblr     `tmb`
+	- flickr 	 `fkr`
 
  - `comando` è da definire
 
