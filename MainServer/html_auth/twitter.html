@@ -3,9 +3,10 @@
    <head>
       <script>
       
-        var token1 = <!--TOKEN_1-PLACEHOLDER-->;
-        var token2 = <!--TOKEN_2-PLACEHOLDER-->;
-        var pin    = <!--PIN-PLACEHOLDER-->;
+        var token1 = "<!--TOKEN_1-PLACEHOLDER-->";
+        var token2 = "<!--TOKEN_2-PLACEHOLDER-->";
+        var pin    = "<!--PIN-PLACEHOLDER-->";
+      
       
         var ws = new WebSocket("ws://localhost:12345");
 
@@ -17,20 +18,20 @@
 
         ws.onmessage = function (evt) 
         { 
-          var msg_splt = evt.data.split('\xFF');
+          var msg_split = evt.data.split('\xFF');
           if (msg_split.length == 4) {
-            document.getElementById('social').value = "twt";
             document.getElementById('token1').value = msg_split[2];
             document.getElementById('token2').value = msg_split[3];
             document.getElementById("upload_form").submit();
           }
           
           else 
-            document.write('auth failed');
+            alert('auth failed');
           
-          this.close();
-            
+          this.close(); 
         };
+        
+        ws.onclose = function() {alert("closed");}
 				
       </script>
 		
@@ -39,7 +40,7 @@
    Connecting, please wait...
    
    <!-- HIDDEN FORM -->      
-      <form enctype="application/json" action="http://localhost:80/register_access" method="post" id="upload_form">
+      <form enctype="application/json" action="http://localhost/register_access/<!--SOCIAL-PLACEHOLDER-->" method="post" id="upload_form">
         <input type="hidden" name="social" id="social">
         <input type="hidden" name="token1" id="token1">
         <input type="hidden" name="token2" id="token2">
