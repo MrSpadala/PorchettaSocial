@@ -4,8 +4,10 @@
 
 
 // importo i moduli locali
+var auth = require('./auth.js')
 var queue = require('./queues.js')
 var globals = require('./globals.js')
+var req_list = globals.req_list
 var log = globals.log
 
 
@@ -20,9 +22,6 @@ var server = null
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(c00kies())
-
-// Temporary object where request tokens are stored
-var req_list = {twt:{}}
 
 // risposta nell'URL root alla get (home page)
 app.get('/', function (req, res) {
@@ -140,91 +139,32 @@ app.post('/', function (req, res) {
  *   }
  */
 app.get('/auth/start/twitter', function(req, res) {
-  var t1 = req.query.token1
-  var t2 = req.query.token2
-  
-  log('Saving request tokens for twitter authentication '+ [t1, t2])
-  
-  if (typeof(t1)=='undefined' || typeof(t2)=='undefined'){
-    res.send({result:"no", msg:'Bad request body while saving twitter request tokens to cookies'})
-    return
-  }
-  
-  req_list.twt[t1] = t2
-  
-  res.send({result:"yes", msg:'saved request tokens to req_list for twitter'})
+  auth.start('twt', req, res)
 })
 
 
 
 app.get('/auth/landing/twitter', function(req, res) {
-  var pin = req.query.oauth_verifier
-  var token1 = req.query.oauth_token
-  
-  log('Getting pin from list for twitter authentication'+ pin)
-  
-  if (typeof(pin)=='undefined' || typeof(token1)=='undefined'){
-    res.send({result:"no", msg:'Bad request params while getting from URL'})
-    return
-  }
-  
-  var token2 = req_list.twt[token1]
-  if (typeof(token2)=='undefined') {
-    console.log(req_list)
-    res.send({result:"no", msg:'Bad value in req_list while getting twitter request tokens'})
-    return
-  }
-  
-  // Deleting entry token1:token2 from req_list
-  delete req_list.twt[token1]
-  
-  fs.readFile('./html_auth/twitter.html', 'utf8', function (err,data) {
-    if (err) { return console.log(err) }
-    var result = data.replace("<!--TOKEN_1-PLACEHOLDER-->", token1)
-    result = result.replace("<!--TOKEN_2-PLACEHOLDER-->", token2)
-    result = result.replace("<!--SOCIAL-PLACEHOLDER-->", "twitter")
-    result = result.replace("<!--PIN-PLACEHOLDER-->", pin)
-    res.send(result)
-  })
+  auth.oauth_landing('twt', 'twitter', req, res)
 })
  
-
-
-
-
-/* After a successful auth the server register access tokens in cookies. Cookie:
+ 
+/* After a successful auth the server register access tokens in cookies. 
+ *   request body:
  *   {
- *      social: 'nome-social'           #nome del social dove ci si è autenticati
+ *      token1: 'token1',
+ *      token2: 'token2'
+ *   }
+ *
+ *   Cookie:
+ *   {
+ *      social: 'nome-social'   #id del social dove ci si è autenticati
  *      token1: 'token1'   
  *      token2: 'token2'
  *   }
 */
 app.post('/register_access/twitter', function(req, res){
-  var t1 = req.body.token1
-  var t2 = req.body.token2
-
-  log('Registering access with '+ [t1, t2])
-
-  if (typeof(t1)=='undefined' || typeof(t2)=='undefined'){
-    res.send({result:"no", msg:'Bad request body while registering access'})
-    return
-  }
-
-  // If there are not cookies
-  var cookie = req.cookies.porkett
-  if (typeof(cookie)=='undefined' || typeof(cookie.logged)=='undefined' ) {
-    cookie = {}
-    cookie.logged = []
-  }
-  
-  // Add new social field to cookie
-  cookie.twt = {}
-  cookie.twt.token1 = t1
-  cookie.twt.token2 = t2
-  cookie.logged.push('twt')
-  res.cookie('porkett', cookie)
-
-  res.send({result:"yes", msg:'registered to twt'})
+  auth.register_access('twt', req, res)
 })
 
 

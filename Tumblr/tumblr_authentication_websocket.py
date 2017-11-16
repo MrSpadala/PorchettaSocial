@@ -4,7 +4,7 @@ import asyncio
 import websockets
 
 server = '127.0.0.1'
-port = 12345
+port = 12346
 
 async def callback(websocket, path):
 	
