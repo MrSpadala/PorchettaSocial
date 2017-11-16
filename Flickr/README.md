@@ -3,12 +3,13 @@ Il file flickr_api.py garantisce l'autenticazione e autorizzazione di un utente 
 
 ## Run flickr_api.py
 	i) Aprire il terminale (ctrl+alt+t)
-	ii) Installare le seguenti librerie tramite il comando `pip install [nome_libreria]`
+	ii) Installare le seguenti librerie tramite il comando `pip3 install [nome_libreria]`
 		- oauth2
 		- requests
-		. httplib2
+		- httplib2
+		- urllib
 	
-	iii) digitare il comando `python flickr_api.py`
+	iii) digitare il comando `python3 flickr_api.py`
 	
 	---> A lavoro concluso girerà tutto su docker
 
