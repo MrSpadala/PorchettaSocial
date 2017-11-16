@@ -2,7 +2,7 @@ import oauth2 as oauth
 import webbrowser
 import time
 import httplib2
-import urlparse
+import urllib
 import requests
 
 
@@ -41,11 +41,11 @@ h = httplib2.Http(".cache")
 resp, content = h.request(req.to_url(), "GET")
 
 #parse the content
-request_token = dict(urlparse.parse_qsl(content))
+content = content.decode('utf-8')
+request_token = dict(urllib.parse.parse_qsl(content))
 
 # Create the token object with returned oauth_token and oauth_token_secret
-token = oauth.Token(request_token['oauth_token'], 
-	request_token['oauth_token_secret'])
+token = oauth.Token(request_token['oauth_token'], request_token['oauth_token_secret'])
 
 # You need to authorize this app via your browser.
 url =  "%s?oauth_token=%s&perms=write" % (authorize_url, request_token['oauth_token'])
@@ -54,9 +54,9 @@ webbrowser.open(url)
 # Once you get the verified pin, input it
 accepted = 'n'
 while accepted.lower() == 'n':
-    accepted = raw_input('Have you authorized me? (y/n) ')
-oauth_verifier = raw_input('What is the PIN? (see oauth_verifier on url) ')
-print '\n'
+    accepted = input('Have you authorized me? (y/n) ')
+oauth_verifier = input('What is the PIN? (see oauth_verifier on url) ')
+print('\n')
 
 #set the oauth_verifier token
 token.set_verifier(oauth_verifier)
@@ -88,14 +88,17 @@ h = httplib2.Http(".cache")
 resp, content = h.request(req.to_url(), "GET")
 
 #parse the response
-access_token_resp = dict(urlparse.parse_qsl(content))
+content = content.decode('utf-8')
+access_token_resp = dict(urllib.parse.parse_qsl(content))
 token = oauth.Token(access_token_resp['oauth_token'], access_token_resp['oauth_token_secret'])
+
+
+print('******************** TEST ********************')
 
 #Allego foto di esempio, potete usare quella! --> porchetta.jpg
 
 photo_url = 'https://api.flickr.com/services/upload'
 
-# Fill in your own app KEY and SECRET
 data = {
     'oauth_consumer_key': consumer.key,
     'oauth_nonce': oauth.generate_nonce(),
@@ -105,20 +108,19 @@ data = {
     'oauth_version': 1.0,
 }
 
-print('******************** TEST ********************')
 again = 'y'
 while again.lower() == 'y':
 	sure = 'n'
 	while sure.lower() == 'n':
-		photo_path = raw_input("photo path: ")
-		sure = raw_input('sure? (y/n) ')
+		photo_path = input("photo path: ")
+		sure = input('sure? (y/n) ')
 	
 	sure = 'n'
 	while sure.lower() == 'n':
-		title = raw_input("photo title: ")
-		sure = raw_input('sure? (y/n) ')
+		title = input("photo title: ")
+		sure = input('sure? (y/n) ')
 	
-	print '\n'
+	print('\n')
 	
 	req = oauth.Request(method="POST", url=photo_url, parameters=data)
 	signature = oauth.SignatureMethod_HMAC_SHA1().sign(req, consumer, token)
@@ -129,6 +131,7 @@ while again.lower() == 'y':
 	
 	code = r.status_code
 	if(code == 200):
-		print 'Photo uploaded!'
-	print 'Exit with status [',r.status_code,']'
-	again = raw_input('\n\nagain? (y/n) ')
+		print('Photo uploaded!')
+	print('Exit with status [',r.status_code,']')
+	again = input('\n\nagain? (y/n) ')
+
