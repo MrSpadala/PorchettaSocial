@@ -26,7 +26,7 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
 
  - `comando` è una stringa, rappresenta il comando che il server chiede di eseguire. Può essere:
 	- `auth` richiede l'autenticazione al social network
-	- `verify_pin` __solo per twitter__, conferma il pin da browser
+	- `verify_pin` conferma il pin
 	- `upload_post` carica un post
 
  - `param_i` sono i parametri delle RPC. Nel dettaglio:
