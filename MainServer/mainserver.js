@@ -60,6 +60,7 @@ app.post('/', function (req, res) {
   var list = []
   if (req.body.twt) list.push('twt')
   if (req.body.tmb) list.push('tmb')
+  if (req.body.fkr) list.push('fkr')
   // etc..etc.. add modules
   
   log('Received text:'+text+' list:'+list)
@@ -110,6 +111,11 @@ app.post('/', function (req, res) {
         token_oauth1.push(cookie.twt.token2)
         break
       }
+      case 'fkr':{
+        token.push(cookie.fkr.token1)
+        token_oauth1.push(cookie.fkr.token2)
+        break
+      }
       default: res.send({result:"no", msg:'Get tokens from social '+network+' not implemented'}); return;
     }
   })
@@ -158,6 +164,14 @@ app.post('/register_access', function(req, res){
         cookie.twt.token1 = t1
         cookie.twt.token2 = t2
         cookie.logged.push('twt')
+        res.cookie('porkett', cookie)
+        break
+    }
+    case 'fkr': {
+        cookie.twt = {}
+        cookie.twt.token1 = t1
+        cookie.twt.token2 = t2
+        cookie.logged.push('fkr')
         res.cookie('porkett', cookie)
         break
     }
