@@ -150,38 +150,10 @@ app.get('/auth/start/twitter', function(req, res) {
     return
   }
   
-  /*
-  var cookie = req.cookies.porkett_auth
-  if (typeof(cookie)=='undefined')
-    cookie = {}
-  
-  cookie.twt = {}
-  cookie.twt.token1 = t1
-  cookie.twt.token2 = t2
-  res.cookie('porkett_auth', cookie, {path:'/', httpOnly:false, secure:true})
-  */
-  
   req_list.twt[t1] = t2
   
   res.send({result:"yes", msg:'saved request tokens to req_list for twitter'})
 })
-
-
-
-/*
-app.get('/auth/twitter', function(req, res) {
-  var pin = req.query.oauth_verifier
-  
-  log('Getting pin from cookies for twitter authentication TEMP'+ pin)
-  
-  if (typeof(pin)=='undefined'){
-    res.send({result:"no", msg:'Bad request params while getting from URL TEMP'})
-    return
-  }
-  
-  var page="<html><script>window.open('/auth/landing/twitter?oauth_verifier="+pin+"');</script></html>"
-  res.send(page)
-})*/
 
 
 
@@ -195,18 +167,6 @@ app.get('/auth/landing/twitter', function(req, res) {
     res.send({result:"no", msg:'Bad request params while getting from URL'})
     return
   }
-  
-  /*
-  var cookie = req.cookies.porkett_auth
-  if (typeof(cookie)=='undefined' || typeof(cookie.twt)=='undefined' ||
-      typeof(cookie.twt.token1)=='undefined' || typeof(cookie.twt.token2)=='undefined'){
-    res.send({result:"no", msg:'Bad cookie while getting twitter request tokens'})
-    return
-  }
-  
-  var token1 = cookie.twt.token1
-  var token2 = cookie.twt.token2
-  */
   
   var token2 = req_list.twt[token1]
   if (typeof(token2)=='undefined') {
