@@ -103,23 +103,22 @@ app.post('/', function (req, res) {
   }
 
 
-  token = []
-  token_oauth1 = []
+  var token1 = []
+  var token2 = []
   list.forEach( function(network) {
-    switch (network) {
-      case 'twt':{
-        token.push(cookie.twt.token1)
-        token_oauth1.push(cookie.twt.token2)
-        break
-      }
-      default: res.send({result:"no", msg:'Get tokens from social '+network+' not implemented'}); return;
+    try {
+      token1.push(cookie[network].token1)
+      token2.push(cookie[network].token2)
+    } catch (ex) {
+      res.send({result:"no", auth:[network]})
+      return
     }
   })
 
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
   for (var i=0; i<list.length; i++) {
-    var msg = ['upload_post', text, token[i], token_oauth1[i]].join('\xFF')
+    var msg = ['upload_post', text, token1[i], token2[i]].join('\xFF')
 	queue.send(msg, list[i])
   }
 
