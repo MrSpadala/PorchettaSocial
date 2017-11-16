@@ -16,7 +16,7 @@ function valida_post(){
 		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
 		return false;
 	}
-	if(document.getElementById("flk").checked && document.getElementById("flk_led").className == "led-red"){
+	if(document.getElementById("fkr").checked && document.getElementById("fkr_led").className == "led-red"){
 		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
 		return false;
 	}
@@ -108,7 +108,7 @@ function auth_tmb(led_light){
 
 	// FLICKR AUTH
 function log_on_flickr(){
-	var led_light = document.getElementById("flk_led");
+	var led_light = document.getElementById("fkr_led");
 		if(led_light.className == "led-red"){
 			led_light.setAttribute( "class", "led-green" );
 		}
