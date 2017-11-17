@@ -93,7 +93,7 @@
     }
     
     function flickr() {
-		var ws = new WebSocket("ws://localhost:12346");
+		var ws = new WebSocket("ws://localhost:12347");
 		
 		ws.onopen = function() {
 			ws.send("auth")
