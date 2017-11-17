@@ -9,25 +9,22 @@ function validaPost(){
 	}
 	return true;
 }
-
-var list = document.getElementById("s_button");
-
-        // click on button submit
-list.addEventListener('click' , function(){
-	if(validaPost()==true){
-		to_post = document.getElementById("text").value;
-		alert(to_post);
-		alert(document.getElementById("twt").checked);
-		alert(document.getElementById("twt").checked);
-		text = {
-			data : to_post,
-			twt : document.getElementById("twt").checked,
-			tmb : document.getElementById("tmb").checked,
-			flk : document.getElementById("flk").checked
+window.onload = function(){
+	var list = document.getElementById("s_button");
+	// click on button submit
+	list.addEventListener('click' , function(){
+		if(validaPost()==true){
+			to_post = document.getElementById("text").value;
+			text = {
+				data : to_post,
+			    twt : document.getElementById("twt").checked,
+			    tmb : document.getElementById("tmb").checked,
+			    flk : document.getElementById("flk").checked
 			}
-		post("http://localhost/home", text);
-	}
-})
+		    post("http://localhost/home", text);
+	   }
+	})
+}
 
 function post(url,data){
 	// send ajax
