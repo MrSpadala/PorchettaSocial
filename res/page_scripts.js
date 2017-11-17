@@ -47,6 +47,7 @@ function auth_twt(led_light){
     ws_twt.onopen = function(){
       ws_twt.send("auth");
       led_light.setAttribute( "class", "led-green" );
+      document.getElementById("twt").disabled = false;
     };
     
     ws_twt.onmessage = function(event){
@@ -55,11 +56,13 @@ function auth_twt(led_light){
     
     ws_twt.onclose = function(){
 	  led_light.setAttribute( "class", "led-red" );
+	  document.getElementById("myCheck").disabled = true;
       alert("Connection closed");
     };
     
     ws_twt.onerror = function(){
 	  led_light.setAttribute( "class", "led-red" );
+	  document.getElementById("myCheck").disabled = true;
       alert("Connection error");
     };
 }
@@ -71,7 +74,7 @@ function log_on_tumblr(){
 	if ("WebSocket" in window){
 		var led_light = document.getElementById("tmb_led");
 		if(led_light.className == "led-red"){
-			auth_twt(led_light);
+			auth_tmb(led_light);
 			//led_light.setAttribute( "class", "led-green" );
 		} else {
 			alert("You are already logged on tumblr!")
@@ -88,6 +91,7 @@ function auth_tmb(led_light){
     ws_tmb.onopen = function(){
       ws_tmb.send("auth");
       led_light.setAttribute( "class", "led-green" );
+      document.getElementById("tmb").disabled = false;
     };
     
     ws_tmb.onmessage = function(event){
@@ -96,25 +100,27 @@ function auth_tmb(led_light){
     
     ws_tmb.onclose = function(){
 		led_light.setAttribute( "class", "led-red" );
+		document.getElementById("tmb").disabled = true;
         alert("Connection closed");
     };
     
     ws_tmb.onerror = function(){
 		led_light.setAttribute( "class", "led-red" );
+		document.getElementById("tmb").disabled = true;
         alert("Connection error");
     };
 }
 
 
 	// FLICKR AUTH
-function log_on_tumblr(){
+function log_on_flickr(){
 	if ("WebSocket" in window){
-		var led_light = document.getElementById("tmb_led");
+		var led_light = document.getElementById("flk_led");
 		if(led_light.className == "led-red"){
-			auth_twt(led_light);
+			auth_flk(led_light);
 			//led_light.setAttribute( "class", "led-green" );
 		} else {
-			alert("You are already logged on tumblr!")
+			alert("You are already logged on Flickr!")
 			//led_light.setAttribute( "class", "led-red" );
 	    }
 	} else {
@@ -126,8 +132,9 @@ function auth_flk(led_light){
 	var ws_flk = new WebSocket('ws://echo.websocket.org'); //to be defined
     
     ws_flk.onopen = function(){
-      ws_tmb.send("auth");
+      ws_flk.send("auth");
       led_light.setAttribute( "class", "led-green" );
+      document.getElementById("flk").disabled = false;
     };
     
     ws_flk.onmessage = function(event){
@@ -136,11 +143,13 @@ function auth_flk(led_light){
     
     ws_flk.onclose = function(){
 		led_light.setAttribute( "class", "led-red" );
+		document.getElementById("flk").disabled = true;
         alert("Connection closed");
     };
     
     ws_flk.onerror = function(){
 		led_light.setAttribute( "class", "led-red" );
+		document.getElementById("flk").disabled = true;
         alert("Connection error");
     };
 }
