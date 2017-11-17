@@ -85,7 +85,8 @@ function register_access(social_id, req, res) {
   cookie[social_id] = {}
   cookie[social_id].token1 = t1
   cookie[social_id].token2 = t2
-  cookie.logged.push(social_id)
+  if (!cookie.logged.includes(social_id))
+    cookie.logged.push(social_id)
   res.cookie('porkett', cookie)
 
   res.send({result:"yes", msg:'registered to '+social_id})

@@ -9,18 +9,8 @@ const debug_stdout = true
 const port = 80
 
 // websocket ports
-const ws_ports = {twt:"12345", tmb:"12346"}  //SAVE PORTS AS STRINGS
+const ws_ports = {twt:"12345", tmb:"12346", fkr:"12347"}  //SAVE PORTS AS STRINGS
 
-// for debugging pursposes, i have an unique id of every user request, like a client id
-var req_id = 0
-
-function get_req_id() {
-  return req_id
-}
-
-function increase_req_id() {
-  req_id++
-}
 
 // unique message identifier, to be used when communicating with queues
 var msg_id = 0
@@ -48,7 +38,6 @@ var req_list = {twt:{}, tmb:{}, fkr:{}}
 
 // esporto
 module.exports = {
-  increase_req_id,
   request_msg_id,
   ws_ports,
   req_list,

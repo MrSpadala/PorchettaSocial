@@ -5,7 +5,8 @@
 
 // importo i moduli locali
 var auth = require('./auth.js')
-var queue = require('./queues.js')
+//var queue = require('./queues.js')
+var post = require('./upload_post.js')
 var globals = require('./globals.js')
 var req_list = globals.req_list
 var log = globals.log
@@ -16,23 +17,14 @@ var log = globals.log
 var bodyParser = require('body-parser')
 var c00kies = require('cookie-parser')
 var express = require('express')
-var fs = require('fs')
+//var fs = require('fs')
 var app = express()
 var server = null
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(c00kies())
 
-// risposta nell'URL root alla get (home page)
-app.get('/', function (req, res) {
-  globals.increase_req_id()
-  log('Received a GET')
-  
-  // testing
-  res.cookie('er_manz', 'stupido')
 
-  res.send('<html>SCEEMOOOO!<br>Fammi una POST</html>')
-})
 
 // pages for debugging
 app.get('/debug/cookies', function(req, res) {
@@ -44,10 +36,15 @@ app.get('/debug/req_list', function(req, res) {
 })
 
 
-// testing
+
+
+// testing, attualmente pagina funzionante per loggare e postare
+// su twitter e facebook
 app.get('/test_ws', function(req, res) {
   res.sendFile(__dirname + '/test.html')
 })
+
+
 
 
 // Home page
@@ -60,6 +57,8 @@ app.get('/res/:resource', function(req, res) {
   res.sendFile(__dirname + '/res/'+req.params.resource)
 })
 
+
+
 /* User POSTs when he wants to upload a post
  *
  * The body of the POST made by the user it's made:
@@ -67,89 +66,15 @@ app.get('/res/:resource', function(req, res) {
  *   'data' = text of the post 
  *   'twt'  = true / false
  *   'tmb'  = true / false
- *   'flk'  = true / false
+ *   'fkr'  = true / false
  * }
  * 
  * where twt is true if the user wants to post to twitter, tmb if he wants
  * to post to tumbrl and flk for flickr
  * 
  */
-app.post('/home', function (req, res) {
-  globals.increase_req_id()
-  
-  var text = req.body.data
- 
-  // Build list from single fields
-  var list = []
-  if (req.body.twt) list.push('twt')
-  if (req.body.tmb) list.push('tmb')
-  if (req.body.fkr) list.push('fkr')
-  // etc..etc.. add modules
-  
-  log('Received text:'+text+' list:'+list)
-
-  // sanity check, list and text can't be undefined
-  if (typeof(text) == 'undefined' || typeof(list) == 'undefined') {
-    res.status(400)   //bad request
-    res.send({result:'no', msg:"The received POST didn't have correct parameters in the body"})
-    return
-  }
-
-  text = text.trim()   //removing leading and trailing spaces
-  
-  // sanity check, filter all social not listed in RPC_FORMAT.md
-  //list = list.filter(function(e){ return !e in ['fb','twt','g+','tmb'] })
-
-  // sanity check, if list is empty i don't publish on any social network
-  if (list.length == 0) {
-    res.send({result:'no', msg:'no social selected'})
-    return
-  }
-
-  // sanity check, if user post contains utf char '\xFF' 'ÿ', substitute the 'ÿ' with a 'y'
-  text = text.replace(new RegExp('\xFF', 'g'), 'y')
- 
-  
-  // C00kies sanity checks
-  cookie = req.cookies.porkett
-  var need_auth = []
-  list.forEach( function(network) {
-    if (typeof(cookie)=='undefined' || !network in cookie.logged)
-      need_auth.push(network)
-  })
-  
-  // If cookie fails sanity check
-  if (need_auth.length > 0) {
-    res.send({result:"no", auth:need_auth})
-    return
-  }
-
-
-  var token1 = []
-  var token2 = []
-  var exception = false
-  list.forEach( function(network) {
-    try {
-      token1.push(cookie[network].token1)
-      token2.push(cookie[network].token2)
-    } catch (ex) {
-      exception = true
-      res.send({result:"no", auth:[network]})
-      return
-    }
-  })
-  
-  if (exception)
-    return
-
-  // if the program is here we have a token, proceed to upload post
-  // (Following RPC syntax in RPC_FORMAT.md)
-  for (var i=0; i<list.length; i++) {
-    var msg = ['upload_post', text, token1[i], token2[i]].join('\xFF')
-	queue.send(msg, list[i])
-  }
-
-  res.send({result:"yes", msg:"forwarded to "+list})
+app.post('/home', function (req, res) {  
+  post.upload_post(req, res)
 })
 
 
@@ -170,6 +95,8 @@ app.get('/auth/start/flickr', function(req, res)  {
 })
 
 
+
+
 /* OAuth redirect page
  */
 app.get('/auth/landing/twitter', function(req, res) {
@@ -183,6 +110,8 @@ app.get('/auth/landing/tumblr', function(req, res)  {
 app.get('/auth/landing/flickr', function(req, res)  {
   auth.oauth_landing('fkr', 'flickr', req, res)
 })
+ 
+ 
  
  
 /* After a successful auth the server register access tokens in cookies. 
@@ -210,6 +139,8 @@ app.post('/register_access/tumblr', function(req, res)  {
 app.post('/register_access/flickr', function(req, res)  {
   auth.register_access('fkr', req, res)
 })
+
+
 
 
 
