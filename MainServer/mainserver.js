@@ -151,11 +151,11 @@ app.post('/', function (req, res) {
  *      token2: 'token2'
  *   }
  */
-app.post('/auth/start/twitter', function(req, res) {
+app.get('/auth/start/twitter', function(req, res) {
   auth.start('twt', req, res)
 })
 
-app.post('/auth/start/tumblr', function(req, res)  {
+app.get('/auth/start/tumblr', function(req, res)  {
   auth.start('tmb', req, res)
 })
 

@@ -58,7 +58,7 @@
             var auth_url = msg[1];
             var req_tok  = msg[2];
             var req_tok_secret = msg[3];
-            post('http://localhost/auth/start/twitter', {token1:req_tok, token2:req_tok_secret});
+            get('http://localhost/auth/start/twitter', {token1:req_tok, token2:req_tok_secret});
             window.open(auth_url);
          }
       }
@@ -112,7 +112,7 @@
           var auth_url = msg[1];
           var req_tok  = msg[2];
           var req_tok_secret = msg[3];
-          post('http://localhost/auth/start/tumblr', {token1:req_tok, token2:req_tok_secret});
+          get('http://localhost/auth/start/tumblr', {token1:req_tok, token2:req_tok_secret});
           window.open(auth_url);
           
           ws.close();
@@ -120,8 +120,8 @@
 				
     }
       
-    function post(path, params, method) {
-        method = method || "post"; // Set method to post by default if not specified.
+    function get(path, params, method) {
+        method = method || "get"; // Set method to post by default if not specified.
 
         // The rest of this code assumes you are not using a library.
         // It can be made less wordy if you use one.
