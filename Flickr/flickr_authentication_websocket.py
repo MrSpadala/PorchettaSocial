@@ -9,7 +9,7 @@ import websockets
 import flickr_methods
 
 ip_address = '127.0.0.1'
-port = 12345
+port = 12347
 	
 
 async def callback(websocket, path):
