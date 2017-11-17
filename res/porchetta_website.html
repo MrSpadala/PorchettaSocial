@@ -3,7 +3,7 @@
 	<head>
 		<link rel='stylesheet' type='text/css' href='porchetta_fancy.css'>
 		
-		<script type="text/javascript" src="page_scripts.js">
+		<script type="text/javascript" src="page_scripts_2.js">
 			
 		</script>
 	</head>
@@ -29,7 +29,7 @@
 					 <td align="left">
 						<div class="polaroid">
 							
-								<p class="image"><img onClick="log_on_twitter();" class="social" src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" alt="Twitter" width="100" height="100" /></p>
+								<p class="image"><img id="twt_img" onClick="log_on_twitter();" class="social" src="http://icons.iconarchive.com/icons/limav/flat-gradient-social/256/Twitter-icon.png" alt="Twitter" width="100" height="100" /></p>
                             
                             <div class="container"> <text_ class="log">Log on Twitter</text_></div>
 				        </div>
@@ -47,7 +47,7 @@
 				   <tr>  
 					 <td align="left">
 						 <div class="polaroid">
-							 <p class="image"><img onClick="log_on_tumblr();" class="social" src="https://cdn.worldvectorlogo.com/logos/tumblr-icon.svg" alt="Tumblr" width="100" height="100" /></p>
+							 <p class="image"><img id="tmb_img" onClick="log_on_tumblr();" class="social" src="https://cdn.worldvectorlogo.com/logos/tumblr-icon.svg" alt="Tumblr" width="100" height="100" /></p>
                              <div class="container"> <text_ class="log">Log on Tumblr </text_> </div>
 				        </div>
 				    </td>
@@ -63,7 +63,7 @@
 				   <tr>  
 					 <td align="left">
 						 <div class="polaroid">
-							 <p class="image"><img onClick="log_on_flickr();" class="social" src="https://img00.deviantart.net/36c0/i/2008/133/e/9/flickr_icons__scalable__by_lopagof.png" alt="Flickr" width="100" height="100" /></p>
+							 <p class="image"><img id="flk_img" onClick="log_on_flickr();" class="social" src="https://img00.deviantart.net/36c0/i/2008/133/e/9/flickr_icons__scalable__by_lopagof.png" alt="Flickr" width="100" height="100" /></p>
                              <div class="container"> <text_ class="log">Log on Flickr </text_> </div>
 				         </div>
 				    </td>
@@ -104,7 +104,7 @@
                 <td style="width: 824.062px; height: 355px;">
   
                     <div class="left_form">
-	                <form name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
+	                <form method="post" enctype="application/json" action="http://localhost/" name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
 						<!-- input checkbox attribute disabled : Specifies that an <input> element should be disabled
 						<text_> Facebook  </text_> <input type="checkbox" size="3" name="fb">                -->
 						<label for="twt" form="porchetta_form"><text_> Twitter  </text_></label><input type="checkbox" size="3" name="twt" id="twt">
@@ -112,10 +112,11 @@
 						<label for="flk" form="porchetta_form"><text_> Flickr    </text_></label><input type="checkbox" size="3" name="flk" id="flk"> 
 		               <br>
 		               <br>
-		               <textarea id="text" name="text" value="<?=$text?>" ></textarea>
+		               <textarea id="text" name="text"></textarea>
 		               <br>
 		               <br>
-		               <button class="button button1" style="width:300px" type="button" name="s_button" id="s_button" onClick="valida_post();"><span>   Post with Porchetta   </span></button>    
+		               <button class="button button1" style="width:300px" type="button" name="s_button" id="s_button">
+						   <span>Post with Porchetta</span></button>    
 		               <button class="button button2" type="reset"><span> Reset </span></button>
 	                 </form>
 	                </div>
