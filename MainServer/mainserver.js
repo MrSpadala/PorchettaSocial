@@ -52,15 +52,18 @@ app.get('/test_ws', function(req, res) {
 
 /* User POSTs when he wants to upload a post
  *
- * The body of the POST made by the user has two keys:
+ * The body of the POST made by the user it's made:
+ * {
  *   'data' = text of the post 
- *   'list' = list of social networks. Values are described in RPC_FORMAT.md, so 
- *            facebook has 'fb', twitter has 'twt' and so on
+ *   'twt'  = true / false
+ *   'tmb'  = true / false
+ *   'flk'  = true / false
+ * }
+ * 
+ * where twt is true if the user wants to post to twitter, tmb if he wants
+ * to post to tumbrl and flk for flickr
+ * 
  */
- 
- // UPDATE - LEGGI
- // list non c'è più e ci sono attributi "twt": true/flase "tmb":true/false etc
- 
 app.post('/', function (req, res) {
   globals.increase_req_id()
   
@@ -142,14 +145,7 @@ app.post('/', function (req, res) {
 
 
 
-/* token that will be used to verify pin are saved in req_list. token1 and token2 are URLencoded
- *
- *       Cookie:
- *   twt: 
- *   {
- *      token1: 'token1'   
- *      token2: 'token2'
- *   }
+/* tokens that will be used to verify pin are saved in req_list. token1 and token2 are URLencoded
  */
 app.get('/auth/start/twitter', function(req, res) {
   auth.start('twt', req, res)
@@ -160,7 +156,8 @@ app.get('/auth/start/tumblr', function(req, res)  {
 })
 
 
-// OAuth redirects here
+/* OAuth redirect page
+ */
 app.get('/auth/landing/twitter', function(req, res) {
   auth.oauth_landing('twt', 'twitter', req, res)
 })
@@ -177,7 +174,7 @@ app.get('/auth/landing/tumblr', function(req, res)  {
  *      token2: 'token2'
  *   }
  *
- *   Cookie:
+ *   Cookie set:
  *   {
  *      social: 'nome-social'   #id del social dove ci si è autenticati
  *      token1: 'token1'   
