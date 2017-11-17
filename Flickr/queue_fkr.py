@@ -49,10 +49,11 @@ def callback(ch, method, properties, body):
 	elif l[1] == 'upload_photo':
 		
 		photo_path = l[2]
-		access_token = l[3]
-		access_token_secret = l[4]
+		photo_title = l[3]
+		access_token = l[4]
+		access_token_secret = l[5]
 		
-		r = flickr_methods.upload_photo(photo_path)
+		r = flickr_methods.upload_photo(photo_path, photo_title)
 			
 		risposta = 0
 		if ('200' in str(r)):
