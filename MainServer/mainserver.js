@@ -55,6 +55,10 @@ app.get('/home', function(req, res) {
   res.sendFile(__dirname + '/res/porchetta_website.html')
 })
 
+// Resources
+app.get('/res/:resource', function(req, res) {
+  res.sendFile(__dirname + '/res/'+req.params.resource)
+})
 
 /* User POSTs when he wants to upload a post
  *
