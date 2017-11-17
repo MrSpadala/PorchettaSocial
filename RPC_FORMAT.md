@@ -28,12 +28,13 @@ Com'è formattata la stringa che riceveranno i client API. __La barra `|` indica
 	- `auth` richiede l'autenticazione al social network
 	- `verify_pin` conferma il pin
 	- `upload_post` carica un post
+	- `upload_post` carica una foto (In un primo momento, eventualemte si può modficare con un media qualsiasi)
 
  - `param_i` sono i parametri delle RPC. Nel dettaglio:
 	- `auth` non ha parametri 
 	- `verify_pin` ha come unico parametro il pin da confermare, passato come stringa
 	- `upload_post` ha come primo parametro il testo da postare, come secondo parametro l'access token dell'utente, come terzo parametro ha il secondo access token __solo per oauth1__
-	- `upload_photo` ha come primo parametro il percorso assoluto della foto, come secondo parametro l'access token dell'utente, come terzo parametro ha il secondo access token __solo per oauth1__
+	- `upload_photo` ha come primo parametro il percorso assoluto della foto, come secondo parametro il titolo, come terzo parametro l'access token dell'utente, come quarto parametro ha il secondo access token __solo per oauth1__
 
 
 
