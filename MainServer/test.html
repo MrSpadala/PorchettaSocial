@@ -58,7 +58,7 @@
             var auth_url = msg[1];
             var req_tok  = msg[2];
             var req_tok_secret = msg[3];
-            post('http://localhost/auth/start/twitter', {token1:req_tok, token2:req_tok_secret}, 'get');
+            post('http://localhost/auth/start/twitter', {token1:req_tok, token2:req_tok_secret});
             window.open(auth_url);
          }
       }
@@ -112,7 +112,7 @@
           var auth_url = msg[1];
           var req_tok  = msg[2];
           var req_tok_secret = msg[3];
-          post('http://localhost/auth/start/tumblr', {token1:req_tok, token2:req_tok_secret}, 'get');
+          post('http://localhost/auth/start/tumblr', {token1:req_tok, token2:req_tok_secret});
           window.open(auth_url);
           
           ws.close();
