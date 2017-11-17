@@ -1,26 +1,52 @@
-
 function validaPost(){
 	if(!document.getElementById("twt").checked && !document.getElementById("tmb").checked && !document.getElementById("flk").checked){
 		alert("You must choose at least one social network!");
 		return false;
 	}
-	else if(document.getElementById("text").value==""){
+	if(document.getElementById("text").value==""){
 		alert("You first should write something to post!");
 		return false;
 	}
-	else if(document.getElementById("twt").checked && document.getElementById("twt_led").className == "led-red"){
-		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-		return false;
-	}
-	else if(document.getElementById("tmb").checked && document.getElementById("tmb_led").className == "led-red"){
-		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-		return false;
-	}
-	else if(document.getElementById("fkr").checked && document.getElementById("fkr_led").className == "led-red"){
-		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-		return false;
-	}
+	return true;
 }
+
+var list = document.getElementById("s_button");
+
+        // click on button submit
+list.addEventListener('click' , function(){
+	if(validaPost()==true){
+		to_post = document.getElementById("text").value;
+		alert(to_post);
+		alert(document.getElementById("twt").checked);
+		alert(document.getElementById("twt").checked);
+		text = {
+			data : to_post,
+			twt : document.getElementById("twt").checked,
+			tmb : document.getElementById("tmb").checked,
+			flk : document.getElementById("flk").checked
+			}
+		post("http://localhost/home", text);
+	}
+})
+
+function post(url,data){
+	// send ajax
+	$.ajax({
+		url: url, // url where to submit the request
+		type : "POST", // type of action POST || GET
+		dataType : 'json', // data type
+		data : data, // post data || get data
+		success : function(result) {
+			// you can see the result from the console
+			// tab of the developer tools
+			console.log(result);
+         },
+         error: function(xhr, resp, text) {
+			 console.log(xhr, resp, text);
+         }
+     });
+}
+
 
 
 	
@@ -52,7 +78,11 @@ function auth_twt(led_light){
 		url = data[2];
 		token1 = data[3];
 		token2 = data[4];
-		/* POST*/
+		data = {
+			"token1" : token1,
+			"token2" : token2
+		}
+		post("http://localhost/auth/start/twitter",data);
 		window.open(url);
 		
     };
@@ -67,6 +97,10 @@ function auth_twt(led_light){
       alert("Connection error");
     };
 }
+
+
+
+
 
 	// TUMBLR AUTH	
 function log_on_tumblr(){
@@ -96,7 +130,11 @@ function auth_tmb(led_light){
 		url = data[2];
 		token1 = data[3];
 		token2 = data[4];
-		/* POST*/
+		data = {
+			"token1" : token1,
+			"token2" : token2
+		}
+		post("http://localhost/auth/start/tumblr",data);
 		window.open(url);
       
     };
@@ -111,6 +149,9 @@ function auth_tmb(led_light){
         alert("Connection error");
     };
 }
+
+
+
 
 
 	// FLICKR AUTH
