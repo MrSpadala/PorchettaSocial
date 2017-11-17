@@ -9,6 +9,8 @@ function validaPost(){
 	}
 	return true;
 }
+
+
 window.onload = function(){
 	var list = document.getElementById("s_button");
 	// click on button submit
@@ -21,16 +23,16 @@ window.onload = function(){
 			    tmb : document.getElementById("tmb").checked,
 			    flk : document.getElementById("flk").checked
 			}
-		    post("http://localhost/home", text);
+		    post("POST","http://localhost/home", text);
 	   }
 	})
 }
 
-function post(url,data){
+function post(method,url,data){
 	// send ajax
 	$.ajax({
 		url: url, // url where to submit the request
-		type : "POST", // type of action POST || GET
+		type : method, // type of action POST || GET
 		dataType : 'json', // data type
 		data : data, // post data || get data
 		success : function(result) {
@@ -79,7 +81,7 @@ function auth_twt(led_light){
 			"token1" : token1,
 			"token2" : token2
 		}
-		post("http://localhost/auth/start/twitter",data);
+		post("GET","http://localhost/auth/start/twitter",data);
 		window.open(url);
 		
     };
@@ -131,7 +133,7 @@ function auth_tmb(led_light){
 			"token1" : token1,
 			"token2" : token2
 		}
-		post("http://localhost/auth/start/tumblr",data);
+		post("GET","http://localhost/auth/start/tumblr",data);
 		window.open(url);
       
     };
