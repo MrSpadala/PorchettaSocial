@@ -42,7 +42,7 @@ function log(msg) {
 }
 
 // Temporary object where request tokens are stored
-var req_list = {twt:{}, tmb:{}, flk:{}}
+var req_list = {twt:{}, tmb:{}, fkr:{}}
 
 
 

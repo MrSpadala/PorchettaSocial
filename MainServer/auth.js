@@ -1,7 +1,7 @@
 
 // auth functions, called by mainserver
 
-// in the parameters, social_id means 'twt', 'tmb', 'flk' ecc.., while social_name is the
+// in the parameters, social_id means 'twt', 'tmb', 'fkr' ecc.., while social_name is the
 // regular name, like 'twitter', 'tumblr'. It's useful when redirecing to main server,
 // e.g.: "/auth/register_access/"+social_name
 
@@ -50,7 +50,7 @@ function oauth_landing(social_id, social_name, req, res) {
   // Deleting entry token1:token2 from req_list
   delete req_list[social_id][token1]
   
-  fs.readFile('./auth.html', 'utf8', function (err,data) {
+  fs.readFile('./res/auth.html', 'utf8', function (err,data) {
     if (err) { return console.log(err) }
     var result = data.replace("<!--TOKEN_1-PLACEHOLDER-->", token1)
     result = result.replace("<!--TOKEN_2-PLACEHOLDER-->", token2)

@@ -50,6 +50,12 @@ app.get('/test_ws', function(req, res) {
 })
 
 
+// Home page
+app.get('/home', function(req, res) {
+  res.sendFile(__dirname + '/res/porchetta_website.html')
+})
+
+
 /* User POSTs when he wants to upload a post
  *
  * The body of the POST made by the user it's made:
@@ -64,7 +70,7 @@ app.get('/test_ws', function(req, res) {
  * to post to tumbrl and flk for flickr
  * 
  */
-app.post('/', function (req, res) {
+app.post('/home', function (req, res) {
   globals.increase_req_id()
   
   var text = req.body.data
