@@ -12,7 +12,9 @@
     "amqplib": "^0.5.1",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "error": "^7.0.2",
     "express": "^4.16.2",
+    "package.json": "^2.0.1",
     "python-shell": "^0.4.0",
     "sleep": "^5.1.1"
   }

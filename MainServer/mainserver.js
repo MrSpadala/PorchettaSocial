@@ -159,6 +159,10 @@ app.get('/auth/start/tumblr', function(req, res)  {
   auth.start('tmb', req, res)
 })
 
+app.get('/auth/start/flickr', function(req, res)  {
+  auth.start('fkr', req, res)
+})
+
 
 // OAuth redirects here
 app.get('/auth/landing/twitter', function(req, res) {
@@ -167,6 +171,10 @@ app.get('/auth/landing/twitter', function(req, res) {
 
 app.get('/auth/landing/tumblr', function(req, res)  {
   auth.oauth_landing('tmb', 'tumblr', req, res)
+})
+
+app.get('/auth/landing/flickr', function(req, res)  {
+  auth.oauth_landing('fkr', 'flickr', req, res)
 })
  
  
@@ -190,6 +198,10 @@ app.post('/register_access/twitter', function(req, res) {
 
 app.post('/register_access/tumblr', function(req, res)  {
   auth.register_access('tmb', req, res)
+})
+
+app.post('/register_access/flickr', function(req, res)  {
+  auth.register_access('fkr', req, res)
 })
 
 
