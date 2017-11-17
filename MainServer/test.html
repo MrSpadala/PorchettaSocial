@@ -58,36 +58,8 @@
             var auth_url = msg[1];
             var req_tok  = msg[2];
             var req_tok_secret = msg[3];
-            post('http://localhost/auth/start/twitter', {token1:req_tok, token2:req_tok_secret}, 'get');
+            get('http://localhost/auth/start/twitter', {token1:req_tok, token2:req_tok_secret});
             window.open(auth_url);
-         }
-      }
-      
-      function fkr_handler(msg) {
-		  if (msg[0] == 'auth') {
-            var auth_url = msg[1];
-            var req_tok  = msg[2];
-            var req_tok_secret = msg[3];
-            window.open(auth_url);
-            var ws = new WebSocket("ws://localhost:12345");
-            ws.onopen = function(){
-               var pin = null;
-               while (pin==null) {
-                  pin = prompt("Insert pin", "");
-               }
-               ws.send(["verify_pin", pin, req_tok, req_tok_secret].join('\xFF'));
-            }
-            
-            ws.onmessage = function (evt) {
-               var res = evt.data.split('\xFF').slice(2);
-               if (res.length == 2)
-                  [tok_1, tok_2] = res;
-               else
-                  alert("Exception");
-               
-               post('http://localhost:8080/register_access', {social:'fkr', token1:tok_1, token2:tok_2});
-               ws.close();
-            }
          }
       }
       
@@ -112,16 +84,41 @@
           var auth_url = msg[1];
           var req_tok  = msg[2];
           var req_tok_secret = msg[3];
-          post('http://localhost/auth/start/tumblr', {token1:req_tok, token2:req_tok_secret}, 'get');
+          get('http://localhost/auth/start/tumblr', {token1:req_tok, token2:req_tok_secret});
           window.open(auth_url);
           
           ws.close();
         }
 				
     }
+    
+    function flickr() {
+		var ws = new WebSocket("ws://localhost:12346");
+		
+		ws.onopen = function() {
+			ws.send("auth")
+			alert("Message is sent...")
+		};
+		
+        ws.onmessage = function(evt)
+        {
+          var msg_splt = evt.data.split('\xFF');
+          var source = msg_splt[0];
+          var msg = msg_splt.slice(1);
+          alert("Message is received: "+msg+" from "+source);
+          
+          var auth_url = msg[1];
+          var req_tok  = msg[2];
+          var req_tok_secret = msg[3];
+          post('http://localhost/auth/start/flickr', {token1:req_tok, token2:req_tok_secret}, 'get');
+          window.open(auth_url);
+          
+          ws.close();
+        }
+	}
       
-    function post(path, params, method) {
-        method = method || "post"; // Set method to post by default if not specified.
+    function get(path, params, method) {
+        method = method || "get"; // Set method to post by default if not specified.
 
         // The rest of this code assumes you are not using a library.
         // It can be made less wordy if you use one.
@@ -153,6 +150,7 @@
       <div id="sse">
          <a href="javascript:twitter()">Logga Twitter</a>
          <a href="javascript:tumblr()">Logga Tumblr</a>
+         <a href="javascript:flickr()">Logga Flickr</a>
       </div>
       
       <form enctype="application/json" action="http://localhost/" method="post" id="form1" target="_blank">
