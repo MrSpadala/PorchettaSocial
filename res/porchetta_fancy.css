@@ -53,13 +53,13 @@
 			}
 			
 			text_ {
-				font-style: italic;
 				font-size: 20px;
 			}			
 			text_.log {
 				font-size: 19px;	
 			}				
 			text_.title {
+			    font-style: italic;
 				font-style: bold;
 				font-size: 100px;				
 			}

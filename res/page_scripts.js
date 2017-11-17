@@ -107,13 +107,41 @@ function auth_tmb(led_light){
 
 
 	// FLICKR AUTH
-function log_on_flickr(){
-	var led_light = document.getElementById("fkr_led");
+function log_on_tumblr(){
+	if ("WebSocket" in window){
+		var led_light = document.getElementById("tmb_led");
 		if(led_light.className == "led-red"){
-			led_light.setAttribute( "class", "led-green" );
-		}
-		else {
-			led_light.setAttribute( "class", "led-red" );
-		}
+			auth_twt(led_light);
+			//led_light.setAttribute( "class", "led-green" );
+		} else {
+			alert("You are already logged on tumblr!")
+			//led_light.setAttribute( "class", "led-red" );
+	    }
+	} else {
+		alert("WebSocket NOT supported by your Browser!");
+	} 
+}
+
+function auth_flk(led_light){	
+	var ws_flk = new WebSocket('ws://echo.websocket.org'); //to be defined
+    
+    ws_flk.onopen = function(){
+      ws_tmb.send("auth");
+      led_light.setAttribute( "class", "led-green" );
+    };
+    
+    ws_flk.onmessage = function(event){
+      alert(event.data); //to be defined
+    };
+    
+    ws_flk.onclose = function(){
+		led_light.setAttribute( "class", "led-red" );
+        alert("Connection closed");
+    };
+    
+    ws_flk.onerror = function(){
+		led_light.setAttribute( "class", "led-red" );
+        alert("Connection error");
+    };
 }
 			
