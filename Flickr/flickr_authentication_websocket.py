@@ -1,8 +1,3 @@
-import oauth2 as oauth
-import time
-import httplib2
-import urllib
-
 import asyncio
 import websockets
 

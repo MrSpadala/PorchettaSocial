@@ -1,0 +1,24 @@
+status: 200
+content-length: 112
+x-served-by: www-bm025.flickr.bf1.yahoo.com
+content-location: https://www.flickr.com/services/oauth/request_token?oauth_nonce=07840405&oauth_timestamp=1510833102&oauth_consumer_key=5b5735907b2fc27180f61c658624f3c6&oauth_signature_method=HMAC-SHA1&oauth_version=1.0&oauth_signature=0%2FtHkSe1SU8WrzG%2FdByA7%2FtHsy0%3D&oauth_callback=https%3A%2F%2Fflickr.com
+-content-encoding: gzip
+set-cookie: xb=306108; expires=Fri, 16-Nov-2018 11:51:43 GMT; path=/;
+ domain=.flickr.com
+age: 1
+vary: Accept-Encoding
+server: ATS
+connection: keep-alive
+via: http/1.1 fts112.flickr.bf1.yahoo.com (ApacheTrafficServer [cMsSf ]),
+ https/1.1 e29.ycpi.amb.yahoo.com (ApacheTrafficServer [cMsSf ])
+cache-control: private
+date: Thu, 16 Nov 2017 11:51:43 GMT
+p3p: policyref="https://policies.yahoo.com/w3c/p3p.xml",
+ CP="CAO DSP COR CUR ADM DEV TAI PSA PSD IVAi IVDi CONi TELo OTPi OUR DELi
+ SAMi OTRi UNRi PUBi IND PHY ONL UNI PUR FIN COM NAV INT DEM CNT STA POL HEA
+ PRE LOC GOV"
+content-type: text/plain;charset=UTF-8
+x-frame-options: SAMEORIGIN
+-varied-accept-encoding: gzip, deflate
+
+oauth_callback_confirmed=true&oauth_token=72157688555371721-294c77b07b1e1350&oauth_token_secret=6a9f4498ddac257d
