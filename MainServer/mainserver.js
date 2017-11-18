@@ -67,11 +67,14 @@ app.get('/res/:resource', function(req, res) {
  *   'twt'  = true / false
  *   'tmb'  = true / false
  *   'fkr'  = true / false
+ *   'image' = binary content
  * }
  * 
  * where twt is true if the user wants to post to twitter, tmb if he wants
  * to post to tumbrl and flk for flickr
  * 
+ * 'image' is optional, is the content of the image. If there's no image then
+  * it's an empty string ""
  */
 app.post('/home', function (req, res) {  
   post.upload_post(req, res)

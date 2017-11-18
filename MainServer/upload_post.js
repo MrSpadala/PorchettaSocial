@@ -15,6 +15,10 @@ function upload_post(req, res) {
   if (req.body.tmb) list.push('tmb')
   if (req.body.fkr) list.push('fkr')
   
+  var image = req.body.image
+  if (typeof(image)=='undefined')
+    image = ""
+  
   log('Received text:'+text+' list:'+list)
 
   // sanity check, list and text can't be undefined
@@ -75,7 +79,7 @@ function upload_post(req, res) {
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
   for (var i=0; i<list.length; i++) {
-    var msg = ['upload_post', text, token1[i], token2[i]].join('\xFF')
+    var msg = ['upload_post', token1[i], token2[i], text, image].join('\xFF')
 	queue.send(msg, list[i])
   }
 
