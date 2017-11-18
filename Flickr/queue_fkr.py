@@ -18,7 +18,7 @@ def callback(ch, method, properties, body):
 	channel1 = connection.channel()
 	channel1.queue_declare(queue='to_server', durable=True)
 	message = body.decode('utf-8')
-	l = message.split('ÿ')
+	l = message.split('ÿ',2)
 	print("Received msg splitted ",l)
 
 	id_api = 'fkr'
@@ -33,6 +33,8 @@ def callback(ch, method, properties, body):
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 		
 	elif l[1] == 'verify_pin':
+	
+		l = message.split('ÿ')
 		pin = l[2]                
 		request_token = l[3]
 		request_token_secret = l[4]
@@ -48,12 +50,14 @@ def callback(ch, method, properties, body):
 
 	elif l[1] == 'upload_photo':
 		
-		photo_path = l[2]
-		photo_title = l[3]
-		access_token = l[4]
-		access_token_secret = l[5]
+		# msg_id ÿ 'upload_photo' ÿ access_token ÿ access_tok_secret ÿ photo_title ÿ photo (binary)
+		l = message.split('ÿ', 5)
+		access_token = l[2]
+		access_token_secret = l[3]
+		photo_title = l[4]
+		photo_bin = l[5]
 		
-		r = flickr_methods.upload_photo(photo_path, photo_title)
+		r = flickr_methods.upload_photo(photo_bin, photo_title)
 			
 		risposta = 0
 		if ('200' in str(r)):

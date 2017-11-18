@@ -61,7 +61,7 @@ def get_access_token(pin, request_token, request_token_secret):
 	return access_token_resp['oauth_token'], access_token_resp['oauth_token_secret']
 
 	
-def upload_photo(photo_path, photo_title):
+def upload_photo(photo_bin, photo_title):
 	
 	data = {
 		'oauth_consumer_key': consumer.key,
@@ -76,7 +76,7 @@ def upload_photo(photo_path, photo_title):
 	req['oauth_signature'] = oauth.SignatureMethod_HMAC_SHA1().sign(req, consumer, token)
 
 	
-	files = {'photo': (photo_title ,open(photo_path, 'rb'))}
+	files = {'photo': (photo_title, photo_bin)}
 	r = requests.post(photo_url, data=req, files=files)
 	
 	return r.status_code
