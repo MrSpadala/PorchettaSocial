@@ -48,6 +48,10 @@ app.get('/test_ws', function(req, res) {
 
 
 // Home page
+app.get('/', function(req, res) {
+  res.redirect('/home')
+})
+
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + '/res/porchetta_website.html')
 })

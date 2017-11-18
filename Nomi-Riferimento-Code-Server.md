@@ -10,9 +10,9 @@ il messaggio nella coda del giusto Social.
 
 ## Nome server message broker
 
-`rabbit-mq`
+`rabbitmq`
 
-E' il server ai quali i moduli si devono connettere per scambiarsi messaggi, così `amqp://rabbit-mq`
+E' il server ai quali i moduli si devono connettere per scambiarsi messaggi, così `amqp://rabbitmq`
 
 
 ## Nomi di riferimento per le code
