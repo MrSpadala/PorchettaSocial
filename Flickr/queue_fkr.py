@@ -48,9 +48,9 @@ def callback(ch, method, properties, body):
 
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
-	elif l[1] == 'upload_photo':
+	elif l[1] == 'upload_post':
 		
-		# msg_id ÿ 'upload_photo' ÿ access_token ÿ access_tok_secret ÿ photo_title ÿ photo (binary)
+		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (binary)
 		l = message.split('ÿ', 5)
 		access_token = l[2]
 		access_token_secret = l[3]

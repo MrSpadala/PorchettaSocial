@@ -13,7 +13,7 @@ def callback(ch, method, properties, body):
 	channel1 = connection.channel()
 	channel1.queue_declare(queue='to_server', durable=True)
 	message = body.decode('utf-8')
-	l = message.split('ÿ')
+	l = message.split('ÿ', 2)
 	print("Received msg splitted ",l)
 
 	flag = 'ÿ'
@@ -28,6 +28,7 @@ def callback(ch, method, properties, body):
 		
 	elif l[1] == 'verify_pin':
 		twitter = OAuth1Service(name='twitter',consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',request_token_url='https://api.twitter.com/oauth/request_token',access_token_url='https://api.twitter.com/oauth/access_token',authorize_url='https://api.twitter.com/oauth/authorize')
+		l = message.split('ÿ')
 		pin = l[2]                
 		request_token = l[3]
 		request_token_secret = l[4]
@@ -43,17 +44,28 @@ def callback(ch, method, properties, body):
 
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
-	else:
+	elif l[1] == 'upload_post':
+	
+		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (binary)
 		f = 0
 		consumer_key = 'VyP9pdp6VC1M0qkfS4m14oxqM'
 		consumer_secret = 'udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq'
-		access_token = l[3]
-		access_token_secret = l[4]
+		l = message.split('ÿ', 5)
+		access_token = l[2]
+		access_token_secret = l[3]
+		text = l[4]
+		photo = l[5]
+		print(text)
+		
+		if len(photo) > 0:
+			# TODO Invia pure la foto
+			pass
+		
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 
 		params = {'status': 'testo'}
 
-		params['status']=l[2]
+		params['status']=text
 		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
 		risposta = 1
 		if ('200' in str(r)):

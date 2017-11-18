@@ -14,7 +14,7 @@ def callback(ch, method, properties, body):
 	channel1 = connection.channel()
 	channel1.queue_declare(queue='to_server', durable=True)
 	message = body.decode('utf-8')
-	l = message.split('ÿ')
+	l = message.split('ÿ', 2)
 	print("Received msg splitted ",l)
 
 	flag = 'ÿ'
@@ -30,6 +30,7 @@ def callback(ch, method, properties, body):
 		
 	elif l[1] == 'verify_pin':
 		tumblr = OAuth1Service(name='tumblr',consumer_key = 'BEIrTTq8ALZG8htjrLXGpQIe7Kw7stVN0ZMPLokXhpESscritt',consumer_secret= 'IMY60FGZQ2aJp7gTGiLZU5oa9VeU6x1C8h8VIw9UZCGhqHTEUW',request_token_url='https://www.tumblr.com/oauth/request_token',access_token_url='https://www.tumblr.com/oauth/access_token',authorize_url='https://www.tumblr.com/oauth/authorize')
+		l = message.split('ÿ')
 		pin = l[2]                
 		request_token = l[3]
 		request_token_secret = l[4]
@@ -45,12 +46,22 @@ def callback(ch, method, properties, body):
 
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
-	else:
+	elif l[1] == 'upload_post':
+	
+		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (binary)
 		f = 0
 		consumer_key = 'BEIrTTq8ALZG8htjrLXGpQIe7Kw7stVN0ZMPLokXhpESscritt'
 		consumer_secret = 'IMY60FGZQ2aJp7gTGiLZU5oa9VeU6x1C8h8VIw9UZCGhqHTEUW'
-		access_token = l[3]
-		access_token_secret = l[4]
+		l = message.split('ÿ', 5)
+		access_token = l[2]
+		access_token_secret = l[3]
+		text = l[4]
+		photo = l[5]
+		
+		if len(photo) > 0:
+		    # TODO Invia pure la foto
+		    pass
+		
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 
 		r = oauth.get('http://api.tumblr.com/v2/user/info')
@@ -59,7 +70,7 @@ def callback(ch, method, properties, body):
 			name = r['response']['user']['name']
 			stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
 
-			params = {'title': '','body':l[2]}
+			params = {'title': '','body':text}
 			r = oauth.post(stringa, data = params,json=None).json()
 			risposta = 1
 			if ('201' in str(r)):
