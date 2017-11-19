@@ -54,7 +54,7 @@ function upload_post(req, res) {
   
   // If cookie fails sanity check
   if (need_auth.length > 0) {
-    res.send({result:"no", auth:need_auth})
+    res.send({result:"no", msg:"Need auth to "+need_auth, auth:need_auth})
     return
   }
 
@@ -68,7 +68,7 @@ function upload_post(req, res) {
       token2.push(cookie[network].token2)
     } catch (ex) {
       exception = true
-      res.send({result:"no", auth:[network]})
+      res.send({result:"no", msg:"Need auth", auth:[network]})
       return
     }
   })

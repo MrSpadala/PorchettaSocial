@@ -36,6 +36,14 @@ app.get('/debug/req_list', function(req, res) {
 })
 
 
+// Required for some browsers
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 
 
 // testing, attualmente pagina funzionante per loggare e postare
