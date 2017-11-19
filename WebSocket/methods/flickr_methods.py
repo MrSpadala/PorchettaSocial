@@ -80,3 +80,6 @@ def upload_photo(photo_bin, photo_title):
 	r = requests.post(photo_url, data=req, files=files)
 	
 	return r.status_code
+	
+def get_authorize_url():
+	return authorize_url
