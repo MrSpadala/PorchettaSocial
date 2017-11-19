@@ -36,9 +36,12 @@ function post(method,url,data){
 		dataType : 'json', // data type
 		data : data, // post data || get data
 		success : function(result) {
-			// you can see the result from the console
-			// tab of the developer tools
-			console.log(result);
+			if (result.result == 'yes')
+				alert('OK! '+result.msg);
+			else if (result.result == 'no')
+				alert('No! '+result.msg);
+			else
+			    alert(result)
          },
          error: function(xhr, resp, text) {
 			 console.log(xhr, resp, text);
