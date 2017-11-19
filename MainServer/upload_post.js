@@ -11,9 +11,9 @@ function upload_post(req, res) {
  
   // Build list from single fields
   var list = []
-  if (req.body.twt) list.push('twt')
-  if (req.body.tmb) list.push('tmb')
-  if (req.body.fkr) list.push('fkr')
+  if (req.body.twt == 'true') list.push('twt')
+  if (req.body.tmb == 'true') list.push('tmb')
+  if (req.body.fkr == 'true') list.push('fkr')
   
   var image = req.body.image
   if (typeof(image)=='undefined')

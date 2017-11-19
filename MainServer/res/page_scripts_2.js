@@ -19,10 +19,11 @@ window.onload = function(){
 			to_post = document.getElementById("text").value;
 			text = {
 				data : to_post,
-			    twt : document.getElementById("twt").checked,
-			    tmb : document.getElementById("tmb").checked,
-			    flk : document.getElementById("flk").checked
+			    twt : document.getElementById("twt").checked.toString(),
+			    tmb : document.getElementById("tmb").checked.toString(),
+			    flk : document.getElementById("flk").checked.toString()
 			}
+			console.log(text)
 		    post("POST","http://localhost/home", text);
 	   }
 	})
