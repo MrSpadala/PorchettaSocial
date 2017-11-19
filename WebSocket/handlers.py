@@ -10,7 +10,7 @@ def flickr_handler(l):
 	if (l[0] == 'auth'):
 		request_token, request_token_secret = flickr.get_request_token()
 		
-		stringa_invio = name+flag+'auth'+flag+authorize_url+flag+request_token+flag+request_token_secret
+		stringa_invio = name+flag+'auth'+flag+flickr.authorize_url+flag+request_token+flag+request_token_secret
 	
 	elif l[0] == 'verify_pin':
 
