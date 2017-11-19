@@ -30,10 +30,10 @@ def err():
 
 
 
-
+'''
 echo('---------- Starting MainServer ----------')
 if call('cd ../MainServer/ && sudo node ../MainServer/mainserver.js') != 0:
-    err()
+    err()'''
 
 
 echo('---------- Starting Twitter ----------')
