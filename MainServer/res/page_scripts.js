@@ -1,26 +1,59 @@
-
 function validaPost(){
 	if(!document.getElementById("twt").checked && !document.getElementById("tmb").checked && !document.getElementById("flk").checked){
 		alert("You must choose at least one social network!");
 		return false;
 	}
-	else if(document.getElementById("text").value==""){
+	if(document.getElementById("text").value==""){
 		alert("You first should write something to post!");
 		return false;
 	}
-	else if(document.getElementById("twt").checked && document.getElementById("twt_led").className == "led-red"){
-		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-		return false;
-	}
-	else if(document.getElementById("tmb").checked && document.getElementById("tmb_led").className == "led-red"){
-		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-		return false;
-	}
-	else if(document.getElementById("fkr").checked && document.getElementById("fkr_led").className == "led-red"){
-		alert("You cannot post on social networks you are not connected to! Please click on the images to connect.");
-		return false;
-	}
+	return true;
 }
+
+
+window.onload = function(){
+	var list = document.getElementById("s_button");
+	// click on button submit
+	list.addEventListener('click' , function(){
+		if(validaPost()==true){
+			to_post = document.getElementById("text").value;
+			text = {
+				data : to_post,
+			    twt : document.getElementById("twt").checked.toString(),
+			    tmb : document.getElementById("tmb").checked.toString(),
+			    flk : document.getElementById("flk").checked.toString()
+			}
+			console.log(text)
+		    post("post","http://localhost/home", text);
+	   }
+	})
+}
+
+function post(method, path, params) {
+	//method = method | "get"; // Set method to post by default if not specified.
+
+	// The rest of this code assumes you are not using a library.
+	// It can be made less wordy if you use one.
+	var form = document.createElement("form");
+	form.setAttribute("method", method);
+	form.setAttribute("action", path);
+	form.setAttribute("target", "_blank");        
+
+	for(var key in params) {
+		if(params.hasOwnProperty(key)) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			hiddenField.setAttribute("value", params[key]);
+
+			form.appendChild(hiddenField);
+		}
+	}
+
+	document.body.appendChild(form);
+	form.submit();
+}
+
 
 
 	
@@ -52,7 +85,11 @@ function auth_twt(led_light){
 		url = data[2];
 		token1 = data[3];
 		token2 = data[4];
-		/* POST*/
+		data = {
+			"token1" : token1,
+			"token2" : token2
+		}
+		post("get","http://localhost/auth/start/twitter",data);
 		window.open(url);
 		
     };
@@ -67,6 +104,10 @@ function auth_twt(led_light){
       alert("Connection error");
     };
 }
+
+
+
+
 
 	// TUMBLR AUTH	
 function log_on_tumblr(){
@@ -96,7 +137,11 @@ function auth_tmb(led_light){
 		url = data[2];
 		token1 = data[3];
 		token2 = data[4];
-		/* POST*/
+		data = {
+			"token1" : token1,
+			"token2" : token2
+		}
+		post("get","http://localhost/auth/start/tumblr",data);
 		window.open(url);
       
     };
@@ -111,6 +156,9 @@ function auth_tmb(led_light){
         alert("Connection error");
     };
 }
+
+
+
 
 
 	// FLICKR AUTH

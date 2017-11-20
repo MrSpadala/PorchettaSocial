@@ -60,7 +60,7 @@ def callback(ch, method, properties, body):
 		if len(photo) > 0:
 			# TODO Invia pure la foto
 			pass
-		
+		print('AAAAAAAAAAAAAAAAAAAAAAAA')
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 
 		params = {'status': 'testo'}

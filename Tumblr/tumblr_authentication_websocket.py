@@ -34,6 +34,7 @@ async def callback(websocket, path):
 		stringa_invio = ''
 		try:
 			session = tumblr.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': pin})
+			print(str(session))
 			token1 = session.access_token
 			token2 = session.access_token_secret
 			stringa_invio ='tmbÿverify_pinÿ'+token1+flag+token2
