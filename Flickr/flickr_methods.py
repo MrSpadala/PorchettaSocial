@@ -10,6 +10,7 @@ photo_url = 'https://api.flickr.com/services/upload'
 
 apikey = '5b5735907b2fc27180f61c658624f3c6'
 apisecret = '1c8a1fe350a2c875'
+callback = 'https://flickr.com'
 
 def get_request_token():
 	
