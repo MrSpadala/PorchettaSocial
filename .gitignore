@@ -59,3 +59,6 @@ typings/
 
 # ignora testing directory
 testing/
+
+__pycache__/
+.cache/
