@@ -46,6 +46,11 @@ echo('---------- Starting Tumblr ----------')
 if (call('python3 ../Tumblr/queue_tmb.py') or
     call('python3 ../Tumblr/tumblr_authentication_websocket.py')!= 0):
     err()
+    
+echo('---------- Starting Flickr ----------')
+if (call('python3 ../Flickr/queue_fkr.py') or
+    call('python3 ../Flickr/flickr_authentication_websocket.py')!= 0):
+    err()
 
 
 echo('OK')
