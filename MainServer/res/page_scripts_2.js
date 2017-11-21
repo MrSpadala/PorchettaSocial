@@ -164,9 +164,9 @@ function auth_tmb(led_light){
 	// FLICKR AUTH
 function log_on_flickr(){
 	if ("WebSocket" in window){
-		var led_light = document.getElementById("flk_led");
+		var led_light = document.getElementById("fkr_led");
 		if(led_light.className == "led-red"){
-			auth_flk(led_light);
+			auth_fkr(led_light);
 		} else {
 			alert("You are already logged on Flickr!")
 	    }
@@ -175,11 +175,11 @@ function log_on_flickr(){
 	} 
 }
 
-function auth_flk(led_light){	
-	var ws_flk = new WebSocket('ws://localhost:12347'); //to be defined
+function auth_fkr(led_light){	
+	var ws_fkr = new WebSocket('ws://localhost:12347'); //to be defined
     
-    ws_flk.onopen = function(){
-      ws_flk.send("auth");
+    ws_fkr.onopen = function(){
+      ws_fkr.send("auth");
       led_light.setAttribute( "class", "led-green" );
     };
     
@@ -198,12 +198,12 @@ function auth_flk(led_light){
       
     };
     
-    ws_flk.onclose = function(){
+    ws_fkr.onclose = function(){
 		led_light.setAttribute( "class", "led-red" );
         alert("Connection closed");
     };
     
-    ws_flk.onerror = function(){
+    ws_fkr.onerror = function(){
 		led_light.setAttribute( "class", "led-red" );
         alert("Connection error");
     };
