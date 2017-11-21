@@ -7,7 +7,7 @@ Il file flickr_api.py garantisce l'autenticazione e autorizzazione di un utente 
 		- oauth2
 		- requests
 		- httplib2
-		- urllib
+		- urllibhttps://www.flickr.com/services/api/
 	
 	iii) digitare il comando `python3 flickr_api.py`
 	
@@ -29,4 +29,4 @@ Il file flickr_api.py garantisce l'autenticazione e autorizzazione di un utente 
 -------- da definire -----------
 
 ## linkografia:
--------- da definire -----------
+[Flickr Api] (https://www.flickr.com/services/api/)
