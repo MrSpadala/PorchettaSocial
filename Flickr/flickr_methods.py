@@ -81,3 +81,6 @@ def upload_photo(photo_bin, photo_title):
 	r = requests.post(photo_url, data=req, files=files)
 	
 	return r.status_code
+
+def get_url(token1):
+	return "%s?oauth_token=%s&perms=write" % (authorize_url, token1)

@@ -1,5 +1,5 @@
 function validaPost(){
-	if(!document.getElementById("twt").checked && !document.getElementById("tmb").checked && !document.getElementById("flk").checked){
+	if(!document.getElementById("twt").checked && !document.getElementById("tmb").checked && !document.getElementById("fkr").checked){
 		alert("You must choose at least one social network!");
 		return false;
 	}
@@ -21,7 +21,7 @@ window.onload = function(){
 				data : to_post,
 			    twt : document.getElementById("twt").checked.toString(),
 			    tmb : document.getElementById("tmb").checked.toString(),
-			    flk : document.getElementById("flk").checked.toString()
+			    flk : document.getElementById("fkr").checked.toString()
 			}
 			console.log(text)
 		    post("post","http://localhost/home", text);
@@ -183,8 +183,19 @@ function auth_flk(led_light){
       led_light.setAttribute( "class", "led-green" );
     };
     
-    ws_flk.onmessage = function(event){
-      alert(event.data); //to be defined
+    ws_fkr.onmessage = function(event){
+      data= event.data.split("\xFF");
+		// fkr|auth|url|token1|token2
+		url = data[2];
+		token1 = data[3];
+		token2 = data[4];
+		data = {
+			"token1" : token1,
+			"token2" : token2
+		}
+		post("get","http://localhost/auth/start/flickr",data);
+		window.open(url);
+      
     };
     
     ws_flk.onclose = function(){

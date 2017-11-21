@@ -21,7 +21,7 @@ async def callback(websocket, path):
 	if (l[0] == 'auth'):
 		request_token, request_token_secret = flickr_methods.get_request_token()
 		
-		stringa_invio =name+flag+'auth'+flag+authorize_url+flag+request_token+flag+request_token_secret
+		stringa_invio =name+flag+'auth'+flag+flickr_methods.get_url(request_token)+flag+request_token+flag+request_token_secret
 		await websocket.send(stringa_invio)
 	
 	elif l[0] == 'verify_pin':
