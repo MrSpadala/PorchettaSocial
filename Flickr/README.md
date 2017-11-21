@@ -3,7 +3,7 @@ Il file flickr_api.py garantisce l'autenticazione e autorizzazione di un utente 
 
 ## Run flickr_api.py
 	i) Aprire il terminale (ctrl+alt+t)
-	ii) Installare le seguenti librerie tramite il comando `pip3 install [nome_libreria]`
+	ii) Installare le seguenti librerie tramite il comando `pip3 install nome_libreria`
 		- oauth2
 		- requests
 		- httplib2
@@ -29,4 +29,4 @@ Il file flickr_api.py garantisce l'autenticazione e autorizzazione di un utente 
 -------- da definire -----------
 
 ## linkografia:
-[Flickr Api] (https://www.flickr.com/services/api/)
+[Flickr Api](https://www.flickr.com/services/api/)
