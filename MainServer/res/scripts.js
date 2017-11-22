@@ -28,7 +28,6 @@ window.onload = function(){
 					flk : document.getElementById("fkr").checked.toString(),
 					img : ""
 				}
-				alert("blbl");
 				console.log(text);
 				post("post","http://localhost/home", text);
 			}
