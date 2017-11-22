@@ -36,7 +36,8 @@ def callback(ch, method, properties, body):
 		if len(photo) > 0:
 			media_info = oauth.post('https://upload.twitter.com/1.1/media/upload.json', media=photo, json=None)
 			if (!('200' in str(media_info))):
-				# messaggio d'errore non hai caricato un ciufulo
+				stringa_invio = msg + flag + 'twtÿupload_postÿ' + 'image error'
+				channel1.basic_publish(exchange='', routing_key = 'to_server', body = stringa_invio)
 			flag_photo = true
 			pass
 		print('AAAAAAAAAAAAAAAAAAAAAAAA')
@@ -61,7 +62,8 @@ def callback(ch, method, properties, body):
 			stringa_invio =msg+flag+'twtÿupload_postÿ'+'exception_occurred'
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 	else:
-		#send error message to server 'comand not verified'
+		stringa_invio = msg+ flag + 'twtÿupload_postÿ' + 'unknow command'
+		channel1.basic_publish(exchange='', routing_key = 'to_server', body = stringa_invio)
 	
 
 channel.basic_consume(callback,
