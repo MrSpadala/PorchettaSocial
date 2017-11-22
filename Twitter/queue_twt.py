@@ -18,33 +18,7 @@ def callback(ch, method, properties, body):
 
 	flag = 'ÿ'
 	msg = l[0]
-	if (l[1] == 'auth'):
-		twitter = OAuth1Service(name='twitter',consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',request_token_url='https://api.twitter.com/oauth/request_token',access_token_url='https://api.twitter.com/oauth/access_token',authorize_url='https://api.twitter.com/oauth/authorize')
-		request_token, request_token_secret = twitter.get_request_token(method='POST')
-		authorize_url = twitter.get_authorize_url(request_token)
-		
-		stringa_invio =msg+flag+'twtÿauthÿ'+authorize_url+flag+request_token+flag+request_token_secret
-		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-		
-	elif l[1] == 'verify_pin':
-		twitter = OAuth1Service(name='twitter',consumer_key='VyP9pdp6VC1M0qkfS4m14oxqM',consumer_secret='udtYapVuIU3vFalBjRmHWIVPPE6yA9BK4Zwzj6XB1kRcg8ekQq',request_token_url='https://api.twitter.com/oauth/request_token',access_token_url='https://api.twitter.com/oauth/access_token',authorize_url='https://api.twitter.com/oauth/authorize')
-		l = message.split('ÿ')
-		pin = l[2]                
-		request_token = l[3]
-		request_token_secret = l[4]
-		stringa_invio = ''
-		try:
-			session = twitter.get_auth_session(request_token,request_token_secret,method='POST',data={'oauth_verifier': pin})
-			token1 = session.access_token
-			token2 = session.access_token_secret
-			stringa_invio =msg+flag+'twtÿverify_pinÿ'+token1+flag+token2
-
-		except Exception:
-			stringa_invio =msg+flag+'twtÿverify_pinÿ'+'exception_occurred'
-
-		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-
-	elif l[1] == 'upload_post':
+	if (l[1] == 'upload_post'):
 	
 		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (binary)
 		f = 0
@@ -86,7 +60,8 @@ def callback(ch, method, properties, body):
 		else: 
 			stringa_invio =msg+flag+'twtÿupload_postÿ'+'exception_occurred'
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-
+	else:
+		#send error message to server 'comand not verified'
 	
 
 channel.basic_consume(callback,
