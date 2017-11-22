@@ -4,22 +4,13 @@
 		<link rel='stylesheet' type='text/css' href='http://localhost/res/porchetta_fancy.css'>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"> </script>
-		<script type="text/javascript" src="http://localhost/res/page_scripts_2.js"> </script>
+		<script type="text/javascript" src="http://localhost/res/scripts.js"> </script>
 		
 	</head>
 	<body >
 		<table style="height: 900px; width: 1000px;" id="main_table">
 			<tbody>
-				<tr style="height: 621.333px;">
-					
-					
-			       <!-- Facebook image
-			       <div class="polaroid">
-			       <a target="_blank" href="">
-					   <p><img class="social" src="https://facebookbrand.com/wp-content/themes/fb-branding/prj-fb-branding/assets/images/fb-art.png" alt="Facebook" width="93" height="91" /></p>
-				   </a>
-				   <div class="container"> <text_ class="log">Log on Facebook </text_> </div>
-				   </div>-->	
+				<tr style="height: 621.333px;">	
 				   <td style="width: 85.3203px; height: 621.333px;"> 
 				   <table>  
 				   <tbody>
@@ -105,14 +96,17 @@
   
                     <div class="left_form">
 	                <form method="post" enctype="application/json" action="http://localhost/home" name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
-						<!-- input checkbox attribute disabled : Specifies that an <input> element should be disabled
-						<text_> Facebook  </text_> <input type="checkbox" size="3" name="fb">                -->
+						<!-- input checkbox attribute disabled : Specifies that an <input> element should be disabled-->
+						
 						<label for="twt" form="porchetta_form"><text_> Twitter  </text_></label><input type="checkbox" size="3" name="twt" id="twt">
 						<label for="tmb" form="porchetta_form"><text_> Tumblr    </text_></label><input type="checkbox" size="3" name="tmb" id="tmb">
 						<label for="fkr" form="porchetta_form"><text_> Flickr    </text_></label><input type="checkbox" size="3" name="fkr" id="fkr"> 
 		               <br>
+		               
+		               <input type="file" accept="image/*" id="image_upload" form="porchetta_form">
+		               
 		               <br>
-		               <textarea id="text" name="text"></textarea>
+		               <textarea id="text" name="text" form="porchetta_form"></textarea>
 		               <br>
 		               <br>
 		               <button class="button button1" style="width:300px" type="button" name="s_button" id="s_button">

@@ -15,19 +15,41 @@ window.onload = function(){
 	var list = document.getElementById("s_button");
 	// click on button submit
 	list.addEventListener('click' , function(){
-			    
-		if(validaPost()==true){
-			to_post = document.getElementById("text").value;
-			text = {
-				data : to_post,
-				twt : document.getElementById("twt").checked.toString(),
-				tmb : document.getElementById("tmb").checked.toString(),
-				flk : document.getElementById("fkr").checked.toString()
-			}
-		   console.log(text);
-		   post("post","http://localhost/home", text);
 		
-	   }
+		if(true){ // validaPost()==true
+			var to_post = document.getElementById("text").value;
+			var fileInput = document.getElementById('image_upload');
+			
+			if(fileInput.value==""){
+				text = {
+					data : to_post,
+					twt : document.getElementById("twt").checked.toString(),
+					tmb : document.getElementById("tmb").checked.toString(),
+					flk : document.getElementById("fkr").checked.toString(),
+					img : ""
+				}
+				console.log(text);
+				post("post","http://localhost/home", text);
+			}
+			else {
+				var file = fileInput.files[0];
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					alert(reader.result.toString());
+					text = {
+						data : to_post,
+						twt : document.getElementById("twt").checked.toString(),
+						tmb : document.getElementById("tmb").checked.toString(),
+						flk : document.getElementById("fkr").checked.toString(),
+						img : reader.result
+				    }
+				    console.log(text);
+				    post("post","http://localhost/home", text);
+				}
+			    reader.readAsBinaryString(file);
+			}
+		}
+		
 	});
 }
 
