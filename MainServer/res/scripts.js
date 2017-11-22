@@ -16,11 +16,11 @@ window.onload = function(){
 	// click on button submit
 	list.addEventListener('click' , function(){
 		
-		if(true){ // validaPost()==true
+		if(validaPost()==true){
 			var to_post = document.getElementById("text").value;
 			var fileInput = document.getElementById('image_upload');
 			
-			if(fileInput.value==""){
+			if(fileInput.value==""){  //Non c'è una immagine
 				text = {
 					data : to_post,
 					twt : document.getElementById("twt").checked.toString(),
@@ -28,10 +28,11 @@ window.onload = function(){
 					flk : document.getElementById("fkr").checked.toString(),
 					img : ""
 				}
+				alert("blbl");
 				console.log(text);
 				post("post","http://localhost/home", text);
 			}
-			else {
+		    else { // C'è una immagine
 				var file = fileInput.files[0];
 				var reader = new FileReader();
 				reader.onload = function(e) {
@@ -42,6 +43,7 @@ window.onload = function(){
 						flk : document.getElementById("fkr").checked.toString(),
 						img : reader.result.toString()
 				    }
+				    //alert(reader.result);
 				    console.log(text);
 				    post("post","http://localhost/home", text);
 				}
