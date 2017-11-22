@@ -5,6 +5,8 @@ porchetta is coming...
 ### Layout
 Architettura di riferimento: https://image.ibb.co/gnWtFw/index.jpg
 
+![alt text](https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/Diagram.jpg)
+
 ### Creare app Javascript
  - Cerchiamo di dockerizzare il più possibile, in modo che non ci si riempia il pc di spazzatura inutile. Così facendo gli unici programmi da installare sono [Docker](https://docs.docker.com/engine/installation/) e [NodeJS con npm incluso](https://nodejs.org/en/download/)
  
