@@ -56,15 +56,24 @@ def callback(ch, method, properties, body):
 		text = l[4]
 		photo = l[5]
 		print(text)
+		flag_photo = false
 		
+		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 		if len(photo) > 0:
-			# TODO Invia pure la foto
+			media_info = oauth.post('https://upload.twitter.com/1.1/media/upload.json', media=photo, json=None)
+			if (!('200' in str(media_info))):
+				# messaggio d'errore non hai caricato un ciufulo
+			flag_photo = true
 			pass
 		print('AAAAAAAAAAAAAAAAAAAAAAAA')
-		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
-
-		params = {'status': 'testo'}
-
+		
+		if (flag_photo):
+			media_id = media_info['media_id']
+			params = {'status': 'testo','media_id'= 'media_id'}
+			params['media_id'] = media_id
+		else:
+			params = {'status': 'testo'}
+		
 		params['status']=text
 		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
 		risposta = 1
