@@ -1,4 +1,4 @@
-![alt text](https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/res/porchetta_logo.png "release_the_porcone")
+![alt text](https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/MainServer/res/porchetta_logo.png "release_the_porcone")
 # PorchettaSocial
 porchetta is coming...
 
