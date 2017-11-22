@@ -60,7 +60,8 @@ def callback(ch, method, properties, body):
 			stringa_invio =msg+flag+'tmbÿupload_postÿ'+'exception_occurred'
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 	else:
-		#messaggio di errore al server 'cmd not verified'
+		stringa_invio = msg+flag+'tmbÿupload_postÿ' + 'unknow command'
+		channel1.basic_publish(exchange='', routing_key='to_server', body=stringa_invio)
 
 channel.basic_consume(callback,
                       queue='tmb',
