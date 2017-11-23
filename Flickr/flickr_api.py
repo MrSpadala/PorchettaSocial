@@ -111,7 +111,7 @@ data = {
 again = 'y'
 while again.lower() == 'y':
 	
-	photo_path = '/home/francesco/Desktop/porchetta.jpg'
+	photo_path = '/home/valerio/gitKrakenProjoects/PorchettaSocial/Flickr/porchetta.jpg'
 	
 	req = oauth.Request(method="POST", url=photo_url, parameters=data)
 	signature = oauth.SignatureMethod_HMAC_SHA1().sign(req, consumer, token)
@@ -119,12 +119,16 @@ while again.lower() == 'y':
 
 
 	fotoletta = open(photo_path, 'rb').read()
-	files = {
-		'content-type': 'multipart/form-data',
-		'photo': fotoletta
-		}
 	
-	r = oauth.Request(photo_url, parameters=files)
+	header = {
+		'content-type': 'multipart/form-data'
+	}
+	files = {'photo': fotoletta}
+	
+	s = requests.Session()
+	req = requests.Request('POST', photo_url, data=files, header = header)
+	
+	#r = oauth.Request(photo_url, parameters=files)
 	code = r.status_code
 	if(code == 200):
 		print('Photo uploaded!')

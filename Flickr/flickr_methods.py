@@ -84,7 +84,10 @@ def upload_photo(photo_bin, photo_title, request_token, request_token_secret):
 	req['oauth_signature'] = oauth.SignatureMethod_HMAC_SHA1().sign(req, consumer, token)
 
 	
-	files = {'photo': (photo_title, photo_bin)}
+	############
+
+	
+
 	r = requests.post(photo_url, data=req, files=files)
 	print(r)
 	return r.status_code
