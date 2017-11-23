@@ -12,9 +12,13 @@ La pagina web cui l'utente si connette e che fornisce il servizio è <a href="ht
    <img src="https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/Diagram.jpg" alt="Architectur image">
 </p>
 
-### Prerequisites and Installing
+### Requisites
 
-Inseriamo qua che cosa deve digitare etc etc 
+1. Docker
+
+2. Python
+
+Per maggiori informazioni sull'avvio delle immagini Docker e l'utilizzo degli script consultare <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/scripts">Building Scripts</a>.
 
 ### Authors
 
