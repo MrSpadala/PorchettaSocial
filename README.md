@@ -1,11 +1,16 @@
-![alt text](https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/MainServer/res/porchetta_logo.png "release_the_porcone")
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/MainServer/res/porchetta_logo.png" alt="logo">
+</p>
+
 # PorchettaSocial
-porchetta is coming...
+ahgiungere desrizione generale 
 
 ### Layout
-Architettura di riferimento: https://image.ibb.co/gnWtFw/index.jpg
+Architettura di riferimento:
 
-![alt text](https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/Diagram.jpg)
+<p align="center">
+   <img src="https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/Diagram.jpg" alt="Architectur image">
+</p>
 
 ### Creare app Javascript
  - Cerchiamo di dockerizzare il più possibile, in modo che non ci si riempia il pc di spazzatura inutile. Così facendo gli unici programmi da installare sono [Docker](https://docs.docker.com/engine/installation/) e [NodeJS con npm incluso](https://nodejs.org/en/download/)
