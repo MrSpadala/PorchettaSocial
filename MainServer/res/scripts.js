@@ -26,7 +26,7 @@ window.onload = function(){
 					twt : document.getElementById("twt").checked.toString(),
 					tmb : document.getElementById("tmb").checked.toString(),
 					fkr : document.getElementById("fkr").checked.toString(),
-					img : ""
+					image : ""
 				}
 				console.log(text);
 				post("post","http://localhost/home", text);
@@ -42,7 +42,7 @@ window.onload = function(){
 						fkr : document.getElementById("fkr").checked.toString(),
 						image : reader.result.toString()
 				    }
-				    alert(reader.result);
+				    //alert(reader.result);
 				    console.log(text);
 				    post("post","http://localhost/home", text);
 				}
