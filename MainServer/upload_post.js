@@ -6,18 +6,18 @@ var log = globals.log
 
 
 function upload_post(req, res) {
-  var text = req.body.data
+  var text = req.body.text
  
   // Build list from single fields
   var list = []
-  if (req.body.twt == 'true') list.push('twt')
-  if (req.body.tmb == 'true') list.push('tmb')
-  if (req.body.fkr == 'true') list.push('fkr')
+  if (req.body.twt == 'on') list.push('twt')
+  if (req.body.tmb == 'on') list.push('tmb')
+  if (req.body.fkr == 'on') list.push('fkr')
   
-  var image = req.body.image
+  var image = req.file
   if (typeof(image)=='undefined')
     image = ""
-  console.log('IMAGE IS: '+image.slice(100))
+  console.log('IMAGE IS: '+image)
   
   log('Received text:'+text+' list:'+list)
 
@@ -79,7 +79,7 @@ function upload_post(req, res) {
   // if the program is here we have a token, proceed to upload post
   // (Following RPC syntax in RPC_FORMAT.md)
   for (var i=0; i<list.length; i++) {
-    var msg = ['upload_post', token1[i], token2[i], text, image].join('\xFF')
+    var msg = ['upload_post', token1[i], token2[i], text, image.path].join('\xFF')
 	queue.send(msg, list[i])
   }
 

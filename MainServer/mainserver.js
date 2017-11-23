@@ -17,6 +17,8 @@ var log = globals.log
 var bodyParser = require('body-parser')
 var c00kies = require('cookie-parser')
 var express = require('express')
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 //var fs = require('fs')
 var app = express()
 var server = null
@@ -92,7 +94,7 @@ app.get('/res/:resource', function(req, res) {
  * 'image' is optional, is the content of the image. If there's no image then
   * it's an empty string ""
  */
-app.post('/home', function (req, res) {  
+app.post('/home', upload.single('image'), function (req, res) {  
   post.upload_post(req, res)
 })
 

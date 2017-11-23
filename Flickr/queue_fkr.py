@@ -7,7 +7,7 @@ import pika
 import flickr_methods
 
 #Globals
-host_server = 'localhost'
+host_server = 'rabbitmq'
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
 channel = connection.channel()
@@ -21,7 +21,7 @@ def callback(ch, method, properties, body):
 	channel1.queue_declare(queue='to_server', durable=True)
 	message = body.decode('utf-8')
 	l = message.split('ÿ',2)
-	print("Received msg splitted ",l)
+	#print("Received msg splitted ",l)
 
 	id_api = 'fkr'
 	flag = 'ÿ'
@@ -51,15 +51,15 @@ def callback(ch, method, properties, body):
 		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 
 	elif l[1] == 'upload_post':
-		
+		#print(message[:500])
 		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (binary)
 		l = message.split('ÿ', 5)
 		access_token = l[2]
 		access_token_secret = l[3]
 		photo_title = l[4]
-		photo_bin = l[5]
+		photo_path = l[5]
 		
-		r = flickr_methods.upload_photo(photo_bin, photo_title, access_token, access_token_secret)
+		r = flickr_methods.upload_photo(photo_path, photo_title, access_token, access_token_secret)
 	
 		risposta = 0
 		if ('200' in str(r)):

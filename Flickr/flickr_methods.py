@@ -67,9 +67,9 @@ def get_access_token(pin, request_token, request_token_secret):
 	return access_token_resp['oauth_token'], access_token_resp['oauth_token_secret']
 
 	
-def upload_photo(photo_bin, photo_title, request_token, request_token_secret):
+def upload_photo(photo_path, photo_title, access_token, access_token_secret):
 
-	token = oauth.Token(request_token, request_token_secret)
+	token = oauth.Token(access_token, access_token_secret)
 	
 	data = {
 		'oauth_consumer_key': consumer.key,
@@ -81,15 +81,15 @@ def upload_photo(photo_bin, photo_title, request_token, request_token_secret):
 	}
 	
 	req = oauth.Request(method="POST", url=photo_url, parameters=data)
-	req['oauth_signature'] = oauth.SignatureMethod_HMAC_SHA1().sign(req, consumer, token)
-
+	signature = oauth.SignatureMethod_HMAC_SHA1().sign(req, consumer, token)
+	req['oauth_signature'] = signature
 	
-	############
+	print('DEBUG photo_path: '+photo_path)
 
-	
-
+	files = {'photo': (photo_title, open('../MainServer/'+photo_path), 'blbl')}     #il percorso cambierà su docker
 	r = requests.post(photo_url, data=req, files=files)
-	print(r)
+
+	print(str(r))
 	return r.status_code
 
 def get_url(token1):

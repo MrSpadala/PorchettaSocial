@@ -95,7 +95,7 @@
                 <td style="width: 824.062px; height: 355px;">
   
                     <div class="left_form">
-	                <form method="post" enctype="application/json" action="http://localhost/home" name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
+	                <form method="post" enctype="multipart/form-data" action="http://localhost/home" name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
 						<!-- input checkbox attribute disabled : Specifies that an <input> element should be disabled-->
 						
 						<label for="twt" form="porchetta_form"><text_> Twitter  </text_></label><input type="checkbox" size="3" name="twt" id="twt">
@@ -103,13 +103,13 @@
 						<label for="fkr" form="porchetta_form"><text_> Flickr    </text_></label><input type="checkbox" size="3" name="fkr" id="fkr"> 
 		               <br>
 		               
-		               <input type="file" accept="image/*" id="image_upload" form="porchetta_form">
+		               <input type="file" name="image" accept="image/*" id="image_upload" form="porchetta_form">
 		               
 		               <br>
 		               <textarea id="text" name="text" form="porchetta_form"></textarea>
 		               <br>
 		               <br>
-		               <button class="button button1" style="width:300px" type="button" name="s_button" id="s_button">
+		               <button class="button button1" style="width:300px" type="submit" name="s_button" id="s_button">
 						   <span>Post with Porchetta</span></button>    
 		               <button class="button button2" type="reset"><span> Reset </span></button>
 	                 </form>

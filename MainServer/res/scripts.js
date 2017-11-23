@@ -12,7 +12,7 @@ function validaPost(){
 
 
 window.onload = function(){
-	var list = document.getElementById("s_button");
+	/*var list = document.getElementById("s_button");
 	// click on button submit
 	list.addEventListener('click' , function(){
 		
@@ -40,7 +40,7 @@ window.onload = function(){
 						twt : document.getElementById("twt").checked.toString(),
 						tmb : document.getElementById("tmb").checked.toString(),
 						fkr : document.getElementById("fkr").checked.toString(),
-						image : reader.result.toString()
+						image : reader.result
 				    }
 				    //alert(reader.result);
 				    console.log(text);
@@ -50,7 +50,7 @@ window.onload = function(){
 			}
 		}
 		
-	});
+	});*/
 }
 
 function post(method, path, params) {
