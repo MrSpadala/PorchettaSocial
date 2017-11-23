@@ -24,7 +24,7 @@ function start(social_id, req, res) {
   
   req_list[social_id][t1] = t2
   
-  res.send({result:"yes", msg:'saved request tokens to req_list for twitter'})
+  res.send({result:"yes", msg:'saved request tokens to req_list for'+social_id})
 }
 
 
