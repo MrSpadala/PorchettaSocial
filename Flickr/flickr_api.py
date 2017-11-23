@@ -97,7 +97,7 @@ print('******************** TEST ********************')
 
 #Allego foto di esempio, potete usare quella! --> porchetta.jpg
 
-photo_url = 'https://api.flickr.com/services/upload'
+photo_url = 'https://up.flickr.com/services/upload'
 
 data = {
     'oauth_consumer_key': consumer.key,
@@ -110,28 +110,23 @@ data = {
 
 again = 'y'
 while again.lower() == 'y':
-	sure = 'n'
-	while sure.lower() == 'n':
-		photo_path = input("photo path: ")
-		sure = input('sure? (y/n) ')
 	
-	sure = 'n'
-	while sure.lower() == 'n':
-		title = input("photo title: ")
-		sure = input('sure? (y/n) ')
-	
-	print('\n')
+	photo_path = '/home/francesco/Desktop/porchetta.jpg'
 	
 	req = oauth.Request(method="POST", url=photo_url, parameters=data)
 	signature = oauth.SignatureMethod_HMAC_SHA1().sign(req, consumer, token)
 	req['oauth_signature'] = signature
 
-	files = {'photo': (title ,open(photo_path, 'rb'))}
-	r = requests.post(photo_url, data=req, files=files)
+
+	fotoletta = open(photo_path, 'rb').read()
+	files = {
+		'content-type': 'multipart/form-data',
+		'photo': fotoletta
+		}
 	
+	r = oauth.Request(photo_url, parameters=files)
 	code = r.status_code
 	if(code == 200):
 		print('Photo uploaded!')
-	print('Exit with status [',r.status_code,']')
+	print(r)
 	again = input('\n\nagain? (y/n) ')
-

@@ -4,6 +4,7 @@ import httplib2
 import urllib
 
 import pika
+import flickr_methods
 
 #Globals
 host_server = 'localhost'
@@ -12,6 +13,7 @@ connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server)
 channel = connection.channel()
 
 channel.queue_declare(queue='fkr')
+
 
 def callback(ch, method, properties, body):
 	
@@ -57,17 +59,17 @@ def callback(ch, method, properties, body):
 		photo_title = l[4]
 		photo_bin = l[5]
 		
-		r = flickr_methods.upload_photo(photo_bin, photo_title)
-			
+		r = flickr_methods.upload_photo(photo_bin, photo_title, access_token, access_token_secret)
+	
 		risposta = 0
 		if ('200' in str(r)):
 			risposta = 1
 		
 		if not risposta:
-			stringa_invio =msg+flag+id_api+flag+'upload_photo'+flag+str(risposta)
+			stringa_invio =msg+flag+id_api+flag+'upload_post'+flag+str(risposta)
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 		else: 
-			stringa_invio =msg+flag+id_app+flag+'upload_photo'+flag+'exception_occurred'	
+			stringa_invio =msg+flag+id_api+flag+'upload_post'+flag+'exception_occurred'	
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 	else:
 		print("Errore")

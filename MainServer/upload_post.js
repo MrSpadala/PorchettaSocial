@@ -1,4 +1,3 @@
-
 // si occupa di caricare il post facendo i controlli necessari e inoltrando alle code
 
 var queue = require('./queues.js')
@@ -18,6 +17,7 @@ function upload_post(req, res) {
   var image = req.body.image
   if (typeof(image)=='undefined')
     image = ""
+  console.log('IMAGE IS: '+image.slice(100))
   
   log('Received text:'+text+' list:'+list)
 

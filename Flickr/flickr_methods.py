@@ -2,6 +2,7 @@ import oauth2 as oauth
 import time
 import httplib2
 import urllib
+import requests
 
 token_request_url = "https://www.flickr.com/services/oauth/request_token"
 authorize_url = "https://www.flickr.com/services/oauth/authorize"
@@ -66,7 +67,9 @@ def get_access_token(pin, request_token, request_token_secret):
 	return access_token_resp['oauth_token'], access_token_resp['oauth_token_secret']
 
 	
-def upload_photo(photo_bin, photo_title):
+def upload_photo(photo_bin, photo_title, request_token, request_token_secret):
+
+	token = oauth.Token(request_token, request_token_secret)
 	
 	data = {
 		'oauth_consumer_key': consumer.key,
@@ -83,7 +86,7 @@ def upload_photo(photo_bin, photo_title):
 	
 	files = {'photo': (photo_title, photo_bin)}
 	r = requests.post(photo_url, data=req, files=files)
-	
+	print(r)
 	return r.status_code
 
 def get_url(token1):

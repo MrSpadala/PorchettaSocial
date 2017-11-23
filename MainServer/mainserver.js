@@ -20,8 +20,8 @@ var express = require('express')
 //var fs = require('fs')
 var app = express()
 var server = null
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({limit: '20mb'}))
+app.use(bodyParser.urlencoded({limit: '20mb' ,extended: true }))
 app.use(c00kies())
 
 app.use(function(req, res, next) {

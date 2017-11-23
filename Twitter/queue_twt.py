@@ -30,21 +30,25 @@ def callback(ch, method, properties, body):
 		text = l[4]
 		photo = l[5]
 		print(text)
-		flag_photo = false
+		flag_photo = False
 		
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 		if len(photo) > 0:
-			media_info = oauth.post('https://upload.twitter.com/1.1/media/upload.json', media=photo, json=None)
-			if (!('200' in str(media_info))):
+			media_info = oauth.post('https://upload.twitter.com/1.1/media/upload.json', data=photo, json=None)
+			print("Media info "+str(media_info))
+			print("Media info json "+str(media_info.json()))
+			media_info = media_info.json()
+			
+			if ( not ('200' in str(media_info))):
 				stringa_invio = msg + flag + 'twtÿupload_postÿ' + 'image error'
 				channel1.basic_publish(exchange='', routing_key = 'to_server', body = stringa_invio)
-			flag_photo = true
+			flag_photo = True
 			pass
-		print('AAAAAAAAAAAAAAAAAAAAAAAA')
+
 		
 		if (flag_photo):
 			media_id = media_info['media_id']
-			params = {'status': 'testo','media_id'= 'media_id'}
+			params = {'status': 'testo','media_id': 'media_id'}
 			params['media_id'] = media_id
 		else:
 			params = {'status': 'testo'}
