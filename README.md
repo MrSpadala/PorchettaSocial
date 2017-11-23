@@ -3,10 +3,10 @@
 </p>
 
 # PorchettaSocial
-ahgiungere desrizione generale 
+PorchettaSocial è un'applicazione web che consente all'utente di loggarsi in modo protetto sui social <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/Flickr">Flickr</a>, <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/Tumblr">Tumblr</a> e <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/Twitter">Twitter</a> e pubblicare immagini o post testuali simultaneamente su tutti i social da lui desiderati. 
+La pagina web cui l'utente si connette e che fornisce il servizio è <a href="https://github.com/MrSpadala/PorchettaSocial/blob/master/MainServer/res/porchetta_website.html"> PorchettaSocial.html</a>.
 
 ### Layout
-Architettura di riferimento:
 
 <p align="center">
    <img src="https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/Diagram.jpg" alt="Architectur image">
