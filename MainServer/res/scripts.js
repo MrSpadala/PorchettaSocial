@@ -25,7 +25,7 @@ window.onload = function(){
 					data : to_post,
 					twt : document.getElementById("twt").checked.toString(),
 					tmb : document.getElementById("tmb").checked.toString(),
-					flk : document.getElementById("fkr").checked.toString(),
+					fkr : document.getElementById("fkr").checked.toString(),
 					img : ""
 				}
 				console.log(text);
@@ -39,7 +39,7 @@ window.onload = function(){
 						data : to_post,
 						twt : document.getElementById("twt").checked.toString(),
 						tmb : document.getElementById("tmb").checked.toString(),
-						flk : document.getElementById("fkr").checked.toString(),
+						fkr : document.getElementById("fkr").checked.toString(),
 						img : reader.result.toString()
 				    }
 				    //alert(reader.result);
