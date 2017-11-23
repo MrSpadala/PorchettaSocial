@@ -1,16 +1,32 @@
-<p align="center">
+ <p align="center">
   <img src="https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/MainServer/res/porchetta_logo.png" alt="logo">
 </p>
 
 # PorchettaSocial
 PorchettaSocial è un'applicazione web che consente all'utente di loggarsi in modo protetto sui social <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/Flickr">Flickr</a>, <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/Tumblr">Tumblr</a> e <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/Twitter">Twitter</a> e pubblicare immagini o post testuali simultaneamente su tutti i social da lui desiderati. 
-La pagina web cui l'utente si connette e che fornisce il servizio è <a href="https://github.com/MrSpadala/PorchettaSocial/blob/master/MainServer/res/porchetta_website.html"> PorchettaSocial.html</a>.
+La pagina web cui l'utente si connette e che fornisce il servizio è <a href="https://github.com/MrSpadala/PorchettaSocial/blob/master/MainServer/res/porchetta_website.html">PorchettaSocial</a>.
 
-### Layout
+### Architecture Layout
 
 <p align="center">
    <img src="https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/Diagram.jpg" alt="Architectur image">
 </p>
+
+### Prerequisites and Installing
+
+Inseriamo qua che cosa deve digitare etc etc 
+
+### Authors
+
+- Nicolanti Valerio
+- Roggiolani Giulia
+- Spadaccino Pietro
+- Terenzi Francesco
+- Viviano Riccardo
+
+### License
+
+Il progetto è sotto la Licensa MIT: <a href="https://github.com/MrSpadala/PorchettaSocial/blob/master/LICENSE">License Document</a>.
 
 ### Creare app Javascript
  - Cerchiamo di dockerizzare il più possibile, in modo che non ci si riempia il pc di spazzatura inutile. Così facendo gli unici programmi da installare sono [Docker](https://docs.docker.com/engine/installation/) e [NodeJS con npm incluso](https://nodejs.org/en/download/)
