@@ -7,7 +7,7 @@ import pika
 import flickr_methods
 
 #Globals
-host_server = 'rabbitmq'
+host_server = 'localhost'
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
 channel = connection.channel()
