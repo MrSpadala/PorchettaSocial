@@ -12,13 +12,15 @@ La pagina web cui l'utente si connette e che fornisce il servizio è <a href="ht
    <img src="https://raw.githubusercontent.com/MrSpadala/PorchettaSocial/master/Diagram.jpg" alt="Architectur image">
 </p>
 
-### Requisites
+### How to run
 
-1. Docker
+__Dipendenze:__ `docker` e `docker-compose` versione >= 1.17.1
 
-2. Python
-
-Per maggiori informazioni sull'avvio delle immagini Docker e l'utilizzo degli script consultare <a href="https://github.com/MrSpadala/PorchettaSocial/tree/master/scripts">Building Scripts</a>.
+ 1. Installare [Docker](https://docs.docker.com/engine/installation/)
+ 2. Installare [docker-compose](https://docs.docker.com/compose/install/)
+ 3. Spostarsi nella cartella principale e lanciare `sudo docker-compose build`
+ 4. Per farlo partire `sudo docker-compose up`
+ 5. Ora il servizio è accessibile da [localhost](http://localhost/)
 
 ### Authors
 
