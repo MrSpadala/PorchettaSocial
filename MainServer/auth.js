@@ -11,6 +11,9 @@ var req_list = globals.req_list
 var log = globals.log
 
 
+
+/* tokens that will be used to verify pin are saved in req_list. token1 and token2 are URLencoded
+ */
 function start(social_id, req, res) {
   var t1 = req.query.token1
   var t2 = req.query.token2
@@ -30,6 +33,8 @@ function start(social_id, req, res) {
 
 
 
+/* OAuth redirect page
+ */
 function oauth_landing(social_id, social_name, req, res) {
   var pin = req.query.oauth_verifier
   var token1 = req.query.oauth_token
@@ -63,6 +68,14 @@ function oauth_landing(social_id, social_name, req, res) {
 
 
 
+
+/* After a successful auth the server register access tokens in cookies. 
+ *   request body (JSON):
+ *   {
+ *      token1: 'token1',
+ *      token2: 'token2'
+ *   }
+*/
 function register_access(social_id, req, res) {
   var t1 = req.body.token1
   var t2 = req.body.token2
@@ -91,6 +104,7 @@ function register_access(social_id, req, res) {
 
   res.send({result:"yes", msg:'registered to '+social_id})
 }
+
 
 
 // esporto le funzioni

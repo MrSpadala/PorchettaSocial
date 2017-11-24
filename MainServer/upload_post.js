@@ -5,6 +5,25 @@ var globals = require('./globals.js')
 var log = globals.log
 
 
+
+
+/* User POSTs when he wants to upload a post
+ *
+ * The body of the POST made by the user it's multipart/form-data encoded
+ * 
+ *   'data' = text of the post 
+ *   'twt'  = 'on' if selected
+ *   'tmb'  = 'on' if selected
+ *   'fkr'  = 'on' if selected
+ *   'image' = binary content
+ *
+ * 
+ * where twt is 'on' if the user wants to post to twitter, tmb if he wants
+ * to post to tumbrl and flk for flickr
+ * 
+ * 'image' is optional, is the content of the image. If there's no image then
+ * it's an empty string ""
+ */
 function upload_post(req, res) {
   var text = req.body.text
  

@@ -1,8 +1,4 @@
 
-// per ora senza autenticazione, un client si connette al sito, scrive 
-// il post che vuole fare e lo manda al server attraverso una POST
-
-
 // importo i moduli locali
 var auth = require('./auth.js')
 //var queue = require('./queues.js')
@@ -75,16 +71,16 @@ app.get('/res/:resource', function(req, res) {
 
 /* User POSTs when he wants to upload a post
  *
- * The body of the POST made by the user it's made:
- * {
- *   'data' = text of the post 
- *   'twt'  = true / false
- *   'tmb'  = true / false
- *   'fkr'  = true / false
- *   'image' = binary content
- * }
+ * The body of the POST made by the user it's multipart/form-data encoded
  * 
- * where twt is true if the user wants to post to twitter, tmb if he wants
+ *   'data' = text of the post 
+ *   'twt'  = 'on' if selected
+ *   'tmb'  = 'on' if selected
+ *   'fkr'  = 'on' if selected
+ *   'image' = binary content
+ *
+ * 
+ * where twt is 'on' if the user wants to post to twitter, tmb if he wants
  * to post to tumbrl and flk for flickr
  * 
  * 'image' is optional, is the content of the image. If there's no image then
@@ -132,28 +128,21 @@ app.get('/auth/landing/flickr', function(req, res)  {
  
  
 /* After a successful auth the server register access tokens in cookies. 
- *   request body:
+ *   request body (JSON):
  *   {
  *      token1: 'token1',
  *      token2: 'token2'
  *   }
- *
- *   Cookie set:
- *   {
- *      social: 'nome-social'   #id del social dove ci si è autenticati
- *      token1: 'token1'   
- *      token2: 'token2'
- *   }
 */
-app.post('/register_access/twitter', function(req, res) {
+app.post('/auth/register_access/twitter', function(req, res) {
   auth.register_access('twt', req, res)
 })
 
-app.post('/register_access/tumblr', function(req, res)  {
+app.post('/auth/register_access/tumblr', function(req, res)  {
   auth.register_access('tmb', req, res)
 })
 
-app.post('/register_access/flickr', function(req, res)  {
+app.post('/auth/register_access/flickr', function(req, res)  {
   auth.register_access('fkr', req, res)
 })
 
