@@ -1,51 +1,68 @@
-# il file tumblr_api.py scrive su tumblr post per conto di terzi
+# Twitter
+Il file queue_tmb.py invece è un esempio di gestione delle code lato APIs. esso serve per gestire le varie richieste lato server come creazione di post solo testo o creazione di post con allegate le immagini seguendo le direttive del file RPC_FORMAT.md che si trova nella cartella principale
+Il file tumblr_authentication_websocket.py gestisce l'autenticazione dell'user su tumblr connettendosi
+tramite websocket direttamente con l'utente finale senza passare per il nostro server
 
 
-# Funzionamento tumblr.py :
-     
-     - il metodo utilizzato è lo stesso di quello utilizzato per twitter in quanto tumblr utilizza oauth1.0
-     
-     - se non lo si conosce andare nella cartella twitter e studiare la linkografia messa a disposizione
-     
-     -le differenze con twitter sono:
-	l'oauth_verifier che per twitter corrispondeva al pin è qua invece nel lnk di reindirzzamento
-	quindi dopo aver autorizzato l'app la console vi chiederà l'url al quale siete stati reindirizzati
-	e su quello effettuerà un parsing per ottenere l'oauth_verifier
+## Come funziona queue_tmb.py
+
+- il file queue_twt.py implementa un esempio di comunicazione tramite code con il server hostato in locale
+
+- esso una volta fatto partire rimane in ascolto aspettando che il server di rabbitmq gli mandi qualcosa sulla coda twt
+
+- a ricezione del messaggio fa un parsing dello stesso e, a seconda dei parametri definiti nel messaggio (guardare RPC_FORMAT.md), invia i seguenti messaggi:
+
+
+	- msg_id flag twt flag upload_post flag 0
+
+	nel caso gli venga richiesto di postare un tweet, ed ha successo l'operazione
+
+	- msg_id flag twt flag upload_post flag exception_occurred
+
+	nel caso non si può creare l'oggetto sessione e quindi i token non valgono più e tocca richiedere l'autenticazione e l'operazione non ha successo
+
+# Come funziona tumblr_authentication_websocket.py:
 	
-	altra differenza è che il link che tumblr mette a disposizione per poter postare richiede un 
-	blog-id che corisponde al nome dell'utente, quindi ho fatto in modo tale che prima effettuo una get per
-	sapere il nome dell'utente e successivamente si possono creare i post sulla sua 'bacheca'
-
-	ah e la risposta 201 che da in realtà significa che è stato postato correttamente solo quello
+	tenendo conto che si è mantenuta la semantica dei messaggi delle code e visto che il server websocket del file python
+	deve gestire l'autenticazione, che comprende invio dell'url all utente finale e verifica della correttezza
+	dell'inserimento del pin di conferma (o meglio definito come oauth_verifier), i messaggi che riceve sono del tipo:
 	
-
-# Funzionamento di RabbitMQ e tumblr_api_queues.py :
-
-       - RabbitMQ è un message broker, accetta e inoltra messaggi. Funziona a 'code', i messaggi viaggiano
-         tra RabbitMQ e l'applicazione e vengono immagazzinati dentro di esse (sono essenzialmente buffere di messaggi).
-         
-       - I messaggi che vogliamo postare su tumblr vengono inviati nella coda dedicata. Vediamone il funzionamento della ricezione dei messaggi:
-          
-           # Stabiliamo una connessione con i server di RabbitMQ
-           connection = pika.BlockingConnection(pika.ConnectionParameters( message-broker ))
-           channel = connection.channel()
-           
-           # Ora dobbiamo assicurarsi che la coda in questione esista ('tmb')           
-           channel.queue_declare(queue='tmb')
-           
-           # Definiamo una funzione 'callback' che verrà chiamata ogni volta che viene ricevuto un messaggio in coda
-           channel.basic_consume(callback, queue='tmb', no_ack=True)
-           
-           # Ciclo infinito che aspetterà l'arrivo di messaggi
-           print(' [*] Waiting for messages. CTRL+C to exit')
-           channel.start_consuming()
+	- auth
+	
+	- verify_pin flag pin flag token1 flag token2
+	
+	con flag = ÿ
+	
+	al primo messaggio twitter_authentication_websocket.py risponde così:
+	
+	- tmb flag auth flag authorize_url flag request_token flag request_token_secret
+	
+	al secondo risponderà così:
+	
+	- tmb flag verify_pin flag token1 flag token2 
 	
 	
 
-# Linkografia :
-       
-       - Api di tumblr https://www.tumblr.com/docs/en/api/v2
-       - RabbitMQ : https://www.rabbitmq.com/getstarted.html
+## Linkografia :
+Come lavora la libreria reauth dietro a quelle poche righe di codice di twitter.py:
+
+- https://techrangers.cdl.ucf.edu/oauth-python-tutorial.php
+
+Documentazione di Oauth in python a grandi linee:
+
+- http://rauth.readthedocs.io/en/latest/api/#rauth.OAuth1Service
+
+Documentazione per il file python che gestisce il lato server websocket:
+
+- http://websockets.readthedocs.io/en/stable/intro.html
+
+Api di Tumblr
+
+- https://www.tumblr.com/docs/en/api/v2
+
+RabbitMQ
+
+- https://www.rabbitmq.com/getstarted.html
 
 
 
