@@ -37,6 +37,12 @@ function upload_post(req, res) {
     res.send({result:'no', msg:'no social selected'})
     return
   }
+  
+  // sanity check, text must be non-empty
+  if (text.length == 0) {
+    res.send({result:'no', msg:'text can\'t be empty'})
+    return
+  }
 
   // sanity check, if user post contains utf char '\xFF' 'ÿ', substitute the 'ÿ' with a 'y'
   text = text.replace(new RegExp('\xFF', 'g'), 'y')

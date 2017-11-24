@@ -26,11 +26,14 @@ app.use(bodyParser.json({limit: '20mb'}))
 app.use(bodyParser.urlencoded({limit: '20mb' ,extended: true }))
 app.use(c00kies())
 
+// Required for some browsers
 app.use(function(req, res, next) {
-res.header("Access-Control-Allow-Origin", "*");
-res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
+
+
 
 // pages for debugging
 app.get('/debug/cookies', function(req, res) {
@@ -42,14 +45,6 @@ app.get('/debug/req_list', function(req, res) {
 })
 
 
-// Required for some browsers
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-
 
 
 // testing, attualmente pagina funzionante per loggare e postare
@@ -57,6 +52,7 @@ app.use(function(req, res, next) {
 app.get('/test_ws', function(req, res) {
   res.sendFile(__dirname + '/test.html')
 })
+
 
 
 
@@ -159,6 +155,15 @@ app.post('/register_access/tumblr', function(req, res)  {
 
 app.post('/register_access/flickr', function(req, res)  {
   auth.register_access('fkr', req, res)
+})
+
+
+
+/* Clears cookie and logs out from all socials
+ */
+app.get('/auth/logout', function(req, res) {
+  res.clearCookie('porkett')
+  res.send({result:'yes', msg:'Logged out'})
 })
 
 
