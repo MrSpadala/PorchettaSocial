@@ -15,12 +15,12 @@ Cookie name: `porkett`
     tmb:
     {
         token1: 'blabla',
-        token2: 'blabla',
+        token2: 'blabla'
     }
-    
-    ...  #e cosi via
-
-
-
+    fkr:
+    {
+        token1: 'blabla',
+        token2: 'blabla'
+    }
 }
 ```

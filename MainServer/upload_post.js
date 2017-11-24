@@ -18,8 +18,7 @@ function upload_post(req, res) {
   if (typeof(image)=='undefined')
     image = ""
   
-  log('Received text:'+text+' list:'+list)
-  log('Received image: '+image.length>0)
+  log('Received text:'+text+' list:'+list+' image:'+(image.length>0).toString())
 
   // sanity check, list and text can't be undefined
   if (typeof(text) == 'undefined' || typeof(list) == 'undefined') {
@@ -80,7 +79,10 @@ function upload_post(req, res) {
   // (Following RPC syntax in RPC_FORMAT.md)
   for (var i=0; i<list.length; i++) {
     var msg = ['upload_post', token1[i], token2[i], text, image.path].join('\xFF')
-	queue.send(msg, list[i])
+    if (list[i]=='fkr' && image=='')
+      log('Trying to send to flickr only text, skipping')
+    else
+	  queue.send(msg, list[i])
   }
 
   res.send({result:"yes", msg:"forwarded to "+list})
