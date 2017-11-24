@@ -1,0 +1,6 @@
+oauth2
+requests
+httplib2
+pika
+websockets
+asyncio

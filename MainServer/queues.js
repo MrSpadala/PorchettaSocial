@@ -16,7 +16,7 @@ var log = globals.log
  */
 function sendToQueues(msg, social) {
 
-  amqp.connect('amqp://localhost', function(err,conn) {
+  amqp.connect('amqp://rabbitmq', function(err,conn) {
     conn.createChannel(function(err,ch) {
        
       var ex = 'exchange_name';

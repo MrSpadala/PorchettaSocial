@@ -1,13 +1,25 @@
 import pika
+import time
 from rauth import OAuth1Service
 from requests_oauthlib import OAuth1Session
 
-host_server = 'localhost'
+host_server = 'rabbitmq'
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
+ex = True
+while ex:
+	try:
+		connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
+		ex = False
+	except:
+		print('TWITTER: Waiting for rabbitmq, retrying in 3 seconds')
+		time.sleep(3)
+		
+		
+print('TWITTER: Connected to rabbitmq')
+
 channel = connection.channel()
-
 channel.queue_declare(queue='twt')
+
 
 def callback(ch, method, properties, body):
 	channel1 = connection.channel()

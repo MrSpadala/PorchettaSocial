@@ -1,0 +1,16 @@
+
+version: "2.1"
+services:
+    
+  porchetta:
+    build: .
+    ports:
+      -  "80:80"
+      -  "12345:12345"
+      -  "12346:12346"
+      -  "12347:12347"
+    depends_on:
+      -  "rabbitmq"
+      
+  rabbitmq:
+    image: "rabbitmq:3.6-alpine"

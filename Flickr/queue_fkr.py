@@ -7,11 +7,21 @@ import pika
 import flickr_methods
 
 #Globals
-host_server = 'localhost'
+host_server = 'rabbitmq'
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
+ex = True
+while ex:
+	try:
+		connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
+		ex = False
+	except:
+		print('FLICKR: Waiting for rabbitmq, retrying in 3 seconds')
+		time.sleep(3)
+		
+		
+print('FLICKR: Connected to rabbitmq')
+
 channel = connection.channel()
-
 channel.queue_declare(queue='fkr')
 
 
@@ -61,6 +71,7 @@ def callback(ch, method, properties, body):
 		
 		r = flickr_methods.upload_photo(photo_path, photo_title, access_token, access_token_secret)
 	
+		print(r) #DEBUG
 		risposta = 0
 		if ('200' in str(r)):
 			risposta = 1

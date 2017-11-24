@@ -17,9 +17,9 @@ function upload_post(req, res) {
   var image = req.file
   if (typeof(image)=='undefined')
     image = ""
-  console.log('IMAGE IS: '+image)
   
   log('Received text:'+text+' list:'+list)
+  log('Received image: '+image.length>0)
 
   // sanity check, list and text can't be undefined
   if (typeof(text) == 'undefined' || typeof(list) == 'undefined') {

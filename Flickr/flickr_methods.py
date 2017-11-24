@@ -4,6 +4,7 @@ import httplib2
 import urllib
 import requests
 
+
 token_request_url = "https://www.flickr.com/services/oauth/request_token"
 authorize_url = "https://www.flickr.com/services/oauth/authorize"
 access_token_url = "https://www.flickr.com/services/oauth/access_token"
@@ -86,7 +87,7 @@ def upload_photo(photo_path, photo_title, access_token, access_token_secret):
 	
 	print('DEBUG photo_path: '+photo_path)
 
-	files = {'photo': (photo_title, open('../MainServer/'+photo_path), 'blbl')}     #il percorso cambierà su docker
+	files = {'photo': (photo_title, open(photo_path, 'rb'), 'blbl')}
 	r = requests.post(photo_url, data=req, files=files)
 
 	print(str(r))

@@ -1,14 +1,26 @@
 import pika
+import time
 from rauth import OAuth1Service
 from requests_oauthlib import OAuth1Session
 
 #Globals
-host_server = 'localhost'
+host_server = 'rabbitmq'
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
+ex = True
+while ex:
+	try:
+		connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_server))
+		ex = False
+	except:
+		print('TUMBLR: Waiting for rabbitmq, retrying in 3 seconds')
+		time.sleep(3)
+		
+		
+print('TUMBLR: Connected to rabbitmq')
+
 channel = connection.channel()
-
 channel.queue_declare(queue='tmb')
+
 
 def callback(ch, method, properties, body):
 	channel1 = connection.channel()

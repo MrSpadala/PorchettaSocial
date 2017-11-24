@@ -3,7 +3,7 @@ from requests_oauthlib import OAuth1Session
 import asyncio
 import websockets
 
-server = '127.0.0.1'
+server = '0.0.0.0'
 port = 12346
 
 async def callback(websocket, path):

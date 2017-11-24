@@ -3,7 +3,7 @@ import websockets
 
 import flickr_methods
 
-ip_address = '127.0.0.1'
+ip_address = '0.0.0.0'
 port = 12347
 	
 
