@@ -1,5 +1,6 @@
-# Twitter
-Il file queue_tmb.py invece è un esempio di gestione delle code lato APIs. esso serve per gestire le varie richieste lato server come creazione di post solo testo o creazione di post con allegate le immagini seguendo le direttive del file RPC_FORMAT.md che si trova nella cartella principale
+# Tumblr
+Il file queue_tmb.py è un esempio di gestione delle code lato APIs. esso serve per gestire le varie richieste lato server come creazione di post solo testo o creazione di post con allegate le immagini seguendo le direttive del file RPC_FORMAT.md che si trova nella cartella principale.
+
 Il file tumblr_authentication_websocket.py gestisce l'autenticazione dell'user su tumblr connettendosi
 tramite websocket direttamente con l'utente finale senza passare per il nostro server
 
@@ -8,7 +9,7 @@ tramite websocket direttamente con l'utente finale senza passare per il nostro s
 
 - il file queue_twt.py implementa un esempio di comunicazione tramite code con il server hostato in locale
 
-- esso una volta fatto partire rimane in ascolto aspettando che il server di rabbitmq gli mandi qualcosa sulla coda twt
+- esso una volta fatto partire rimane in ascolto aspettando che gli venga mandato qualcosa sulla coda twt
 
 - a ricezione del messaggio fa un parsing dello stesso e, a seconda dei parametri definiti nel messaggio (guardare RPC_FORMAT.md), invia i seguenti messaggi:
 
@@ -21,11 +22,13 @@ tramite websocket direttamente con l'utente finale senza passare per il nostro s
 
 	nel caso non si può creare l'oggetto sessione e quindi i token non valgono più e tocca richiedere l'autenticazione e l'operazione non ha successo
 
+	con flag = ÿ
+
 # Come funziona tumblr_authentication_websocket.py:
 	
 	tenendo conto che si è mantenuta la semantica dei messaggi delle code e visto che il server websocket del file python
 	deve gestire l'autenticazione, che comprende invio dell'url all utente finale e verifica della correttezza
-	dell'inserimento del pin di conferma (o meglio definito come oauth_verifier), i messaggi che riceve sono del tipo:
+	dell'inserimento del pin di conferma (o meglio definito come oauth_verifier), i messaggi che riceve sono:
 	
 	- auth
 	
