@@ -21,9 +21,6 @@ RUN pip3 install -r Flickr/requirements.txt
 RUN npm --prefix ./MainServer/ install
 
 
-COPY . .
-
-
 CMD node MainServer/mainserver.js & \
     python3 Twitter/twitter_authentication_websocket.py & \
     python3 Tumblr/tumblr_authentication_websocket.py   & \
