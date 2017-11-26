@@ -104,7 +104,6 @@ function auth_twt(led_light){
     
     ws_twt.onclose = function(){
 	  led_light.setAttribute( "class", "led-red" );
-      alert("Connection closed");
     };
     
     ws_twt.onerror = function(){
@@ -156,7 +155,6 @@ function auth_tmb(led_light){
     
     ws_tmb.onclose = function(){
 		led_light.setAttribute( "class", "led-red" );
-        alert("Connection closed");
     };
     
     ws_tmb.onerror = function(){
@@ -208,7 +206,6 @@ function auth_fkr(led_light){
     
     ws_fkr.onclose = function(){
 		led_light.setAttribute( "class", "led-red" );
-        alert("Connection closed");
     };
     
     ws_fkr.onerror = function(){

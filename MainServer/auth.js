@@ -27,7 +27,8 @@ function start(social_id, req, res) {
   
   req_list[social_id][t1] = t2
   
-  res.send({result:"yes", msg:'saved request tokens to req_list for'+social_id})
+  res.send('<html> <script>console.log("yes, saved request tokens to req_list for '+social_id+'"); '+
+            'window.close();</script> </html>')
 }
 
 
@@ -101,8 +102,9 @@ function register_access(social_id, req, res) {
   if (!cookie.logged.includes(social_id))
     cookie.logged.push(social_id)
   res.cookie('porkett', cookie)
-
-  res.send({result:"yes", msg:'registered to '+social_id})
+  
+  res.send('<html> <script>console.log("yes, registered to '+social_id+'"); '+
+            'window.close();</script> </html>')
 }
 
 

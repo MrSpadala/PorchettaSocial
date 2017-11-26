@@ -25,7 +25,6 @@
         ws.onopen = function()
         {
           ws.send(['verify_pin', pin, token1, token2].join('\xFF'));
-          alert("Message is sent...");
         };
 
         ws.onmessage = function (evt) 
@@ -40,10 +39,8 @@
           else 
             alert('auth failed');
           
-          this.close(); 
+          this.close();
         };
-        
-        ws.onclose = function() {alert("closed");}
 				
       </script>
 		
