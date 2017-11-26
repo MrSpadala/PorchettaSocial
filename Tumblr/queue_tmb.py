@@ -1,5 +1,6 @@
 import pika
 import time
+import base64
 from rauth import OAuth1Service
 from requests_oauthlib import OAuth1Session
 
