@@ -2,7 +2,6 @@ import oauth2 as oauth
 import time
 import httplib2
 import urllib
-
 import pika
 import flickr_methods
 
@@ -30,40 +29,14 @@ def callback(ch, method, properties, body):
 	channel1 = connection.channel()
 	channel1.queue_declare(queue='to_server', durable=True)
 	message = body.decode('utf-8')
-	l = message.split('ÿ',2)
-	#print("Received msg splitted ",l)
+	l = message.split('ÿ')
 
 	id_api = 'fkr'
 	flag = 'ÿ'
-	msg = l[0]
-	
-	if (l[1] == 'auth'):
-		
-		request_token, request_token_secret = flickr_methods.get_request_token()
-		
-		stringa_invio =msg+flag+id_api+flag+'auth'+flag+authorize_url+flag+request_token+flag+request_token_secret
-		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-		
-	elif l[1] == 'verify_pin':
-	
-		l = message.split('ÿ')
-		pin = l[2]                
-		request_token = l[3]
-		request_token_secret = l[4]
-		stringa_invio = ''
-		try:
-			access_token, access_token_secret = flickr_methods.get_access_token(pin, request_token, request_token_secret)
-			stringa_invio =msg+flag+id_api+flag+verify_pin+flag+access_token+flag+access_token_secret
+	msg_id = l[0]
 
-		except Exception:
-			stringa_invio =msg+flag+id_api+flag+'verify_pin'+flag+'exception_occurred'
-
-		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
-
-	elif l[1] == 'upload_post':
-		#print(message[:500])
-		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (binary)
-		l = message.split('ÿ', 5)
+	if l[1] == 'upload_post':
+		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (path)
 		access_token = l[2]
 		access_token_secret = l[3]
 		photo_title = l[4]
@@ -71,19 +44,19 @@ def callback(ch, method, properties, body):
 		
 		r = flickr_methods.upload_photo(photo_path, photo_title, access_token, access_token_secret)
 	
-		print(r) #DEBUG
 		risposta = 0
 		if ('201' in str(r)):
 			risposta = 1
 		
 		if not risposta:
-			stringa_invio =msg+flag+id_api+flag+'upload_post'+flag+str(risposta)
+			stringa_invio =msg_id+flag+id_api+flag+'upload_post'+flag+str(risposta)
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 		else: 
-			stringa_invio =msg+flag+id_api+flag+'upload_post'+flag+'exception_occurred'	
+			stringa_invio =msg_id+flag+id_api+flag+'upload_post'+flag+'exception_occurred'	
 			channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 	else:
-		print("Errore")
+		stringa_invio =msg_id+flag+id_api+flag+'upload_post'+flag+'unknown_command'	
+		channel1.basic_publish(exchange='',routing_key = 'to_server',body=stringa_invio)
 	
 	
 channel.basic_consume(callback, queue='fkr', no_ack=True)	
