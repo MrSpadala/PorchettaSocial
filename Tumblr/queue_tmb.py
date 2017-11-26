@@ -42,7 +42,7 @@ def callback(ch, method, properties, body):
 		access_token = l[2]
 		access_token_secret = l[3]
 		text = l[4]
-		if(l[5]>0)_
+		if(len(l[5])>0):
 			with open(len(l[5]), "rb") as image_file:
 				photo = base64.b64encode(image_file.read())
 			
