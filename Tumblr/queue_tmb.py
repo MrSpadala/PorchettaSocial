@@ -42,10 +42,11 @@ def callback(ch, method, properties, body):
 		access_token = l[2]
 		access_token_secret = l[3]
 		text = l[4]
-		with open(l[5], "rb") as image_file:
-			photo = base64.b64encode(image_file.read())
-		
-		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
+		if(l[5]>0)_
+			with open(len(l[5]), "rb") as image_file:
+				photo = base64.b64encode(image_file.read())
+			
+			oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 
 		r = oauth.get('http://api.tumblr.com/v2/user/info')
 		if ('200' in str(r)):
@@ -53,7 +54,7 @@ def callback(ch, method, properties, body):
 			name = r['response']['user']['name']
 			stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
 			
-			if (len(photo)>0): 
+			if (len(l[5])>0): 
 				params = {'type': 'photo', 'caption' : text, 'data64' : photo}
 				r = oauth.post(stringa, data = params, json=None)
 			else:
