@@ -1,4 +1,6 @@
 
+hello()
+
 // importo i moduli locali
 var auth = require('./auth.js')
 //var queue = require('./queues.js')
@@ -170,3 +172,22 @@ process.on('SIGINT', function() {
 server = app.listen(globals.port, function () {
   log('Started listening on port '+globals.port)
 })
+
+
+function hello() {
+  var sleep = require('sleep').sleep
+  var mstring = require('mstring')
+  sleep(5)
+
+  console.log(mstring(function() {
+  /***
+
+
+      m___       PORCHETTA
+   @="    )~~    ~
+      W  W       SOCIAL
+   
+  ***/
+  }))
+}
+
