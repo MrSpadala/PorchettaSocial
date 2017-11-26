@@ -49,7 +49,7 @@ def callback(ch, method, properties, body):
 			media_info = oauth.post('https://upload.twitter.com/1.1/media/upload.json', data=photo, json=None)
 			print("Media info "+str(media_info))
 			print("Media info json "+str(media_info.json()))
-			media_info = media_info.json()
+			
 			
 			if ( not ('200' in str(media_info))):
 				stringa_invio = msg + flag + 'twtÿupload_postÿ' + 'image error'

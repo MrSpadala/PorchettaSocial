@@ -54,10 +54,10 @@ def callback(ch, method, properties, body):
 			
 			if (len(photo)>0): 
 				params = {'type': 'photo', 'caption' : text, 'data64' : photo}
-				r = oauth.post(stringa, data = params, json=None).json()
+				r = oauth.post(stringa, data = params, json=None)
 			else:
 				params = {'title': '','body':text}
-				r = oauth.post(stringa, data = params,json=None).json()
+				r = oauth.post(stringa, data = params,json=None)
 				
 			risposta = 1
 			if ('201' in str(r)):
