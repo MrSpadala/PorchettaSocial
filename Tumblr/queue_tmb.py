@@ -33,7 +33,7 @@ def callback(ch, method, properties, body):
 	msg = l[0]
 	if (l[1] == 'upload_post'):
 	
-		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (binary)
+		# msg_id ÿ 'upload_post' ÿ access_token ÿ access_tok_secret ÿ text ÿ photo (path)
 		f = 0
 		consumer_key = 'BEIrTTq8ALZG8htjrLXGpQIe7Kw7stVN0ZMPLokXhpESscritt'
 		consumer_secret = 'IMY60FGZQ2aJp7gTGiLZU5oa9VeU6x1C8h8VIw9UZCGhqHTEUW'
@@ -41,7 +41,8 @@ def callback(ch, method, properties, body):
 		access_token = l[2]
 		access_token_secret = l[3]
 		text = l[4]
-		photo = l[5]
+		with open(l[5], "rb") as image_file:
+			photo = base64.b64encode(image_file.read())
 		
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 
@@ -52,7 +53,7 @@ def callback(ch, method, properties, body):
 			stringa = 'http://api.tumblr.com/v2/blog/'+name+'/post'
 			
 			if (len(photo)>0): 
-				params = {'type': 'photo', 'caption' : text, 'data' : photo}
+				params = {'type': 'photo', 'caption' : text, 'data64' : photo}
 				r = oauth.post(stringa, data = params, json=None).json()
 			else:
 				params = {'title': '','body':text}
