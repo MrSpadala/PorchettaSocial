@@ -12,6 +12,7 @@ function validaPost(){
 var w;
 
 function startWorker() {
+    /*
     if(typeof(Worker) !== "undefined") {
 		
         if(typeof(w) == "undefined") {
@@ -23,6 +24,7 @@ function startWorker() {
     } else {
         document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
     }
+    */
 }
 
 function stopWorker() { 

@@ -1,6 +1,8 @@
+import sys
 import pika
 import time
 from rauth import OAuth1Service
+from base64 import b64encode as enc64
 from requests_oauthlib import OAuth1Session
 
 host_server = 'rabbitmq'
@@ -46,29 +48,33 @@ def callback(ch, method, properties, body):
 		
 		oauth = OAuth1Session(consumer_key, client_secret = consumer_secret,resource_owner_key = access_token,resource_owner_secret = access_token_secret)
 		if len(photo) > 0:
-			media_info = oauth.post('https://upload.twitter.com/1.1/media/upload.json', data=photo, json=None)
-			print("Media info "+str(media_info))
-			print("Media info json "+str(media_info.json()))
+			flag_photo = True
+			media_info = oauth.post('https://upload.twitter.com/1.1/media/upload.json', data={ 'media_data':enc64(open(photo,'rb').read()) })
+			f = open('DEBUG.txt', 'w')
+			f.write("Media info "+str(media_info)+'\n')
+			f.write("Media info json "+str(media_info.json()))
+			f.close()
+			media_info = media_info.json()
 			
 			
 			if ( not ('200' in str(media_info))):
 				stringa_invio = msg + flag + 'twtÿupload_postÿ' + 'image error'
 				channel1.basic_publish(exchange='', routing_key = 'to_server', body = stringa_invio)
-			flag_photo = True
 			pass
 
 		
 		if (flag_photo):
-			media_info = media_info.json()
-			media_id = media_info['media_id']
-			params = {'status': 'testo','media_id': 'media_id'}
-			params['media_id'] = media_id
+			media_id = media_info['media_id_string']
+			params = {'status': 'testo','media_ids': [media_id]}
 		else:
 			params = {'status': 'testo'}
 		
 		params['status']=text
 		r = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data = params,json=None)
 		risposta = 1
+		f = open('DEBUG.txt', 'a')
+		f.write('Risposta upload: '+str(r.json()))
+		f.close()
 		if ('200' in str(r)):
 			risposta = 0
 	
