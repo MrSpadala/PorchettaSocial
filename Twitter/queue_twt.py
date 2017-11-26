@@ -54,7 +54,7 @@ def callback(ch, method, properties, body):
 			f.write("Media info "+str(media_info)+'\n')
 			f.write("Media info json "+str(media_info.json()))
 			f.close()
-			media_info = media_info.json()
+			
 			
 			
 			if ( not ('200' in str(media_info))):
@@ -64,6 +64,7 @@ def callback(ch, method, properties, body):
 
 		
 		if (flag_photo):
+			media_info = media_info.json()
 			media_id = media_info['media_id_string']
 			params = {'status': 'testo','media_ids': [media_id]}
 		else:
