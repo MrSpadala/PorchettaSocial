@@ -59,6 +59,7 @@ def callback(ch, method, properties, body):
 
 		
 		if (flag_photo):
+			media_info = media_info.json()
 			media_id = media_info['media_id']
 			params = {'status': 'testo','media_id': 'media_id'}
 			params['media_id'] = media_id
