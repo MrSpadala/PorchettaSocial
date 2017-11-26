@@ -9,49 +9,31 @@ function validaPost(){
 	}
 	return true;
 }
+var w;
 
+function startWorker() {
+    if(typeof(Worker) !== "undefined") {
+		
+        if(typeof(w) == "undefined") {
+            w = new Worker("http://localhost/res/web_worker.js");
+        }
+        w.onmessage = function(event) {
+            alert(event.data);
+        };
+    } else {
+        document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
+    }
+}
+
+function stopWorker() { 
+    w.terminate();
+    w = undefined;
+}
 
 window.onload = function(){
-	/*var list = document.getElementById("s_button");
-	// click on button submit
-	list.addEventListener('click' , function(){
-		
-		if(validaPost()==true){
-			var to_post = document.getElementById("text").value;
-			var fileInput = document.getElementById('image_upload');
-			
-			if(fileInput.value==""){  //Non c'è una immagine
-				text = {
-					data : to_post,
-					twt : document.getElementById("twt").checked.toString(),
-					tmb : document.getElementById("tmb").checked.toString(),
-					fkr : document.getElementById("fkr").checked.toString(),
-					image : ""
-				}
-				console.log(text);
-				post("post","http://localhost/home", text);
-			}
-		    else { // C'è una immagine
-				var file = fileInput.files[0];
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					text = {
-						data : to_post,
-						twt : document.getElementById("twt").checked.toString(),
-						tmb : document.getElementById("tmb").checked.toString(),
-						fkr : document.getElementById("fkr").checked.toString(),
-						image : reader.result
-				    }
-				    //alert(reader.result);
-				    console.log(text);
-				    post("post","http://localhost/home", text);
-				}
-			    reader.readAsBinaryString(file);
-			}
-		}
-		
-	});*/
+	startWorker();
 }
+
 
 function post(method, path, params) {
 	//method = method | "get"; // Set method to post by default if not specified.
