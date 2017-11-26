@@ -90,8 +90,7 @@ def upload_photo(photo_path, photo_title, access_token, access_token_secret):
 	files = {'photo': (photo_title, open(photo_path, 'rb'), 'blbl')}
 	r = requests.post(photo_url, data=req, files=files)
 
-	print(str(r))
-	return r.status_code
+	return r
 
 def get_url(token1):
 	return "%s?oauth_token=%s&perms=write" % (authorize_url, token1)
