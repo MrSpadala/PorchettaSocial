@@ -73,7 +73,7 @@ def callback(ch, method, properties, body):
 	
 		print(r) #DEBUG
 		risposta = 0
-		if ('200' in str(r)):
+		if ('201' in str(r)):
 			risposta = 1
 		
 		if not risposta:
