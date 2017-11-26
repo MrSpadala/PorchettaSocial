@@ -18,7 +18,7 @@ function startWorker() {
             w = new Worker("http://localhost/res/web_worker.js");
         }
         w.onmessage = function(event) {
-            alert(event.data);
+            //alert(event.data);
         };
     } else {
         document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
