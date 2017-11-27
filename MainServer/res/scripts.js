@@ -207,8 +207,8 @@ function log_out(){
 		alert("You are not logged on any social");
 	}
 	else {
-		method = "delete";
-		url = "http://localhost/home";
+		method = "get";
+		url = "http://localhost/auth/logout";
 		params = "";
 		toServer(method , url , params);
 	}
