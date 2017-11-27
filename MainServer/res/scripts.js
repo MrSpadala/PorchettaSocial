@@ -3,26 +3,18 @@ function validaPost(){
 		alert("You must choose at least one social network!");
 		return false;
 	}
-	else return true;
+	return true;
 }
 
+
 function checkCookie(social_flag){
-	/*
-	 * Non so perchè ma se document.cookie è vuoto JSON.parse sfaciola
-	 */
-	
-	var cookies_str = document.cookie;
-	if(cookies_str==""){
+	var cookie = document.cookie;
+	if(cookie==""){
 		//alert("No cookies");
 		return false;
 	}
-	var cookies = JSON.parse(cookies_str);
-	var socials = cookies.logged;
-	//alert(socials);
-	for(var i = 0; i < socials.length ; i++){
-		if(socials[i]==social_flag){
-			return true;
-		}
+	if(cookie.search(social_flag) != -1){
+		return true;
 	}
 	return false;
 }
@@ -103,8 +95,6 @@ function auth_twt(){
 
 
 
-
-
 	// TUMBLR AUTH	
 function log_on_tumblr(){
 	if ("WebSocket" in window){
@@ -150,8 +140,6 @@ function auth_tmb(){
         alert("Connection error");
     };
 }
-
-
 
 
 
