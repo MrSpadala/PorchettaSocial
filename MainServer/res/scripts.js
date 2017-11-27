@@ -3,41 +3,31 @@ function validaPost(){
 		alert("You must choose at least one social network!");
 		return false;
 	}
-	if(document.getElementById("text").value==""){
-		alert("You first should write something to post!");
+	else return true;
+}
+
+function checkCookie(social_flag){
+	/*
+	 * Non so perchè ma se document.cookie è vuoto JSON.parse sfaciola
+	 */
+	
+	var cookies_str = document.cookie;
+	if(cookies_str==""){
+		//alert("No cookies");
 		return false;
 	}
-	return true;
-}
-var w;
-
-function startWorker() {
-    /*
-    if(typeof(Worker) !== "undefined") {
-		
-        if(typeof(w) == "undefined") {
-            w = new Worker("http://localhost/res/web_worker.js");
-        }
-        w.onmessage = function(event) {
-            //alert(event.data);
-        };
-    } else {
-        document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
-    }
-    */
+	var cookies = JSON.parse(cookies_str);
+	var socials = cookies.logged;
+	//alert(socials);
+	for(var i = 0; i < socials.length ; i++){
+		if(socials[i]==social_flag){
+			return true;
+		}
+	}
+	return false;
 }
 
-function stopWorker() { 
-    w.terminate();
-    w = undefined;
-}
-
-window.onload = function(){
-	startWorker();
-}
-
-
-function post(method, path, params) {
+function toServer(method, path, params) {
 	//method = method | "get"; // Set method to post by default if not specified.
 
 	// The rest of this code assumes you are not using a library.
@@ -68,23 +58,24 @@ function post(method, path, params) {
 	// TWITTER AUTH		
 function log_on_twitter(){
 	if ("WebSocket" in window){
-		var led_light = document.getElementById("twt_led");
-		if(led_light.className == "led-red"){
-			auth_twt(led_light);
-		} else {
-			alert("You are already logged on twitter!")
-	    }
+		var isLogged = checkCookie("twt");
+		//alert(isLogged);
+		if(isLogged == true){
+			alert("You are already logged on twitter");
+		}
+		else {
+			auth_twt();
+		}
 	} else {
 		alert("WebSocket NOT supported by your Browser!");
 	} 
 }
 
-function auth_twt(led_light){	
+function auth_twt(){	
 	var ws_twt = new WebSocket('ws://localhost:12345');
     
     ws_twt.onopen = function(){
       ws_twt.send("auth");
-      led_light.setAttribute( "class", "led-green" );
     };
     
     ws_twt.onmessage = function(event){
@@ -97,17 +88,15 @@ function auth_twt(led_light){
 			"token1" : token1,
 			"token2" : token2
 		}
-		post("get","http://localhost/auth/start/twitter",data);
+		toServer("get","http://localhost/auth/start/twitter",data);
 		window.open(url);
 		
     };
     
     ws_twt.onclose = function(){
-	  led_light.setAttribute( "class", "led-red" );
     };
     
     ws_twt.onerror = function(){
-	  led_light.setAttribute( "class", "led-red" );
       alert("Connection error");
     };
 }
@@ -119,23 +108,24 @@ function auth_twt(led_light){
 	// TUMBLR AUTH	
 function log_on_tumblr(){
 	if ("WebSocket" in window){
-		var led_light = document.getElementById("tmb_led");
-		if(led_light.className == "led-red"){
-			auth_tmb(led_light);
-		} else {
-			alert("You are already logged on tumblr!")
-	    }
+		var isLogged = checkCookie("tmb");
+		//alert(isLogged);
+		if(isLogged == true){
+			alert("You are already logged on tumblr");
+		}
+		else {
+			auth_tmb();
+		}
 	} else {
 		alert("WebSocket NOT supported by your Browser!");
 	} 
 }
 
-function auth_tmb(led_light){	
+function auth_tmb(){	
 	var ws_tmb = new WebSocket('ws://localhost:12346');
     
     ws_tmb.onopen = function(){
       ws_tmb.send("auth");
-      led_light.setAttribute( "class", "led-green" );
     };
     
     ws_tmb.onmessage = function(event){
@@ -148,17 +138,15 @@ function auth_tmb(led_light){
 			"token1" : token1,
 			"token2" : token2
 		}
-		post("get","http://localhost/auth/start/tumblr",data);
+		toServer("get","http://localhost/auth/start/tumblr",data);
 		window.open(url);
       
     };
     
     ws_tmb.onclose = function(){
-		led_light.setAttribute( "class", "led-red" );
     };
     
     ws_tmb.onerror = function(){
-		led_light.setAttribute( "class", "led-red" );
         alert("Connection error");
     };
 }
@@ -170,23 +158,24 @@ function auth_tmb(led_light){
 	// FLICKR AUTH
 function log_on_flickr(){
 	if ("WebSocket" in window){
-		var led_light = document.getElementById("fkr_led");
-		if(led_light.className == "led-red"){
-			auth_fkr(led_light);
-		} else {
-			alert("You are already logged on Flickr!")
-	    }
+		var isLogged = checkCookie("fkr");
+		//alert(isLogged);
+		if(isLogged == true){
+			alert("You are already logged on flickr");
+		}
+		else {
+			auth_fkr();
+		}
 	} else {
 		alert("WebSocket NOT supported by your Browser!");
 	} 
 }
 
-function auth_fkr(led_light){	
+function auth_fkr(){	
 	var ws_fkr = new WebSocket('ws://localhost:12347'); //to be defined
     
     ws_fkr.onopen = function(){
       ws_fkr.send("auth");
-      led_light.setAttribute( "class", "led-green" );
     };
     
     ws_fkr.onmessage = function(event){
@@ -199,18 +188,29 @@ function auth_fkr(led_light){
 			"token1" : token1,
 			"token2" : token2
 		}
-		post("get","http://localhost/auth/start/flickr",data);
+		toServer("get","http://localhost/auth/start/flickr",data);
 		window.open(url);
       
     };
     
     ws_fkr.onclose = function(){
-		led_light.setAttribute( "class", "led-red" );
     };
     
     ws_fkr.onerror = function(){
-		led_light.setAttribute( "class", "led-red" );
         alert("Connection error");
     };
+}
+
+function log_out(){
+	var cookies = document.cookie;
+	if(cookies==""){
+		alert("You are not logged on any social");
+	}
+	else {
+		method = "delete";
+		url = "http://localhost/home";
+		params = "";
+		toServer(method , url , params);
+	}
 }
 			

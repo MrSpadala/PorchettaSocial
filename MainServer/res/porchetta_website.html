@@ -24,11 +24,6 @@
                             <div class="container"> <text_ class="log">Log on Twitter</text_></div>
 				        </div>
 				     </td>
-				     <td style="padding: 15px;"> 
-						 <div class="led-box">
-						   <div id="twt_led" class="led-red"></div>
-                         </div>
-                     </td>
 				   </tr>
 				   
 				   
@@ -41,11 +36,6 @@
                              <div class="container"> <text_ class="log">Log on Tumblr </text_> </div>
 				        </div>
 				    </td>
-				    <td style="padding: 15px;"> 
-						 <div class="led-box">
-						   <div id="tmb_led" class="led-red"></div>
-                         </div>
-                    </td>
 				   </tr>
 				   
 				   
@@ -57,20 +47,15 @@
                              <div class="container"> <text_ class="log">Log on Flickr </text_> </div>
 				         </div>
 				    </td>
-				    <td style="padding: 15px;"> 
-						 <div class="led-box">
-						   <div id="fkr_led" class="led-red"></div>
-                         </div>
-                     </td>
 				   </tr>
 				   
-				   <!--<td>
-					   <button class="button button2" type="buttton"><span> Log out </span></button>
-				   </td>-->
 				   
+				    
 				   </tbody>
 				   </table>
-			    </td>
+				  <button onClick="return log_out();" class="button button3" type="buttton"><span> Log out </span></button>
+				</td>
+				
                    
                    
                    
@@ -97,7 +82,7 @@
                 <td style="width: 824.062px; height: 355px;">
   
                     <div class="left_form">
-	                <form method="post" enctype="multipart/form-data" action="http://localhost/home" name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
+	                <form onSubmit="validaPost()" method="post" enctype="multipart/form-data" action="http://localhost/home" name="porchetta_form" id="porchetta_form"> <!---onSubmit="valida_post();"---> 
 						<!-- input checkbox attribute disabled : Specifies that an <input> element should be disabled-->
 						
 						<label for="twt" form="porchetta_form"><text_> Twitter  </text_></label><input type="checkbox" size="3" name="twt" id="twt">
@@ -108,7 +93,7 @@
 		               <input type="file" name="image" accept="image/*" id="image_upload" form="porchetta_form">
 		               
 		               <br>
-		               <textarea id="text" name="text" form="porchetta_form"></textarea>
+		               <textarea id="text" name="text" form="porchetta_form" required></textarea>
 		               <br>
 		               <br>
 		               <button class="button button1" style="width:300px" type="submit" name="s_button" id="s_button">
