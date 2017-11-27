@@ -5,21 +5,20 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash
 RUN apt-get install -yqq nodejs
 RUN apt-get clean -y
 
-RUN npm install gulp -g
-
 WORKDIR /app
 
 
 COPY Twitter/requirements.txt Twitter/requirements.txt
 COPY Tumblr/requirements.txt  Tumblr/requirements.txt
 COPY Flickr/requirements.txt  Flickr/requirements.txt
-COPY MainServer/package.json  MainServer/package.json
+COPY MainServer/package*.json ./MainServer/
 
 RUN pip3 install -r Twitter/requirements.txt
 RUN pip3 install -r Tumblr/requirements.txt
 RUN pip3 install -r Flickr/requirements.txt
-RUN npm --prefix ./MainServer/ install
+RUN cd MainServer && npm install && cd ..
 
+COPY . .
 
 CMD node MainServer/mainserver.js & \
     python3 Twitter/twitter_authentication_websocket.py & \
