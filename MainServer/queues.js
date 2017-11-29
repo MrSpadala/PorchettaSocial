@@ -28,7 +28,7 @@ function sendToQueues(msg, social) {
 	  var msg_id = globals.request_msg_id().toString()	//aggiunto il toString perchè lo vuole come stringa
 	  var real_msg = [msg_id, msg].join('\xFF');
 	  ch.publish('', social, new Buffer(real_msg));
-	  log('Sent msg_id:'+ msg_id + ' to queue:' + social + ' '  + msg ); 
+	  log('Sent msg_id:'+ msg_id + ' to queue:' + social); 
 	  
 
       // get the results of the rpcs launched
@@ -40,7 +40,7 @@ function sendToQueues(msg, social) {
       log('Waiting for RPC id: '+msg_id);
       ch.consume(to_server_queue, function(msg) {
 	      var splitted_msg = msg.content.toString().split('\xFF');
-		  log("Received "+splitted_msg)
+		  log("Received "+msg_id)
 	      if (splitted_msg[0] == msg_id) rpc_handler(splitted_msg.slice(1))
       }, {noAck:true});     
     });

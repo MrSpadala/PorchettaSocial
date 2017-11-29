@@ -18,7 +18,7 @@ function start(social_id, req, res) {
   var t1 = req.query.token1
   var t2 = req.query.token2
   
-  log('Saving request tokens for '+social_id+' authentication '+ [t1, t2])
+  log('Saving request tokens for '+social_id+' authentication ')
   
   if (typeof(t1)=='undefined' || typeof(t2)=='undefined'){
     res.send({result:"no", msg:'Bad request body while saving twitter request tokens to cookies'})
@@ -40,7 +40,7 @@ function oauth_landing(social_id, social_name, req, res) {
   var pin = req.query.oauth_verifier
   var token1 = req.query.oauth_token
   
-  log('Getting pin from list for '+social_id+' authentication'+ pin)
+  log('Getting pin from list for '+social_id+' authentication')
   
   if (typeof(pin)=='undefined' || typeof(token1)=='undefined'){
     res.send({result:"no", msg:'Bad request params while getting from URL'})
@@ -81,7 +81,7 @@ function register_access(social_id, req, res) {
   var t1 = req.body.token1
   var t2 = req.body.token2
 
-  log('Registering access to '+social_id+' with '+ [t1, t2])
+  log('Registering access to '+social_id+' with ')
 
   if (typeof(t1)=='undefined' || typeof(t2)=='undefined'){
     res.send({result:"no", msg:'Bad request body while registering access'})
