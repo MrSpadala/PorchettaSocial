@@ -81,7 +81,7 @@ function register_access(social_id, req, res) {
   var t1 = req.body.token1
   var t2 = req.body.token2
 
-  log('Registering access to '+social_id+' with ')
+  log('Registering access to '+social_id)
 
   if (typeof(t1)=='undefined' || typeof(t2)=='undefined'){
     res.send({result:"no", msg:'Bad request body while registering access'})

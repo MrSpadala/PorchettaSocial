@@ -195,10 +195,13 @@ function log_out(){
 		alert("You are not logged on any social");
 	}
 	else {
-		method = "get";
-		url = "http://localhost/auth/logout";
-		params = "";
-		toServer(method , url , params);
+		$.ajax({
+			type: "DELETE",
+			url: "http://localhost/auth/access",
+			success: function(msg){
+				alert("Logout successful!");
+			}
+		});
 	}
 }
 			

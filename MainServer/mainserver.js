@@ -127,15 +127,15 @@ app.get('/auth/landing/flickr', function(req, res)  {
  *      token2: 'token2'
  *   }
 */
-app.post('/auth/register_access/twitter', function(req, res) {
+app.post('/auth/access/twitter', function(req, res) {
   auth.register_access('twt', req, res)
 })
 
-app.post('/auth/register_access/tumblr', function(req, res)  {
+app.post('/auth/access/tumblr', function(req, res)  {
   auth.register_access('tmb', req, res)
 })
 
-app.post('/auth/register_access/flickr', function(req, res)  {
+app.post('/auth/access/flickr', function(req, res)  {
   auth.register_access('fkr', req, res)
 })
 
@@ -143,14 +143,11 @@ app.post('/auth/register_access/flickr', function(req, res)  {
 
 /* Clears cookie and logs out from all socials
  */
-app.get('/auth/logout', function(req, res) {
+app.delete('/auth/access', function(req, res) {
   res.clearCookie('porkett')
   res.send({result:'yes', msg:'Logged out'})
   log("Cleared cookie")
 })
-
-
-
 
 
 // register CTRL+C
