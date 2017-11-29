@@ -13,8 +13,6 @@ function handler(msg) {
 
   log('Handle RPC result: ' + msg)
 
-  // TODO do something with the results
-
 }
 
 
