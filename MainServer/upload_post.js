@@ -15,13 +15,13 @@ var log = globals.log
  *   'twt'  = 'on' if selected
  *   'tmb'  = 'on' if selected
  *   'fkr'  = 'on' if selected
- *   'image' = binary content
+ *   'image' = path
  *
  * 
  * where twt is 'on' if the user wants to post to twitter, tmb if he wants
  * to post to tumbrl and flk for flickr
  * 
- * 'image' is optional, is the content of the image. If there's no image then
+ * 'image' is optional, is the path of the image. If there's no image then
  * it's an empty string ""
  */
 function upload_post(req, res) {

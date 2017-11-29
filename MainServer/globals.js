@@ -25,10 +25,10 @@ function request_msg_id() {
 var fs = require('fs')  // filesystem library
 
 function log(msg) {
-  var entry = '[MainServer] '+new Date+' | '+msg
+  //var entry = '[MainServer] '+new Date+' | '+msg
   if (debug_stdout)
-	console.log(entry)
-  fs.appendFile('mainserver.log', entry+'\n', (err) => {if (err) console.log('Error writing on logfile')})
+	console.log(msg)
+  fs.appendFile('mainserver.log', msg+'\n', (err) => {if (err) console.log('Error writing on logfile')})
 }
 
 // Temporary object where request tokens are stored

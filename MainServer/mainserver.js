@@ -20,8 +20,8 @@ var upload = multer({ dest: 'MainServer/res/uploads/' })
 //var fs = require('fs')
 var app = express()
 var server = null
-app.use(bodyParser.json({limit: '20mb'}))
-app.use(bodyParser.urlencoded({limit: '20mb' ,extended: true }))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(c00kies())
 
 // Required for some browsers
@@ -45,16 +45,6 @@ app.get('/debug/req_list', function(req, res) {
 
 
 
-// testing, attualmente pagina funzionante per loggare e postare
-// su twitter e facebook
-app.get('/test_ws', function(req, res) {
-  res.sendFile(__dirname + '/test.html')
-})
-
-
-
-
-
 // Home page
 app.get('/', function(req, res) {
   res.redirect('/home')
@@ -63,6 +53,7 @@ app.get('/', function(req, res) {
 app.get('/home', function(req, res) {
   res.sendFile(__dirname + '/res/porchetta_website.html')
 })
+
 
 // Resources
 app.get('/res/:resource', function(req, res) {
@@ -79,13 +70,13 @@ app.get('/res/:resource', function(req, res) {
  *   'twt'  = 'on' if selected
  *   'tmb'  = 'on' if selected
  *   'fkr'  = 'on' if selected
- *   'image' = binary content
+ *   'image' = image path
  *
  * 
  * where twt is 'on' if the user wants to post to twitter, tmb if he wants
  * to post to tumbrl and flk for flickr
  * 
- * 'image' is optional, is the content of the image. If there's no image then
+ * 'image' is optional, is the path of the image. If there's no image then
   * it's an empty string ""
  */
 app.post('/home', upload.single('image'), function (req, res) {  
@@ -155,6 +146,7 @@ app.post('/auth/register_access/flickr', function(req, res)  {
 app.get('/auth/logout', function(req, res) {
   res.clearCookie('porkett')
   res.send({result:'yes', msg:'Logged out'})
+  log("Cleared cookie")
 })
 
 
@@ -162,11 +154,11 @@ app.get('/auth/logout', function(req, res) {
 
 
 // register CTRL+C
-process.on('SIGINT', function() {
+/*process.on('SIGINT', function() {
   log('Received stop signal, halting')
   server.close()
   setTimeout(function() {process.exit()}, 500)  // give time to flush streams
-})
+})*/
 
 // listen on port
 server = app.listen(globals.port, function () {
