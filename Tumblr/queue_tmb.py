@@ -58,7 +58,7 @@ def callback(ch, method, properties, body):
 				params = {'type': 'photo', 'caption' : text, 'data64' : photo}
 				r = oauth.post(stringa, data = params, json=None)
 			else:
-				params = {'title': '','body':text}
+				params = {'title': 'Posted by PorchettaSocial','body':text}
 				r = oauth.post(stringa, data = params,json=None)
 				
 			risposta = 1
