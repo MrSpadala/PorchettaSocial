@@ -15,6 +15,7 @@ La pagina web cui l'utente si connette e che fornisce il servizio è <a href="ht
 ### How to run
 
 __Dipendenze:__ `docker` e `docker-compose` versione >= 1.17.1
+
 __Porte necessarie:__ 80, 12345, 12346, 12347
 
  1. Installare [Docker](https://docs.docker.com/engine/installation/)
@@ -33,7 +34,7 @@ __Porte necessarie:__ 80, 12345, 12346, 12347
 
 ### License
 
-Il progetto è sotto la Licensa MIT: <a href="https://github.com/MrSpadala/PorchettaSocial/blob/master/LICENSE">License Document</a>.
+Il progetto è sotto la [Licensa MIT](https://github.com/MrSpadala/PorchettaSocial/blob/master/LICENSE)
       
 #### Logo copyright
 Icon made by [Freepik](https://www.freepik.com/) from www.flaticon.com
