@@ -1,8 +1,3 @@
-#  NOTES
-    - Per ora il post pubblicato è privato, solo l'utente può vederlo.
-      Poi modifico per risolvere (forse solo impostazioni app).
-     
-    
 # RUN:   
    python: python3 facebook_api.py
    
